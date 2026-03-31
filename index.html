@@ -16,37 +16,32 @@
    Version: v1.0 · Apple Vibrant Palette
    ═══════════════════════════════════════════ */
 
-/* ── 1. CSS Variables — Apple Silicon Premium ── */
+/* ── 1. CSS Variables — Ultra Minimal Premium ── */
 :root {
-  /* Brand Colors */
-  --deep-navy: #0A1628;
-  --electric:  #0066FF;
-  --sky:       #5AC8FA;
-  --sky-light: #B8E4FF;
-  --mint:      #34C759;
-  --amber:     #FF9F0A;
+  /* Near-black + Pure white + One blue */
+  --ink:       #0A0A0A;
+  --paper:     #FFFFFF;
+  --gray-100:  #F5F5F7;
+  --gray-200:  #E8E8ED;
+  --gray-300:  #D2D2D7;
+  --gray-500:  #86868B;
+  --gray-600:  #6E6E73;
+  --accent:    #007AFF;
+  --accent-bg: rgba(0,122,255,0.06);
 
   /* Surfaces */
-  --bg:        #FAFBFD;
-  --bg-alt:    #F0F2F7;
-  --glass-bg:  rgba(255,255,255,0.88);
-  --glass-bg2: rgba(255,255,255,0.72);
-  --surface:   rgba(255,255,255,0.95);
-  --border:    rgba(0,40,100,0.08);
-  --border-hi: rgba(0,102,255,0.22);
-  --border-glow: rgba(0,102,255,0.30);
+  --surface:   #FFFFFF;
+  --glass-bg:  #FFFFFF;
+  --border:    rgba(0,0,0,0.07);
+  --border-hi: rgba(0,0,0,0.14);
 
   /* Text */
-  --text:      #0A1628;
-  --text-dim:  #3D4A5C;
-  --text-muted:#8896A6;
-
-  /* Blur */
-  --blur:      24px;
-  --blur-sm:   12px;
+  --text:      #0A0A0A;
+  --text-dim:  #6E6E73;
+  --text-muted:#86868B;
 
   /* Easing */
-  --ease:      cubic-bezier(0.22, 1, 0.36, 1);
+  --ease:      cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 /* ── 2. Global Reset ── */
@@ -61,7 +56,7 @@ html {
 }
 
 body {
-  background: var(--bg);
+  background: #FFFFFF;
   color: var(--text);
   font-family: 'Outfit', 'Noto Sans SC', -apple-system, sans-serif;
   font-size: 14px;
@@ -70,67 +65,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   overflow-x: hidden;
+  /* 顶部一缕晨曦光 — barely there */
   background-image:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,102,255,0.06) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 90% 100%, rgba(90,200,250,0.05) 0%, transparent 50%);
+    linear-gradient(180deg, rgba(0,122,255,0.018) 0%, transparent 40%);
 }
 
-/* ── 3. Blob Canvas (Fixed background blobs) ── */
-.blob-canvas {
+/* ── 3. Noise Texture ── */
+.noise {
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
   z-index: 0;
-  overflow: hidden;
   pointer-events: none;
-}
-
-.blob { filter: blur(40px); opacity: 0.35;
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.6;
-  animation: float 20s ease-in-out infinite;
-  overflow: hidden;
-}
-
-.blob-1 {
-  width: 700px; height: 700px;
-  top: -250px; left: -150px;
-  background: radial-gradient(circle, rgba(0,102,255,0.18) 0%, rgba(0,102,255,0.04) 50%, transparent 70%);
-  animation-duration: 28s;
-  animation-name: blob-drift-1;
-}
-.blob-2 {
-  width: 500px; height: 500px;
-  top: 20%; right: -120px;
-  background: radial-gradient(circle, rgba(90,200,250,0.22) 0%, rgba(90,200,250,0.06) 50%, transparent 70%);
-  animation-duration: 32s;
-  animation-delay: -8s;
-  animation-name: blob-drift-2;
-}
-.blob-3 {
-  width: 450px; height: 450px;
-  bottom: 5%; left: 25%;
-  background: radial-gradient(circle, rgba(0,102,255,0.14) 0%, rgba(90,200,250,0.07) 50%, transparent 70%);
-  animation-duration: 25s;
-  animation-delay: -12s;
-  animation-name: blob-drift-3;
-}
-.blob-4 {
-  width: 300px; height: 300px;
-  bottom: -50px; right: 15%;
-  background: radial-gradient(circle, rgba(52,199,89,0.18) 0%, rgba(52,199,89,0.05) 50%, transparent 70%);
-  animation-duration: 30s;
-  animation-delay: -18s;
-  animation-name: blob-drift-4;
-}
-
-@keyframes float {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25%       { transform: translate(40px, -30px) scale(1.05); }
-  50%       { transform: translate(-20px, 20px) scale(0.95); }
-  75%       { transform: translate(30px, 40px) scale(1.02); }
+  opacity: 0.38;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  mix-blend-mode: multiply;
 }
 
 /* ── 4. Neural Particle Canvas ── */
@@ -201,29 +151,28 @@ body {
 }
 
 .hero-title {
-  font-size: clamp(36px, 6vw, 64px);
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.035em;
-  color: var(--deep-navy);
+  font-size: clamp(40px, 7vw, 72px);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -0.04em;
+  color: var(--ink);
   margin-bottom: 20px;
-  animation: fadeUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.05s both;
+  animation: fadeUp 1s ease 0.1s both;
 }
 
 .hero-title .accent {
-  background: linear-gradient(135deg, var(--electric) 0%, var(--sky) 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, #5AC8FA 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  font-weight: 800;
 }
 
 .hero-sub {
   font-size: 15px;
   color: var(--text-dim);
-  letter-spacing: 0.4px;
+  letter-spacing: 0.3px;
   font-weight: 400;
-  animation: fadeUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.12s both;
+  animation: fadeUp 1s ease 0.18s both;
 }
 
 /* ── 7. Rainbow Divider ── */
@@ -312,13 +261,11 @@ body {
 .stat-card:hover::before { opacity: 1; }
 
 .stat-card.purple::before {
-  background: radial-gradient(circle at top left, rgba(90,200,250,0.25), transparent 60%);
+  background: radial-gradient(circle at top left, rgba(0,122,255,0.15), transparent 60%);
 }
-.stat-card.blue::before {
-  background: radial-gradient(circle at top left, rgba(10,132,255,0.25), transparent 60%);
-}
+
 .stat-card.pink::before {
-  background: radial-gradient(circle at top left, rgba(100,210,255,0.25), transparent 60%);
+  background: radial-gradient(circle at top left, rgba(0,122,255,0.15), transparent 60%);
 }
 .stat-card.orange::before {
   background: radial-gradient(circle at top left, rgba(255,159,10,0.25), transparent 60%);
@@ -337,10 +284,10 @@ body {
   margin-bottom: 6px;
 }
 
-.stat-card.purple .stat-num { color: var(--purple); }
-.stat-card.blue   .stat-num { color: var(--blue); }
-.stat-card.pink   .stat-num { color: var(--pink); }
-.stat-card.orange .stat-num { color: var(--orange); }
+.stat-card.purple .stat-num { color: #AF52DE; }
+.stat-card.blue   .stat-num { color: var(--accent); }
+.stat-card.pink   .stat-num { color: #FF375F; }
+.stat-card.orange .stat-num { color: #FF9500; }
 
 .stat-label {
   font-size: 12px;
@@ -412,18 +359,18 @@ body {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--blue), var(--cyan), var(--green));
+  background: linear-gradient(90deg, var(--accent), var(--accent), #34C759);
   opacity: 0;
   transition: opacity 0.3s;
 }
 
 .report-card:hover { cursor: pointer; }::before { opacity: 1; }
 
-.report-card .card-date { color: var(--blue); } /* kept separately below */
+.report-card .card-date { color: var(--accent); } /* kept separately below */
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 1px;
-  color: var(--purple);
+  color: #AF52DE;
   text-transform: uppercase;
   margin-bottom: 10px;
   display: block;
@@ -464,7 +411,7 @@ body {
 
 .report-card .card-stat strong {
   font-weight: 700;
-  color: var(--cyan);
+  color: var(--accent);
 }
 
 /* ── 12. Content Grid ── */
@@ -492,7 +439,7 @@ body {
   flex-shrink: 0;
 }
 
-.card-title-icon.purple { background: rgba(90,200,250,0.20); }
+.card-title-icon.purple { background: rgba(0,122,255,0.12); }
 .card-title-icon.blue   { background: rgba(10,132,255,0.20); }
 .card-title-icon.pink   { background: rgba(100,210,255,0.20); }
 .card-title-icon.orange { background: rgba(255,159,10,0.20); }
@@ -504,9 +451,9 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  background: rgba(10,132,255,0.12);
+  background: rgba(0,122,255,0.10);
   border: 1px solid rgba(10,132,255,0.25);
-  color: var(--cyan);
+  color: var(--accent);
   font-size: 12px;
   font-weight: 500;
   padding: 5px 12px;
@@ -515,10 +462,10 @@ body {
   transition: all 0.2s;
 }
 
-.skill-tag.purple { background: rgba(10,132,255,0.08); border-color: rgba(90,200,250,0.25); color: var(--purple); }
-.skill-tag.orange { background: rgba(255,159,10,0.12); border-color: rgba(255,159,10,0.25); color: var(--orange); }
-.skill-tag.pink   { background: rgba(100,210,255,0.12);  border-color: rgba(100,210,255,0.25);  color: var(--pink); }
-.skill-tag.green  { background: rgba(48,209,88,0.12);  border-color: rgba(48,209,88,0.25);  color: var(--green); }
+.skill-tag.purple { background: rgba(0,122,255,0.06); border-color: rgba(0,122,255,0.15); color: #AF52DE; }
+.skill-tag.orange { background: rgba(255,149,0,0.10); border-color: rgba(255,159,10,0.25); color: #FF9500; }
+.skill-tag.pink   { background: rgba(0,122,255,0.08);  border-color: rgba(0,122,255,0.15);  color: #FF375F; }
+.skill-tag.green  { background: rgba(52,199,89,0.10);  border-color: rgba(48,209,88,0.25);  color: #34C759; }
 
 .skill-cloud {
   display: flex;
@@ -579,7 +526,7 @@ body {
   flex-shrink: 0;
 }
 
-.work-icon.purple { background: rgba(90,200,250,0.20); }
+.work-icon.purple { background: rgba(0,122,255,0.12); }
 .work-icon.blue   { background: rgba(10,132,255,0.20); }
 .work-icon.pink   { background: rgba(100,210,255,0.20); }
 .work-icon.orange { background: rgba(255,159,10,0.20); }
@@ -610,7 +557,7 @@ body {
 .bug-card {
   padding: 16px;
   background: rgba(100,210,255,0.05);
-  border: 1px solid rgba(100,210,255,0.15);
+  border: 1px solid rgba(0,122,255,0.10);
   border-radius: 14px;
   animation: fadeUp 0.4s var(--ease) both;
 }
@@ -620,8 +567,8 @@ body {
   font-weight: 800;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: var(--pink);
-  background: rgba(100,210,255,0.15);
+  color: #FF375F;
+  background: rgba(0,122,255,0.10);
   padding: 3px 8px;
   border-radius: 5px;
   display: inline-block;
@@ -641,7 +588,7 @@ body {
   color: var(--text-dim);
   line-height: 1.7;
   padding-left: 14px;
-  border-left: 2px solid rgba(100,210,255,0.25);
+  border-left: 2px solid rgba(0,122,255,0.15);
 }
 
 .bug-fix code {
@@ -650,7 +597,7 @@ body {
   border-radius: 5px;
   font-family: 'Inter', monospace;
   font-size: 11px;
-  color: var(--cyan);
+  color: var(--accent);
 }
 
 /* ── 18. Learning Pill ── */
@@ -689,7 +636,7 @@ body {
   font-family: 'Inter', sans-serif;
   font-size: 9px;
   font-weight: 800;
-  color: var(--purple);
+  color: #AF52DE;
   margin-right: 6px;
   letter-spacing: 0.5px;
 }
@@ -723,7 +670,7 @@ body {
   font-family: 'Inter', sans-serif;
   font-size: 9px;
   font-weight: 800;
-  color: var(--purple);
+  color: #AF52DE;
   letter-spacing: 1px;
   text-transform: uppercase;
   display: block;
@@ -742,17 +689,17 @@ body {
 }
 
 .breadcrumb a {
-  color: var(--cyan);
+  color: var(--accent);
   text-decoration: none;
   padding: 4px 10px;
-  border: 1px solid rgba(100,210,255,0.25);
+  border: 1px solid rgba(0,122,255,0.15);
   border-radius: 6px;
   transition: background 0.2s, border-color 0.2s;
 }
 
 .breadcrumb a:hover {
   background: rgba(100,210,255,0.1);
-  border-color: var(--cyan);
+  border-color: var(--accent);
   text-decoration: none;
 }
 
@@ -871,7 +818,7 @@ body {
   text-transform: uppercase;
   color: var(--text-muted);
   padding: 8px 12px;
-  background: rgba(255,255,255,0.03);
+  background: rgba(0,0,0,0.03);
   border-bottom: 1px solid var(--border);
 }
 
@@ -882,7 +829,7 @@ body {
 }
 
 .folder-table tr:hover td {
-  background: rgba(255,255,255,0.03);
+  background: rgba(0,0,0,0.03);
 }
 
 /* ── 26. Report Content (fetched HTML) ── */
@@ -920,10 +867,10 @@ body {
   display: inline-block;
 }
 
-#report-content .tag-new { background: rgba(100,210,255,0.12); color: var(--pink); border: 1px solid rgba(100,210,255,0.25); }
-#report-content .tag-evo { background: rgba(10,132,255,0.08); color: var(--purple); border: 1px solid rgba(90,200,250,0.25); }
-#report-content .tag-fix { background: rgba(10,132,255,0.08); color: var(--purple); border: 1px solid rgba(168,85,247,0.25); }
-#report-content .tag-proc { background: rgba(10,132,255,0.12); color: var(--blue); border: 1px solid rgba(10,132,255,0.25); }
+#report-content .tag-new { background: rgba(0,122,255,0.08); color: #FF375F; border: 1px solid rgba(0,122,255,0.15); }
+#report-content .tag-evo { background: rgba(0,122,255,0.06); color: #AF52DE; border: 1px solid rgba(0,122,255,0.15); }
+#report-content .tag-fix { background: rgba(0,122,255,0.06); color: #AF52DE; border: 1px solid rgba(175,82,222,0.18); }
+#report-content .tag-proc { background: rgba(0,122,255,0.10); color: var(--accent); border: 1px solid rgba(10,132,255,0.25); }
 
 #report-content table {
   width: 100%;
@@ -939,8 +886,8 @@ body {
 }
 
 #report-content th {
-  background: rgba(255,255,255,0.03);
-  color: var(--cyan);
+  background: rgba(0,0,0,0.03);
+  color: var(--accent);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 1px;
@@ -964,7 +911,7 @@ body {
   border-radius: 5px;
   font-family: 'Inter', monospace;
   font-size: 11px;
-  color: var(--cyan);
+  color: var(--accent);
 }
 
 /* ── 27. Loading State ── */
@@ -978,7 +925,7 @@ body {
 .loading-state .spinner {
   width: 36px; height: 36px;
   border: 2px solid var(--border);
-  border-top-color: var(--purple);
+  border-top-color: #AF52DE;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
   margin: 0 auto 16px;
@@ -1025,7 +972,7 @@ body {
 .skill-badge .dot {
   width: 5px; height: 5px;
   border-radius: 50%;
-  background: var(--green);
+  background: #34C759;
   flex-shrink: 0;
 }
 
@@ -1034,8 +981,8 @@ body {
 /* ── 30. Alert Card ── */
 .alert-card {
   padding: 22px;
-  border-left: 3px solid var(--orange);
-  background: rgba(255,255,255,0.03);
+  border-left: 3px solid #FF9500;
+  background: rgba(0,0,0,0.03);
   border-radius: 0 12px 12px 0;
   margin-bottom: 12px;
 }
@@ -1052,12 +999,7 @@ body {
 <body>
 
 <!-- Background Blobs -->
-<div class="blob-canvas">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-  <div class="blob blob-4"></div>
-</div>
+<div class="noise"></div>
 
 <!-- Neural Particle Canvas -->
 <canvas id="neuralCanvas"></canvas>
@@ -1327,7 +1269,7 @@ function renderDetail(id) {
         <div class="loading-state">
           <p>📄 飞书备份：
             <a href="https://www.feishu.cn/docx/HcMrdjNf7oBphcxYN4Vcy0Opn5c"
-               target="_blank" style="color:var(--cyan);">
+               target="_blank" style="color:var(--accent);">
                查看历史日报
             </a>
           </p>
