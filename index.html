@@ -157,6 +157,99 @@ body {
 }
 .report-card:hover .report-arrow { color: var(--text-dim); transform: translateX(4px); }
 
+/* === Today Card (Apple Style Spec) === */
+.today-card {
+  position: relative;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  overflow: hidden;
+  animation: fadeUp 0.6s var(--ease) both;
+  animation-delay: 0.1s;
+}
+.today-topbar {
+  height: 4px;
+  background: linear-gradient(90deg, var(--purple), var(--blue), var(--pink));
+}
+.today-body { padding: 26px 28px 28px; }
+.today-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.today-date {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+.today-live {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 600; color: var(--green);
+}
+.today-live-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green);
+  animation: pulse-green 2s ease-in-out infinite;
+}
+@keyframes pulse-green {
+  0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(48,209,88,0.4); }
+  50% { opacity: 0.8; transform: scale(1.15); box-shadow: 0 0 0 5px rgba(48,209,88,0); }
+}
+.today-title { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; color: var(--text); margin-bottom: 12px; line-height: 1.2; }
+.today-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+.today-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 500;
+  padding: 4px 12px; border-radius: 100px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: var(--text-dim);
+}
+.today-stats {
+  display: flex; gap: 20px;
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+.today-stat { display: flex; flex-direction: column; gap: 2px; }
+.today-stat-num {
+  font-family: 'Inter', sans-serif;
+  font-size: 22px; font-weight: 800;
+  letter-spacing: -0.03em; color: var(--cyan);
+  line-height: 1;
+}
+.today-stat-label { font-size: 11px; font-weight: 500; color: var(--text-muted); }
+.today-stat-sep { width: 1px; background: var(--border); align-self: stretch; }
+.today-summary {
+  font-size: 13px; color: var(--text-dim);
+  line-height: 1.7; margin-bottom: 20px;
+}
+.today-highlight {
+  padding: 14px 16px;
+  background: rgba(100,210,255,0.05);
+  border-left: 3px solid var(--cyan);
+  border-radius: 0 10px 10px 0;
+  margin-bottom: 22px;
+}
+.today-highlight-text { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.6; }
+.today-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 24px;
+  background: linear-gradient(135deg, rgba(191,90,242,0.25), rgba(10,132,255,0.25));
+  border: 1px solid rgba(191,90,242,0.40);
+  border-radius: 100px;
+  font-size: 13px; font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  transition: all 0.25s var(--ease);
+}
+.today-cta:hover {
+  background: linear-gradient(135deg, rgba(191,90,242,0.40), rgba(10,132,255,0.40));
+  border-color: rgba(191,90,242,0.60);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 30px rgba(191,90,242,0.20);
+}
+.today-cta-arrow { transition: transform 0.2s; }
+.today-cta:hover .today-cta-arrow { transform: translateX(3px); }
+
 .footer {
   padding: 60px 0 0; text-align: center;
 }
@@ -193,24 +286,52 @@ body {
 
   <hr class="divider">
 
-  <div class="report-list">
-
-    <a class="report-card" href="./reports/2026-03-31.html">
-      <div class="report-num">001</div>
-      <div class="report-body">
-        <div class="report-date">2026-03-31 · Tuesday</div>
-        <div class="report-title">MEMORY 压缩 82% + 行为准则 v2 + frontend-design 解锁</div>
-        <div class="report-tags">
-          <span class="tag purple">🧠 MEMORY -82%</span>
-          <span class="tag blue">📋 10条准则</span>
-          <span class="tag green">🆕 3新技能</span>
-          <span class="tag orange">🎨 Apple Style</span>
-          <span class="tag pink">⚡ PUA模式</span>
+  <!-- 今日精选大卡片 Today Card -->
+  <div class="today-card">
+    <div class="today-topbar"></div>
+    <div class="today-body">
+      <div class="today-header">
+        <span class="today-date">2026.03.31 · Tuesday</span>
+        <span class="today-live">
+          <span class="today-live-dot"></span>
+          最新一期
+        </span>
+      </div>
+      <div class="today-title">🦞 龙虾进化日报 v2.0</div>
+      <div class="today-badges">
+        <span class="today-badge">🧠 每日生成</span>
+        <span class="today-badge">⚡ 系统升级</span>
+        <span class="today-badge">🎨 Apple Style</span>
+      </div>
+      <div class="today-stats">
+        <div class="today-stat">
+          <span class="today-stat-num">001</span>
+          <span class="today-stat-label">期数</span>
+        </div>
+        <div class="today-stat-sep"></div>
+        <div class="today-stat">
+          <span class="today-stat-num">9</span>
+          <span class="today-stat-label">内容区块</span>
+        </div>
+        <div class="today-stat-sep"></div>
+        <div class="today-stat">
+          <span class="today-stat-num">3</span>
+          <span class="today-stat-label">项新功能</span>
         </div>
       </div>
-      <div class="report-arrow">→</div>
-    </a>
-
+      <div class="today-summary">
+        MEMORY 压缩 82%（31KB → 5.5KB）；新增系统架构、技能生态、上下篇导航、TOC目录等完整功能补全。
+      </div>
+      <div class="today-highlight">
+        <div class="today-highlight-text">
+          📍 层级导航：目录 → 详情 → 返回，每期日报形成完整闭环。
+        </div>
+      </div>
+      <a class="today-cta" href="./reports/2026-03-31.html">
+        阅读完整日报
+        <span class="today-cta-arrow">→</span>
+      </a>
+    </div>
   </div>
 
   <div class="footer">

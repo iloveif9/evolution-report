@@ -49,15 +49,51 @@ body {
 @keyframes float { 0%, 100% { transform: translate(0, 0) scale(1); } 25% { transform: translate(40px, -30px) scale(1.05); } 50% { transform: translate(-20px, 20px) scale(0.95); } 75% { transform: translate(30px, 40px) scale(1.02); } }
 #neuralCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; opacity: 0.4; }
 .container { position: relative; z-index: 10; max-width: 880px; margin: 0 auto; padding: 0 24px 80px; }
-.hero { padding: 80px 0 60px; animation: fadeUp 0.7s var(--ease) both; }
+/* === 顶部导航栏 Top Navigation === */
+.top-nav {
+  position: relative;
+  z-index: 10;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 28px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  animation: fadeUp 0.5s var(--ease) both;
+}
+.top-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.top-nav a:hover { color: var(--text-dim); }
+.top-nav .nav-sep {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 6px;
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+.top-nav .nav-current {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-dim);
+  pointer-events: none;
+}
+
+.hero { padding: 48px 0 60px; animation: fadeUp 0.7s var(--ease) both; }
 .hero-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
 .hero-date { font-size: 13px; font-weight: 500; letter-spacing: 0.5px; color: var(--text-dim); }
 .hero-weekday { font-size: 13px; color: var(--text-muted); }
 .hero-title { font-size: clamp(28px, 5vw, 48px); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; color: var(--text); margin-bottom: 0; }
 .hero-title .accent { background: linear-gradient(135deg, #FF9F0A, #FF375F); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .hero-badge { display: inline-flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-.hero-back { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--text-muted); text-decoration: none; margin-bottom: 20px; transition: color 0.2s; }
-.hero-back:hover { color: var(--text-dim); }
+/* .hero-back removed — replaced by .top-nav */
 .read-time { font-size: 12px; color: var(--text-muted); margin-left: 12px; }
 .divider { height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(191,90,242,0.5) 25%, rgba(10,132,255,0.5) 50%, rgba(255,55,95,0.5) 75%, transparent 100%); border: none; margin: 0 0 52px; }
 .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
@@ -280,11 +316,18 @@ body {
 
 <div class="container">
 
-  <div class="hero">
-    <a href="../" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--text-muted);text-decoration:none;margin-bottom:20px;transition:color 0.2s;">
-      ← 返回目录
-    </a>
+  <!-- 顶部导航栏 Top Navigation -->
+  <nav class="top-nav" aria-label="面包屑导航">
+    <a href="../">进化日报</a>
+    <span class="nav-sep">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4.5 2.5L7.5 6L4.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+    <span class="nav-current">2026-03-31</span>
+  </nav>
 
+  <div class="hero">
     <!-- 目录导航 TOC -->
     <nav class="toc-bar" id="tocBar" aria-label="目录导航">
       <a class="toc-item" data-target="系统架构" href="#系统架构">系统架构</a>
