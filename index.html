@@ -32,12 +32,12 @@
   --orange:    #FF9F0A;
   --cyan:      #64D2FF;
   --green:     #30D158;
-  --glass-bg:  rgba(0,0,0,0.05);
-  --border:    rgba(0,0,0,0.10);
-  --border-hi: rgba(0,0,0,0.20);
+  --glass-bg:  rgba(0,0,0,0.04);
+  --border:    rgba(0,0,0,0.08);
+  --border-hi: rgba(0,0,0,0.16);
   --text:      #1d1d1f;
-  --text-dim:  rgba(0,0,0,0.55);
-  --text-muted:rgba(0,0,0,0.35);
+  --text-dim:  rgba(0,0,0,0.52);
+  --text-muted:rgba(0,0,0,0.30);
   --ease:      cubic-bezier(0.22, 1, 0.36, 1);
 }
 [data-theme="light"] .blob { opacity: 0.08; }
@@ -294,7 +294,7 @@ body {
   <div class="hero">
     <h1 class="hero-title">每日<span class="accent">进化</span>日报</h1>
     <p class="hero-desc">记录大麦龙虾每一次重大进化。每一期包含：进化内容、可视化网页、关键教训。</p>
-    <div style="margin-top:16px;display:flex;align-items:center;gap:12px;">
+    <div style="margin-top:16px;display:flex;align-items:center;gap:12px;justify-content:flex-end;">
       <button id="theme-toggle" onclick="toggleTheme()" title="切换日间/暗色模式" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;padding:4px 8px;border-radius:8px;transition:color 0.2s,background 0.2s;">☀️</button>
     </div>
     <!-- TODO: 下期更新时将此链接改为对应日期的文件 -->

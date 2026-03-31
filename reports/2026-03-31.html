@@ -39,14 +39,14 @@
   --green:     #30D158;
   --indigo:    #5E5CE6;
   --yellow:    #FFD60A;
-  --surface:   rgba(0,0,0,0.06);
-  --surface-2: rgba(0,0,0,0.04);
-  --glass-bg:  rgba(0,0,0,0.05);
-  --border:    rgba(0,0,0,0.10);
-  --border-hi: rgba(0,0,0,0.20);
+  --surface:   rgba(0,0,0,0.04);
+  --surface-2: rgba(0,0,0,0.025);
+  --glass-bg:  rgba(0,0,0,0.035);
+  --border:    rgba(0,0,0,0.08);
+  --border-hi: rgba(0,0,0,0.15);
   --text:      #1d1d1f;
-  --text-dim:  rgba(0,0,0,0.55);
-  --text-muted:rgba(0,0,0,0.35);
+  --text-dim:  rgba(0,0,0,0.50);
+  --text-muted:rgba(0,0,0,0.28);
   --blur:      20px;
   --ease:      cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -127,6 +127,7 @@ body {
 .bug-fix strong { color: var(--pink); }
 table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 13px; }
 th { text-align: left; padding: 8px 12px; background: var(--surface); border-bottom: 1px solid var(--border); color: var(--text-dim); font-weight: 600; font-size: 11px; letter-spacing: 0.5px; text-transform: uppercase; }
+[data-theme="light"] th { background: rgba(0,0,0,0.05); color: rgba(0,0,0,0.60); }
 td { padding: 9px 12px; border-bottom: 1px solid rgba(255,255,255,0.06); color: var(--text-dim); vertical-align: top; }
 tr:last-child td { border-bottom: none; }
 .td-num { color: var(--text-muted); font-size: 11px; width: 32px; }
@@ -166,12 +167,13 @@ blockquote { border-left: 3px solid var(--purple); padding: 8px 16px; margin: 10
 </div>
 <canvas id="neuralCanvas"></canvas>
 <div class="container">
-  <nav class="top-nav">
-    <a href="index.html">← 总目录</a>
-    <span class="nav-sep">/</span>
+  <nav class="top-nav" style="justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:0;">
+      <a href="index.html">← 总目录</a>
+      <span class="nav-sep">/</span>
+      <span class="nav-current">2026-03-31 · Tuesday</span>
+    </div>
     <button id="theme-toggle" onclick="toggleTheme()" title="切换日间/暗色模式" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;padding:2px 6px;border-radius:6px;transition:color 0.2s;">☀️</button>
-    <span class="nav-sep">/</span>
-    <span class="nav-current">2026-03-31 · Tuesday</span>
   </nav>
 
   <div class="hero">
