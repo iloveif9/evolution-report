@@ -343,6 +343,12 @@ body {
       <div class="bug-fix"><strong>问题：</strong>用户说「我怎么没发现变化」，我列了一堆解释，而不是先承认。<br><strong>正确顺序：</strong>先说「你说得对，我确实没做到」，再说原因，最后说方案。</div>
       <div class="bug-lesson">→ 先处理情绪，再处理事情——先承认，再说原因</div>
     </div>
+    <div class="bug-card">
+      <div class="bug-label">教训 #3</div>
+      <div class="bug-title">重构后忘更新引用链接</div>
+      <div class="bug-fix"><strong>问题：</strong>把 index.html 内容移到 reports/2026-03-31.html 后，忘记回头改目录页卡片的链接，href 仍指向 "./"（自己）。<br><strong>根本原因：</strong>违反「先想结构再动手」原则，边写边改导致临时状态污染交付物。</div>
+      <div class="bug-lesson">→ 重构/移动文件后，立即检查所有引用链接</div>
+    </div>
   </div>
 
   <!-- 认知升级 -->
