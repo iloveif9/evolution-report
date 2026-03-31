@@ -547,6 +547,12 @@ body {
       <div class="bug-fix"><strong>问题：</strong>把 index.html 内容移到 reports/2026-03-31.html 后，忘记回头改目录页卡片的链接，href 仍指向 "./"（自己）。<br><strong>根本原因：</strong>违反「先想结构再动手」原则，边写边改导致临时状态污染交付物。</div>
       <div class="bug-lesson">→ 重构/移动文件后，立即检查所有引用链接</div>
     </div>
+    <div class="bug-card">
+      <div class="bug-label">教训 #4</div>
+      <div class="bug-title">内容区块排序错误——导航永远在最后</div>
+      <div class="bug-fix"><strong>问题：</strong>技术认知板块被错误地放在了「上下篇导航」之后、Footer 之前。<br><strong>根本原因：</strong>新增内容时顺手堆在最底部，没有先想清楚页面整体结构。</div>
+      <div class="bug-lesson">→ 新增内容前先想页面结构，内容区块永远在导航前面</div>
+    </div>
   </div>
 
   <!-- 认知升级 -->
