@@ -19,9 +19,9 @@
 /* ── 1. CSS Variables ── */
 :root {
   /* Apple Vibrant Palette */
-  --purple:  #BF5AF2;
+  --purple:  #8E5AFF;
   --blue:    #0A84FF;
-  --pink:    #FF375F;
+  --pink:    #FF6B8A;
   --orange:  #FF9F0A;
   --cyan:    #64D2FF;
   --green:   #30D158;
@@ -90,13 +90,13 @@ body {
 
 .blob-1 {
   width: 600px; height: 600px;
-  background: radial-gradient(circle, #BF5AF2 0%, transparent 70%);
+  background: radial-gradient(circle, #5AC8FA 0%, transparent 70%);
   top: -200px; left: -150px;
   animation-delay: 0s;
 }
 .blob-2 {
   width: 500px; height: 500px;
-  background: radial-gradient(circle, #FF375F 0%, transparent 70%);
+  background: radial-gradient(circle, #64D2FF 0%, transparent 70%);
   top: 30%; right: -150px;
   animation-delay: -5s;
 }
@@ -108,7 +108,7 @@ body {
 }
 .blob-4 {
   width: 350px; height: 350px;
-  background: radial-gradient(circle, #BF5AF2 0%, transparent 70%);
+  background: radial-gradient(circle, #5AC8FA 0%, transparent 70%);
   bottom: 20%; right: 10%;
   animation-delay: -15s;
 }
@@ -198,7 +198,7 @@ body {
 }
 
 .hero-title .accent {
-  background: linear-gradient(135deg, var(--orange), var(--pink));
+  background: linear-gradient(135deg, #0A84FF, #64D2FF);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -216,9 +216,9 @@ body {
   height: 1px;
   background: linear-gradient(90deg,
     transparent 0%,
-    rgba(191,90,242,0.5) 25%,
-    rgba(10,132,255,0.5) 50%,
-    rgba(255,55,95,0.5) 75%,
+    rgba(10,132,255,0.6) 15%,
+    rgba(90,200,250,0.6) 40%,
+    rgba(48,209,88,0.5) 70%,
     transparent 100%
   );
   border: none;
@@ -296,13 +296,13 @@ body {
 .stat-card:hover::before { opacity: 1; }
 
 .stat-card.purple::before {
-  background: radial-gradient(circle at top left, rgba(191,90,242,0.25), transparent 60%);
+  background: radial-gradient(circle at top left, rgba(90,200,250,0.25), transparent 60%);
 }
 .stat-card.blue::before {
   background: radial-gradient(circle at top left, rgba(10,132,255,0.25), transparent 60%);
 }
 .stat-card.pink::before {
-  background: radial-gradient(circle at top left, rgba(255,55,95,0.25), transparent 60%);
+  background: radial-gradient(circle at top left, rgba(100,210,255,0.25), transparent 60%);
 }
 .stat-card.orange::before {
   background: radial-gradient(circle at top left, rgba(255,159,10,0.25), transparent 60%);
@@ -394,14 +394,14 @@ body {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--purple), var(--blue), var(--pink));
+  background: linear-gradient(90deg, var(--blue), var(--cyan), var(--green));
   opacity: 0;
   transition: opacity 0.3s;
 }
 
 .report-card:hover::before { opacity: 1; }
 
-.report-card .card-date {
+.report-card .card-date { color: var(--blue); } /* kept separately below */
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 1px;
@@ -474,9 +474,9 @@ body {
   flex-shrink: 0;
 }
 
-.card-title-icon.purple { background: rgba(191,90,242,0.20); }
+.card-title-icon.purple { background: rgba(90,200,250,0.20); }
 .card-title-icon.blue   { background: rgba(10,132,255,0.20); }
-.card-title-icon.pink   { background: rgba(255,55,95,0.20); }
+.card-title-icon.pink   { background: rgba(100,210,255,0.20); }
 .card-title-icon.orange { background: rgba(255,159,10,0.20); }
 .card-title-icon.green  { background: rgba(48,209,88,0.20); }
 .card-title-icon.cyan   { background: rgba(100,210,255,0.20); }
@@ -497,9 +497,9 @@ body {
   transition: all 0.2s;
 }
 
-.skill-tag.purple { background: rgba(191,90,242,0.12); border-color: rgba(191,90,242,0.25); color: var(--purple); }
+.skill-tag.purple { background: rgba(90,200,250,0.12); border-color: rgba(90,200,250,0.25); color: var(--purple); }
 .skill-tag.orange { background: rgba(255,159,10,0.12); border-color: rgba(255,159,10,0.25); color: var(--orange); }
-.skill-tag.pink   { background: rgba(255,55,95,0.12);  border-color: rgba(255,55,95,0.25);  color: var(--pink); }
+.skill-tag.pink   { background: rgba(100,210,255,0.12);  border-color: rgba(100,210,255,0.25);  color: var(--pink); }
 .skill-tag.green  { background: rgba(48,209,88,0.12);  border-color: rgba(48,209,88,0.25);  color: var(--green); }
 
 .skill-cloud {
@@ -561,9 +561,9 @@ body {
   flex-shrink: 0;
 }
 
-.work-icon.purple { background: rgba(191,90,242,0.20); }
+.work-icon.purple { background: rgba(90,200,250,0.20); }
 .work-icon.blue   { background: rgba(10,132,255,0.20); }
-.work-icon.pink   { background: rgba(255,55,95,0.20); }
+.work-icon.pink   { background: rgba(100,210,255,0.20); }
 .work-icon.orange { background: rgba(255,159,10,0.20); }
 .work-icon.green  { background: rgba(48,209,88,0.20); }
 .work-icon.cyan   { background: rgba(100,210,255,0.20); }
@@ -591,8 +591,8 @@ body {
 /* ── 17. Bug Card ── */
 .bug-card {
   padding: 16px;
-  background: rgba(255,55,95,0.05);
-  border: 1px solid rgba(255,55,95,0.15);
+  background: rgba(100,210,255,0.05);
+  border: 1px solid rgba(100,210,255,0.15);
   border-radius: 14px;
   animation: fadeUp 0.4s var(--ease) both;
 }
@@ -603,7 +603,7 @@ body {
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--pink);
-  background: rgba(255,55,95,0.15);
+  background: rgba(100,210,255,0.15);
   padding: 3px 8px;
   border-radius: 5px;
   display: inline-block;
@@ -623,7 +623,7 @@ body {
   color: var(--text-dim);
   line-height: 1.7;
   padding-left: 14px;
-  border-left: 2px solid rgba(255,55,95,0.25);
+  border-left: 2px solid rgba(100,210,255,0.25);
 }
 
 .bug-fix code {
@@ -902,9 +902,9 @@ body {
   display: inline-block;
 }
 
-#report-content .tag-new { background: rgba(255,55,95,0.12); color: var(--pink); border: 1px solid rgba(255,55,95,0.25); }
-#report-content .tag-evo { background: rgba(191,90,242,0.12); color: var(--purple); border: 1px solid rgba(191,90,242,0.25); }
-#report-content .tag-fix { background: rgba(168,85,247,0.12); color: var(--purple); border: 1px solid rgba(168,85,247,0.25); }
+#report-content .tag-new { background: rgba(100,210,255,0.12); color: var(--pink); border: 1px solid rgba(100,210,255,0.25); }
+#report-content .tag-evo { background: rgba(90,200,250,0.12); color: var(--purple); border: 1px solid rgba(90,200,250,0.25); }
+#report-content .tag-fix { background: rgba(90,200,250,0.12); color: var(--purple); border: 1px solid rgba(168,85,247,0.25); }
 #report-content .tag-proc { background: rgba(10,132,255,0.12); color: var(--blue); border: 1px solid rgba(10,132,255,0.25); }
 
 #report-content table {
@@ -1068,7 +1068,7 @@ body {
     lineAlpha: 0.05
   };
 
-  const colors = ['#BF5AF2','#0A84FF','#FF375F','#64D2FF','#30D158','#FF9F0A'];
+  const colors = ['#5AC8FA','#0A84FF','#64D2FF','#30D158','#FF9F0A','#5AC8FA'];
 
   class Particle {
     constructor() { this.reset(); }
