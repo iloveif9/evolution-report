@@ -58,8 +58,7 @@ body {
 .hero-badge { display: inline-flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 .hero-back { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--text-muted); text-decoration: none; margin-bottom: 20px; transition: color 0.2s; }
 .hero-back:hover { color: var(--text-dim); }
-.badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: var(--text-dim); font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: 100px; transition: all 0.2s; }
-.badge:hover { background: rgba(255,255,255,0.12); color: #fff; }
+.read-time { font-size: 12px; color: var(--text-muted); margin-left: 12px; }
 .divider { height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(191,90,242,0.5) 25%, rgba(10,132,255,0.5) 50%, rgba(255,55,95,0.5) 75%, transparent 100%); border: none; margin: 0 0 52px; }
 .section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
 .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
@@ -140,6 +139,130 @@ body {
 @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 .mb-12 { margin-bottom: 12px; } .mb-16 { margin-bottom: 16px; } .mb-24 { margin-bottom: 24px; } .mb-32 { margin-bottom: 32px; } .mb-48 { margin-bottom: 48px; } .mb-56 { margin-bottom: 56px; }
 .text-dim { color: var(--text-dim); font-size: 12px; } .text-muted { color: var(--text-muted); font-size: 11px; }
+
+/* === 回到顶部按钮 === */
+.back-to-top {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.20);
+  color: #fff;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s, background 0.2s, transform 0.2s;
+  text-decoration: none;
+}
+.back-to-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+.back-to-top:hover {
+  background: rgba(255,255,255,0.22);
+  transform: translateY(-2px);
+}
+
+/* === 目录导航 TOC === */
+.toc-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 12px 0;
+  margin-bottom: 24px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.toc-bar::-webkit-scrollbar { display: none; }
+.toc-item {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 5px 14px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.toc-item:hover {
+  background: rgba(255,255,255,0.12);
+  color: var(--text-dim);
+  border-color: rgba(255,255,255,0.18);
+}
+.toc-item.active {
+  background: rgba(191,90,242,0.20);
+  border-color: rgba(191,90,242,0.45);
+  color: var(--purple);
+}
+.toc-sep {
+  color: var(--text-muted);
+  font-size: 10px;
+  flex-shrink: 0;
+  opacity: 0.4;
+}
+
+/* === 上下篇导航 === */
+.prev-next-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 48px;
+}
+@media (max-width: 640px) { .prev-next-nav { grid-template-columns: 1fr; } }
+.nav-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 18px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.nav-card:hover {
+  border-color: var(--border-hi);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+.nav-card.disabled {
+  opacity: 0.4;
+  cursor: default;
+  pointer-events: none;
+}
+.nav-card.disabled:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--border);
+}
+.nav-arrow {
+  font-size: 16px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+.nav-card.disabled .nav-arrow { color: var(--text-muted); }
+.nav-info { flex: 1; min-width: 0; }
+.nav-label { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2px; }
+.nav-title { font-size: 13px; font-weight: 500; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 </style>
 </head>
 <body>
@@ -152,15 +275,41 @@ body {
 </div>
 <canvas id="neuralCanvas"></canvas>
 
+<!-- 回到顶部按钮 -->
+<a href="#" class="back-to-top" id="backToTop" aria-label="回到顶部">↑</a>
+
 <div class="container">
 
   <div class="hero">
     <a href="../" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--text-muted);text-decoration:none;margin-bottom:20px;transition:color 0.2s;">
       ← 返回目录
     </a>
+
+    <!-- 目录导航 TOC -->
+    <nav class="toc-bar" id="tocBar" aria-label="目录导航">
+      <a class="toc-item" data-target="系统架构" href="#系统架构">系统架构</a>
+      <span class="toc-sep">·</span>
+      <a class="toc-item" data-target="技能生态" href="#技能生态">技能生态</a>
+      <span class="toc-sep">·</span>
+      <a class="toc-item" data-target="今日工作" href="#今日工作">今日工作</a>
+      <span class="toc-sep">·</span>
+      <a class="toc-item" data-target="做对了的事" href="#做对了的事">做对了的事</a>
+      <span class="toc-sep">·</span>
+      <a class="toc-item" data-target="需要改进的事" href="#需要改进的事">需要改进的事</a>
+      <span class="toc-sep">·</span>
+      <a class="toc-item" data-target="3轮自我追问" href="#3轮自我追问">3轮自我追问</a>
+      <span class="toc-sep">·</span>
+      <a class="toc-item" data-target="今日核心认知" href="#今日核心认知">今日核心认知</a>
+      <span class="toc-sep">·</span>
+      <a class="toc-item" data-target="教训与修复" href="#教训与修复">教训与修复</a>
+      <span class="toc-sep">·</span>
+      <a class="toc-item" data-target="认知升级" href="#认知升级">认知升级</a>
+    </nav>
+
     <div class="hero-eyebrow">
       <span class="hero-date">2026-03-31</span>
       <span class="hero-weekday">· Tuesday</span>
+      <span class="read-time" id="readTime">约 5 分钟阅读</span>
     </div>
     <h1 class="hero-title">每日<span class="accent">进化</span>日报</h1>
     <div class="hero-badge">
@@ -203,7 +352,7 @@ body {
   </div>
 
   <!-- System Architecture -->
-  <div class="section-label">系统架构</div>
+  <div class="section-label" id="系统架构">系统架构</div>
   <div class="content-grid mb-48">
     <div class="glass">
       <div class="card-title"><span class="card-title-icon purple">📦</span>Skill 系统</div>
@@ -227,7 +376,7 @@ body {
   </div>
 
   <!-- 技能生态 -->
-  <div class="section-label">技能生态</div>
+  <div class="section-label" id="技能生态">技能生态</div>
   <div class="glass mb-48">
     <div style="display:flex;flex-wrap:wrap;gap:8px;">
       <span class="badge" style="background:rgba(191,90,242,0.15);border-color:rgba(191,90,242,0.30);color:#BF5AF2;">🧠 memory-pro</span>
@@ -244,7 +393,7 @@ body {
   </div>
 
   <!-- 今日工作 -->
-  <div class="section-label">今日工作</div>
+  <div class="section-label" id="今日工作">今日工作</div>
   <div class="content-grid mb-48">
     <div class="glass" style="padding:16px;">
       <div style="display:flex;gap:14px;">
@@ -279,7 +428,7 @@ body {
   </div>
 
   <!-- ✅ Done -->
-  <div class="section-label">✅ 做对了的事</div>
+  <div class="section-label" id="做对了的事">✅ 做对了的事</div>
   <div class="glass mb-48">
     <ul class="done-list">
       <li class="done-item"><span class="done-check">✓</span><span>腾讯新闻 skill 从 v1.0.0 升级到 v1.0.8，搞定了 bun 环境</span><span class="done-time">07:30</span></li>
@@ -294,7 +443,7 @@ body {
   </div>
 
   <!-- ⚠️ Improve -->
-  <div class="section-label">⚠️ 需要改进的事</div>
+  <div class="section-label" id="需要改进的事">⚠️ 需要改进的事</div>
   <div class="glass mb-48">
     <ul class="improve-list">
       <li class="improve-item"><div class="improve-title"><strong>今早心跳通知失败</strong> — 两个 cron 任务同时 7:00 跑，触发飞书 API 400 限速</div><div class="improve-solution">已调整为错开时间（心跳 6:45 / 新闻 7:00）</div></li>
@@ -305,7 +454,7 @@ body {
   </div>
 
   <!-- 9 Problems Table -->
-  <div class="section-label">3轮自我追问 · 9个问题清单</div>
+  <div class="section-label" id="3轮自我追问">3轮自我追问 · 9个问题清单</div>
   <div class="glass mb-48">
     <table class="problem-table">
       <thead><tr><th style="width:32px">#</th><th>问题</th><th style="width:80px">状态</th></tr></thead>
@@ -327,14 +476,14 @@ body {
   </div>
 
   <!-- Key Insight -->
-  <div class="section-label">今日核心认知</div>
+  <div class="section-label" id="今日核心认知">今日核心认知</div>
   <div class="insight-card mb-48">
     <div class="insight-title">💡 今日最重要的认知</div>
     <div class="insight-body"><strong>Cron 任务不能同时跑。</strong> 多个任务同时触发会触发飞书 API 限速（400 错误），导致通知发不出去。以后新加 cron 任务，要注意和现有任务错开时间。</div>
   </div>
 
   <!-- Bug Cards -->
-  <div class="section-label">教训与修复</div>
+  <div class="section-label" id="教训与修复">教训与修复</div>
   <div class="bug-items mb-48">
     <div class="bug-card">
       <div class="bug-label">教训 #1</div>
@@ -357,7 +506,7 @@ body {
   </div>
 
   <!-- 认知升级 -->
-  <div class="section-label">认知升级</div>
+  <div class="section-label" id="认知升级">认知升级</div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:48px;">
     <div style="padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:12px;font-size:12px;color:var(--text-dim);line-height:1.5;transition:all 0.2s;"><span style="font-family:'Inter',sans-serif;font-size:9px;font-weight:800;color:var(--purple);margin-right:6px;">01</span>数字树洞 = 先处理情绪，再处理事情。用户吐槽时，龙虾先陪伴，不给建议。</div>
     <div style="padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:12px;font-size:12px;color:var(--text-dim);line-height:1.5;transition:all 0.2s;"><span style="font-family:'Inter',sans-serif;font-size:9px;font-weight:800;color:var(--purple);margin-right:6px;">02</span>Skill 调教 = 理解原逻辑 → 识别不适配点 → 局部修改，不是推翻重写。</div>
@@ -366,6 +515,24 @@ body {
     <div style="padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:12px;font-size:12px;color:var(--text-dim);line-height:1.5;transition:all 0.2s;"><span style="font-family:'Inter',sans-serif;font-size:9px;font-weight:800;color:var(--purple);margin-right:6px;">05</span>进化核心：记住用户说过的话，不让用户重复——这是信任积累最快的方式。</div>
     <div style="padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:12px;font-size:12px;color:var(--text-dim);line-height:1.5;transition:all 0.2s;"><span style="font-family:'Inter',sans-serif;font-size:9px;font-weight:800;color:var(--purple);margin-right:6px;">06</span>闭嘴三层级：轻度（缩短50%）→ 中度（只说结论）→ 重度（完全停止）。</div>
   </div>
+
+  <!-- 上下篇导航 -->
+  <nav class="prev-next-nav" aria-label="上一篇下一篇导航">
+    <div class="nav-card disabled" aria-disabled="true">
+      <span class="nav-arrow">←</span>
+      <div class="nav-info">
+        <div class="nav-label">上一篇</div>
+        <div class="nav-title">无</div>
+      </div>
+    </div>
+    <a class="nav-card" href="../" aria-label="下一篇：返回目录">
+      <div class="nav-info" style="text-align:right;">
+        <div class="nav-label">下一篇</div>
+        <div class="nav-title">返回目录</div>
+      </div>
+      <span class="nav-arrow">→</span>
+    </a>
+  </nav>
 
   <!-- Footer -->
   <div class="site-footer">
@@ -422,6 +589,60 @@ body {
   document.addEventListener('visibilitychange', () => { animRunning = !document.hidden; if(animRunning) requestAnimationFrame(loop); });
   window.addEventListener('resize', resize);
   init(); requestAnimationFrame(loop);
+})();
+
+/* ====== 回到顶部按钮 ====== */
+(function() {
+  var btn = document.getElementById('backToTop');
+  function onScroll() {
+    if (window.scrollY > 300) {
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+
+/* ====== 阅读时间估算 ====== */
+(function() {
+  var WPM = 400;
+  var statCards = document.querySelectorAll('.stat-card');
+  var contentGrid = document.querySelectorAll('.content-grid');
+  var allContent = document.querySelectorAll('.glass, .bug-items, .insight-card');
+  var text = '';
+  allContent.forEach(function(el) { text += el.innerText + ' '; });
+  statCards.forEach(function(el) { text += el.innerText + ' '; });
+  var charCount = text.replace(/\s+/g, '').length;
+  var minutes = Math.ceil(charCount / WPM);
+  var el = document.getElementById('readTime');
+  if (el) el.textContent = '约 ' + minutes + ' 分钟阅读';
+})();
+
+/* ====== TOC 当前章节高亮 ====== */
+(function() {
+  var sections = document.querySelectorAll('.section-label[id]');
+  var tocItems = document.querySelectorAll('.toc-item[data-target]');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        tocItems.forEach(function(item) {
+          item.classList.toggle('active', item.getAttribute('data-target') === entry.target.id);
+        });
+      }
+    });
+  }, { threshold: 0.2, rootMargin: '-80px 0px -60% 0px' });
+  sections.forEach(function(sec) { observer.observe(sec); });
+  tocItems.forEach(function(item) {
+    item.addEventListener('click', function(e) {
+      tocItems.forEach(function(i) { i.classList.remove('active'); });
+      item.classList.add('active');
+    });
+  });
 })();
 </script>
 </body>
