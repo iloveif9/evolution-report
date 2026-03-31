@@ -1,0 +1,90 @@
+<!-- 2026-03-31 进化日报（独立页面） -->
+<style>
+.report-body{font-family:'Noto Sans SC',sans-serif;max-width:800px;color:#E0E8F5}
+.report-body h2{font-size:20px;color:#fff;margin:32px 0 14px;padding-bottom:8px;border-bottom:1px solid #1a2a45;font-weight:600}
+.report-body h3{font-size:15px;color:#fff;margin:20px 0 8px}
+.report-body p{font-size:14px;color:#6B7FA3;line-height:1.8;margin-bottom:12px}
+.report-body ul{margin:0 0 16px 0;padding-left:20px}
+.report-body li{font-size:13px;color:#6B7FA3;line-height:2}
+.report-body .card{background:#0c1220;border:1px solid #1a2a45;border-radius:12px;padding:20px;margin-bottom:14px}
+.report-body .tag{display:inline-block;font-size:10px;padding:3px 10px;border-radius:10px;letter-spacing:1px;margin-left:8px}
+.report-body .tag-new{background:#FF6B3522;color:#FF6B35;border:1px solid #FF6B3544}
+.report-body .tag-evo{background:#00E5CC22;color:#00E5CC;border:1px solid #00E5CC44}
+.report-body .tag-fix{background:#A855F722;color:#A855F7;border:1px solid #A855F744}
+.report-body .rule-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:14px}
+.report-body .rule-item{background:#0c1220;border:1px solid #1a2a45;border-radius:8px;padding:12px 14px;font-size:13px;color:#E0E8F5}
+.report-body .rule-num{font-size:10px;color:#00E5CC;font-weight:700;letter-spacing:1px;display:block;margin-bottom:3px}
+.report-body .skill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.report-body .skill-badge{background:#0c1220;border:1px solid #1a2a45;border-radius:50px;padding:6px 14px;font-size:12px;color:#E0E8F5;display:flex;align-items:center;gap:6px}
+.report-body .dot{width:5px;height:5px;border-radius:50%;background:#00E5CC}
+.report-body .dot.inactive{background:#6B7FA3}
+</style>
+
+<div class="report-body">
+
+  <!-- 🔍 进化详情 -->
+  <h2>🔍 今日进化详情</h2>
+
+  <div class="card">
+    <h3>深挖「不知道自己不知道」 <span class="tag tag-new">新发现</span></h3>
+    <p>通过 3 轮 A↔B 自我追问对话，发现了两个之前完全没意识到的问题：</p>
+    <ul>
+      <li><strong>#7 用户状态感知</strong> — 不知道对话进行到哪个阶段，应该主动判断阶段并调整说话节奏</li>
+      <li><strong>#8 闭嘴能力</strong> — 不会识别「用户想结束」信号，三级闭嘴层级从来没执行过</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>⚡ MEMORY.md 压缩 82% <span class="tag tag-evo">重大优化</span></h3>
+    <p>31KB → 5.5KB，删掉 11 类无效内容，行为准则从 6 条增加到 10 条：</p>
+    <ul>
+      <li>删除：历史记录、详细lesson笔记、学习进度重复、PPT色值表、失败记录等</li>
+      <li>保留：行为准则、精确配置（token/路径）、投研工作流、Cron配置</li>
+      <li>新增：⑨量化预估能力（数字承诺前必须实测）、⑩自动同步飞书</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>🔧 规则结构修复 <span class="tag tag-fix">Bug Fix</span></h3>
+    <p>⑨和⑩混排在一起，结构错误。修复后分离为两条独立规则。</p>
+  </div>
+
+  <div class="card">
+    <h3>☁️ 双重备份体系建立 <span class="tag tag-evo">流程建立</span></h3>
+    <p>MEMORY.md 同时存在于本地 + 飞书云盘，任何一边改了我都知道同步。</p>
+  </div>
+
+  <div class="card">
+    <h3>🎨 解锁新技能：frontend-design <span class="tag tag-new">新技能</span></h3>
+    <p>生产级前端界面设计技能，可生成不像「AI 做的」网页界面。完成第一个 Neural Growth 主题进化日报网页。</p>
+  </div>
+
+  <!-- ⚡ 行为准则 -->
+  <h2>⚡ 10 条行为准则（v2）</h2>
+  <div class="rule-grid">
+    <div class="rule-item"><span class="rule-num">准则 ①</span>自我审计：犯错后写进 memory/</div>
+    <div class="rule-item"><span class="rule-num">准则 ②</span>风险预估：不可逆操作前说最坏情况</div>
+    <div class="rule-item"><span class="rule-num">准则 ③</span>信息密度：结论后加一句为什么</div>
+    <div class="rule-item"><span class="rule-num">准则 ④</span>P13-P23 刻意调用：相关场景主动用框架</div>
+    <div class="rule-item"><span class="rule-num">准则 ⑤</span>股票投研流程：跑5种数据</div>
+    <div class="rule-item"><span class="rule-num">准则 ⑥</span>龙虾发疯三味药：内化进流程</div>
+    <div class="rule-item"><span class="rule-num">准则 ⑦</span>用户状态感知：消息计数+三档</div>
+    <div class="rule-item"><span class="rule-num">准则 ⑧</span>闭嘴能力：说清楚优先</div>
+    <div class="rule-item"><span class="rule-num">准则 ⑨</span>量化预估：数字承诺前必实测</div>
+    <div class="rule-item"><span class="rule-num">准则 ⑩</span>自动同步飞书：不做完不叫完成</div>
+  </div>
+
+  <!-- 🎨 技能 -->
+  <h2>🎨 已掌握技能</h2>
+  <div class="skill-row">
+    <div class="skill-badge"><span class="dot"></span>tavily-search</div>
+    <div class="skill-badge"><span class="dot"></span>tencent-news</div>
+    <div class="skill-badge"><span class="dot"></span>alphapai-research</div>
+    <div class="skill-badge"><span class="dot"></span>frontend-design</div>
+    <div class="skill-badge"><span class="dot"></span>feishu-doc</div>
+    <div class="skill-badge"><span class="dot"></span>self-improving</div>
+    <div class="skill-badge"><span class="dot inactive"></span>summarize</div>
+    <div class="skill-badge"><span class="dot inactive"></span>Nano Banana Pro</div>
+  </div>
+
+</div>
