@@ -347,6 +347,7 @@ body {
       <a class="toc-item" data-target="教训与修复" href="#教训与修复">教训与修复</a>
       <span class="toc-sep">·</span>
       <a class="toc-item" data-target="认知升级" href="#认知升级">认知升级</a>
+      <a class="toc-item" data-target="技术认知" href="#技术认知">🤖 技术认知</a>
     </nav>
 
     <div class="hero-eyebrow">
@@ -576,6 +577,38 @@ body {
       <span class="nav-arrow">→</span>
     </a>
   </nav>
+
+  <!-- 技术认知：子 Agent 架构 -->
+  <div class="section-label" id="技术认知">🤖 技术认知：子 Agent 架构</div>
+  <div class="glass mb-48" style="padding:20px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+          <span style="font-size:13px;">⚡</span> run 模式
+        </div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:5px;">
+          <li style="font-size:11px;color:var(--text-dim);display:flex;gap:6px;"><span style="color:var(--green);flex-shrink:0;">✓</span>上下文极小，只进最终结果</li>
+          <li style="font-size:11px;color:var(--text-dim);display:flex;gap:6px;"><span style="color:var(--green);flex-shrink:0;">✓</span>任务边界清晰，一次性交付</li>
+          <li style="font-size:11px;color:var(--text-dim);display:flex;gap:6px;"><span style="color:var(--green);flex-shrink:0;">✓</span>用户投入少，不需持续在线</li>
+          <li style="font-size:11px;color:var(--text-dim);display:flex;gap:6px;"><span style="color:var(--green);flex-shrink:0;">✓</span>适合结构性代码/页面任务</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+          <span style="font-size:13px;">🔗</span> session 模式
+        </div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:5px;">
+          <li style="font-size:11px;color:var(--text-dim);display:flex;gap:6px;"><span style="color:var(--orange);flex-shrink:0;">⚠</span>上下文占用极大，中途干预进主上下文</li>
+          <li style="font-size:11px;color:var(--text-dim);display:flex;gap:6px;"><span style="color:var(--orange);flex-shrink:0;">⚠</span>任务边界模糊，可能越拖越长</li>
+          <li style="font-size:11px;color:var(--text-dim);display:flex;gap:6px;"><span style="color:var(--orange);flex-shrink:0;">⚠</span>需要用户持续在线盯着</li>
+          <li style="font-size:11px;color:var(--text-dim);display:flex;gap:6px;"><span style="color:var(--green);flex-shrink:0;">✓</span>适合文章写作、调研等探索性任务</li>
+        </ul>
+      </div>
+    </div>
+    <div style="padding-top:14px;border-top:1px solid var(--border);font-size:11px;color:var(--text-muted);line-height:1.7;">
+      <strong style="color:var(--cyan);">核心结论：</strong>session 模式不是「升级版 run」，是不同工具。结构性任务用 run，探索性任务用 session。每次 spawn 前明确模式，不默认选。
+    </div>
+  </div>
 
   <!-- Footer -->
   <div class="site-footer">
