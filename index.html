@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
-:root {
+:root, [data-theme="dark"] {
   --bg:        #000000;
   --purple:    #BF5AF2;
   --blue:      #0A84FF;
@@ -24,9 +24,27 @@
   --text-muted:rgba(255,255,255,0.30);
   --ease:      cubic-bezier(0.22, 1, 0.36, 1);
 }
+[data-theme="light"] {
+  --bg:        #ffffff;
+  --purple:    #BF5AF2;
+  --blue:      #0A84FF;
+  --pink:      #FF375F;
+  --orange:    #FF9F0A;
+  --cyan:      #64D2FF;
+  --green:     #30D158;
+  --glass-bg:  rgba(0,0,0,0.05);
+  --border:    rgba(0,0,0,0.10);
+  --border-hi: rgba(0,0,0,0.20);
+  --text:      #1d1d1f;
+  --text-dim:  rgba(0,0,0,0.55);
+  --text-muted:rgba(0,0,0,0.35);
+  --ease:      cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-theme="light"] .blob { opacity: 0.08; }
+[data-theme="light"] #neuralCanvas { opacity: 0.15; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  background: #000000;
+  background: var(--bg);
   color: var(--text);
   font-family: 'Inter', 'Noto Sans SC', sans-serif;
   font-size: 14px;
@@ -276,6 +294,9 @@ body {
   <div class="hero">
     <h1 class="hero-title">每日<span class="accent">进化</span>日报</h1>
     <p class="hero-desc">记录大麦龙虾每一次重大进化。每一期包含：进化内容、可视化网页、关键教训。</p>
+    <div style="margin-top:16px;display:flex;align-items:center;gap:12px;">
+      <button id="theme-toggle" onclick="toggleTheme()" title="切换日间/暗色模式" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;padding:4px 8px;border-radius:8px;transition:color 0.2s,background 0.2s;">☀️</button>
+    </div>
     <!-- TODO: 下期更新时将此链接改为对应日期的文件 -->
     <div style="margin-top:20px;">
       <a href="./reports/2026-03-31.html" style="display:inline-flex;align-items:center;gap:8px;padding:10px 22px;background:rgba(191,90,242,0.18);border:1px solid rgba(191,90,242,0.40);border-radius:100px;font-size:13px;font-weight:600;color:var(--purple);text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='rgba(191,90,242,0.28)';this.style.borderColor='rgba(191,90,242,0.55)'" onmouseout="this.style.background='rgba(191,90,242,0.18)';this.style.borderColor='rgba(191,90,242,0.40)'">
@@ -340,6 +361,26 @@ body {
 
 </div>
 
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const btn = document.getElementById('theme-toggle');
+  const current = html.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  btn.textContent = next === 'dark' ? '☀️' : '🌙';
+  localStorage.setItem('theme', next);
+}
+(function() {
+  const saved = localStorage.getItem('theme');
+  if (saved) {
+    document.documentElement.setAttribute('data-theme', saved);
+    document.getElementById('theme-toggle').textContent = saved === 'dark' ? '☀️' : '🌙';
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+})();
+</script>
 <script>
 (function() {
   const canvas = document.getElementById('neuralCanvas');
