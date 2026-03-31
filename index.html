@@ -4,591 +4,1273 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🦞 大麦龙虾进化日报</title>
+
+<!-- Google Fonts preconnect -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=Space+Mono:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+/* ═══════════════════════════════════════════
+   APPLE STYLE DESIGN SYSTEM
+   Version: v1.0 · Apple Vibrant Palette
+   ═══════════════════════════════════════════ */
 
-  :root {
-    --bg: #030710;
-    --surface: #0a1120;
-    --surface-glass: rgba(10, 17, 32, 0.6);
-    --border: #1a2a45;
-    --border-glow: rgba(0, 229, 204, 0.3);
-    --accent: #00E5CC;
-    --accent-dim: rgba(0, 229, 204, 0.15);
-    --accent-glow: rgba(0, 229, 204, 0.35);
-    --orange: #FF6B35;
-    --purple: #A855F7;
-    --text: #E0E8F5;
-    --text-dim: #6B7FA3;
-    --glow: 0 0 30px rgba(0, 229, 204, 0.25);
-  }
+/* ── 1. CSS Variables ── */
+:root {
+  /* Apple Vibrant Palette */
+  --purple:  #BF5AF2;
+  --blue:    #0A84FF;
+  --pink:    #FF375F;
+  --orange:  #FF9F0A;
+  --cyan:    #64D2FF;
+  --green:   #30D158;
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  /* Surfaces */
+  --bg:        #000000;
+  --surface:   rgba(255,255,255,0.05);
+  --glass-bg:  rgba(255,255,255,0.07);
+  --border:    rgba(255,255,255,0.12);
+  --border-hi: rgba(255,255,255,0.22);
 
-  html { scroll-behavior: smooth; }
+  /* Text */
+  --text:      #ffffff;
+  --text-dim:  rgba(255,255,255,0.55);
+  --text-muted:rgba(255,255,255,0.30);
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Noto Sans SC', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+  /* Blur */
+  --blur:      20px;
+  --blur-sm:   10px;
 
-  /* ── Neural network canvas ── */
-  #neuralCanvas {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
-  }
+  /* Easing */
+  --ease:      cubic-bezier(0.22, 1, 0.36, 1);
+}
 
-  /* ── Scan line ── */
-  .scanline {
-    position: fixed;
-    top: -2px; left: 0;
-    width: 100%; height: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    animation: scan 6s linear infinite;
-    z-index: 1;
-    opacity: 0.5;
-    pointer-events: none;
-  }
-  @keyframes scan {
-    0% { top: -2px; }
-    100% { top: 100vh; }
-  }
+/* ── 2. Global Reset ── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-  /* ── Noise grain overlay ── */
-  body::after {
-    content: '';
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: 2;
-    opacity: 0.03;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    background-size: 200px 200px;
-  }
+html {
+  scroll-behavior: smooth;
+}
 
-  /* ── App container ── */
-  .app {
-    position: relative;
-    z-index: 10;
-    max-width: 920px;
-    margin: 0 auto;
-    padding: 40px 24px 100px;
-  }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-  /* ── Header ── */
-  .header {
-    text-align: center;
-    padding: 80px 0 64px;
-    position: relative;
-  }
+/* ── 3. Blob Canvas (Fixed background blobs) ── */
+.blob-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
 
-  .header::before {
-    content: '';
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px; height: 300px;
-    background: radial-gradient(circle, rgba(0,229,204,0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.6;
+  animation: float 20s ease-in-out infinite;
+  overflow: hidden;
+}
 
-  .header-emoji {
-    font-size: 52px;
-    margin-bottom: 20px;
-    filter: drop-shadow(0 0 20px rgba(0,229,204,0.4));
-    animation: float 4s ease-in-out infinite;
-  }
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
+.blob-1 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, #BF5AF2 0%, transparent 70%);
+  top: -200px; left: -150px;
+  animation-delay: 0s;
+}
+.blob-2 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #FF375F 0%, transparent 70%);
+  top: 30%; right: -150px;
+  animation-delay: -5s;
+}
+.blob-3 {
+  width: 450px; height: 450px;
+  background: radial-gradient(circle, #0A84FF 0%, transparent 70%);
+  bottom: -100px; left: 20%;
+  animation-delay: -10s;
+}
+.blob-4 {
+  width: 350px; height: 350px;
+  background: radial-gradient(circle, #BF5AF2 0%, transparent 70%);
+  bottom: 20%; right: 10%;
+  animation-delay: -15s;
+}
 
-  .header-title {
-    font-family: 'ZCOOL XiaoWei', serif;
-    font-size: clamp(32px, 5vw, 48px);
-    color: #fff;
-    margin-bottom: 12px;
-    letter-spacing: 2px;
-    animation: fadeUp 0.8s ease both;
-  }
-  .header-title span {
-    color: var(--accent);
-    text-shadow: var(--glow);
-  }
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25%       { transform: translate(40px, -30px) scale(1.05); }
+  50%       { transform: translate(-20px, 20px) scale(0.95); }
+  75%       { transform: translate(30px, 40px) scale(1.02); }
+}
 
-  .header-sub {
-    color: var(--text-dim);
-    font-size: 14px;
-    letter-spacing: 1px;
-    animation: fadeUp 0.8s 0.1s ease both;
-  }
+/* ── 4. Neural Particle Canvas ── */
+#neuralCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.4;
+}
 
-  /* ── Breadcrumb ── */
-  .breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: var(--text-dim);
-    margin-bottom: 32px;
-    animation: fadeUp 0.6s ease both;
-  }
-  .breadcrumb a {
-    color: var(--accent);
-    text-decoration: none;
-    padding: 4px 10px;
-    border: 1px solid var(--accent-dim);
-    border-radius: 6px;
-    transition: background 0.2s, border-color 0.2s;
-  }
-  .breadcrumb a:hover {
-    background: var(--accent-dim);
-    border-color: var(--accent);
-    text-decoration: none;
-  }
+/* ── 5. Container ── */
+.container {
+  position: relative;
+  z-index: 10;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
 
-  /* ── Report grid ── */
-  .report-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-  }
+/* ── 6. Hero ── */
+.hero {
+  padding: 80px 0 60px;
+  text-align: center;
+}
 
-  .report-card {
-    background: var(--surface-glass);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 28px;
-    text-decoration: none;
-    color: var(--text);
-    display: block;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-    animation: fadeUp 0.7s ease both;
-  }
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  animation: fadeUp 0.7s var(--ease) both;
+}
 
-  .report-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
+.hero-date {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
+}
 
-  .report-card::after {
-    content: '';
-    position: absolute;
-    top: -50%; left: -50%;
-    width: 200%; height: 200%;
-    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(0,229,204,0.06) 0%, transparent 50%);
-    opacity: 0;
-    transition: opacity 0.4s;
-    pointer-events: none;
-  }
+.hero-sep {
+  font-size: 13px;
+  color: var(--text-muted);
+}
 
-  .report-card:hover {
-    border-color: var(--border-glow);
-    transform: translateY(-4px);
-    box-shadow: 0 8px 40px rgba(0,229,204,0.1), 0 2px 8px rgba(0,0,0,0.3);
-  }
-  .report-card:hover::before { opacity: 1; }
-  .report-card:hover::after { opacity: 1; }
+.hero-weekday {
+  font-size: 13px;
+  color: var(--text-muted);
+}
 
-  .card-date {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 2px;
-    color: var(--accent);
-    text-transform: uppercase;
-    margin-bottom: 12px;
-    opacity: 0.8;
-  }
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--blur-sm));
+  -webkit-backdrop-filter: blur(var(--blur-sm));
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 14px;
+  border-radius: 100px;
+  animation: fadeUp 0.7s var(--ease) 0.05s both;
+}
 
-  .card-title {
-    font-size: 16px;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 10px;
-    line-height: 1.5;
-  }
+.hero-title {
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 16px;
+  animation: fadeUp 0.7s var(--ease) 0.1s both;
+}
 
-  .card-summary {
-    font-size: 13px;
-    color: var(--text-dim);
-    line-height: 1.7;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    margin-bottom: 16px;
-  }
+.hero-title .accent {
+  background: linear-gradient(135deg, var(--orange), var(--pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
-  .card-stats {
-    display: flex;
-    gap: 16px;
-    padding-top: 14px;
-    border-top: 1px solid var(--border);
-    flex-wrap: wrap;
-  }
+.hero-sub {
+  font-size: 14px;
+  color: var(--text-dim);
+  letter-spacing: 0.3px;
+  animation: fadeUp 0.7s var(--ease) 0.15s both;
+}
 
-  .card-stat {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    color: var(--text-dim);
-  }
-  .card-stat strong {
-    color: var(--accent);
-    font-weight: 700;
-  }
+/* ── 7. Rainbow Divider ── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(191,90,242,0.5) 25%,
+    rgba(10,132,255,0.5) 50%,
+    rgba(255,55,95,0.5) 75%,
+    transparent 100%
+  );
+  border: none;
+  margin: 0 0 52px;
+}
 
-  /* ── Detail page ── */
-  .detail-header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
-  .detail-title {
-    font-family: 'ZCOOL XiaoWei', serif;
-    font-size: clamp(24px, 4vw, 36px);
-    color: #fff;
-    margin-bottom: 16px;
-    line-height: 1.3;
-    animation: fadeUp 0.7s ease both;
-  }
-  .detail-meta {
-    display: flex;
-    gap: 20px;
-    font-size: 13px;
-    color: var(--text-dim);
-    flex-wrap: wrap;
-    animation: fadeUp 0.7s 0.1s ease both;
-  }
-  .detail-meta span {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-family: 'Space Mono', monospace;
-    font-size: 12px;
-  }
+/* ── 8. Section Label ── */
+.section-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-  .section { margin-bottom: 48px; animation: fadeUp 0.7s ease both; }
-  .section-title {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .section-title::before {
-    content: '';
-    width: 3px; height: 14px;
-    background: var(--accent);
-    border-radius: 2px;
-    box-shadow: 0 0 8px var(--accent-glow);
-  }
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
 
-  .evo-item {
-    background: var(--surface-glass);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 24px;
-    margin-bottom: 14px;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.3s, transform 0.2s;
-  }
-  .evo-item:hover {
-    border-color: var(--border-glow);
-    transform: translateX(4px);
-  }
-  .evo-item::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px; height: 100%;
-    background: linear-gradient(180deg, var(--accent), transparent);
-    border-radius: 3px 0 0 3px;
-    opacity: 0.6;
-  }
-  .evo-item h4 {
-    font-size: 15px;
-    color: #fff;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 500;
-  }
-  .evo-item p {
-    font-size: 13px;
-    color: var(--text-dim);
-    line-height: 1.8;
-  }
+/* ── 9. Stats Grid ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 48px;
+}
 
-  .rule-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
-  .rule-item {
-    background: var(--surface-glass);
-    backdrop-filter: blur(8px);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 16px;
-    font-size: 13px;
-    color: var(--text);
-    transition: border-color 0.3s, transform 0.2s;
-  }
-  .rule-item:hover {
-    border-color: var(--border-glow);
-    transform: translateY(-2px);
-  }
-  .rule-num {
-    font-family: 'Space Mono', monospace;
-    font-size: 9px;
-    color: var(--accent);
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 5px;
-  }
+@media (max-width: 640px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
 
-  .skill-row { display: flex; flex-wrap: wrap; gap: 10px; }
-  .skill-badge {
-    background: var(--surface-glass);
-    backdrop-filter: blur(8px);
-    border: 1px solid var(--border);
-    border-radius: 50px;
-    padding: 7px 16px;
-    font-size: 12px;
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: border-color 0.3s, box-shadow 0.3s;
-  }
-  .skill-badge:hover {
-    border-color: var(--border-glow);
-    box-shadow: 0 0 12px rgba(0,229,204,0.15);
-  }
-  .skill-badge .dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 6px var(--accent-glow);
-    flex-shrink: 0;
-  }
-  .skill-badge .dot.inactive { background: var(--text-dim); box-shadow: none; }
+.stat-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 22px 18px;
+  text-align: center;
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  animation: fadeUp 0.5s var(--ease) both;
+}
 
-  /* ── Report content (from fetched HTML) ── */
-  #report-content .card { background: var(--surface-glass); backdrop-filter: blur(12px); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 16px; }
-  #report-content .card h3 { font-size: 16px; color: #fff; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
-  #report-content .card p { font-size: 13px; color: var(--text-dim); line-height: 1.8; }
-  #report-content .tag { font-size: 10px; padding: 3px 10px; border-radius: 10px; letter-spacing: 1px; }
-  #report-content .tag-new { background: rgba(255,107,53,0.15); color: var(--orange); border: 1px solid rgba(255,107,53,0.3); }
-  #report-content .tag-evo { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--border-glow); }
-  #report-content .tag-fix { background: rgba(168,85,247,0.15); color: var(--purple); border: 1px solid rgba(168,85,247,0.3); }
-  #report-content .tag-proc { background: rgba(59,130,246,0.15); color: #60A5FA; border: 1px solid rgba(59,130,246,0.3); }
-  #report-content table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  #report-content th, #report-content td { padding: 10px 14px; border: 1px solid var(--border); text-align: left; }
-  #report-content th { background: var(--surface); color: var(--accent); font-family: 'Space Mono', monospace; font-size: 11px; }
-  #report-content td { color: var(--text-dim); }
-  #report-content ul { margin: 10px 0; padding-left: 20px; }
-  #report-content li { font-size: 13px; color: var(--text-dim); margin-bottom: 6px; line-height: 1.7; }
-  #report-content code { background: var(--surface); padding: 2px 8px; border-radius: 4px; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--accent); }
+.stat-card:nth-child(1) { animation-delay: 0.05s; }
+.stat-card:nth-child(2) { animation-delay: 0.10s; }
+.stat-card:nth-child(3) { animation-delay: 0.15s; }
+.stat-card:nth-child(4) { animation-delay: 0.20s; }
 
-  .loading-state {
-    text-align: center;
-    padding: 80px 40px;
-    color: var(--text-dim);
-    font-size: 14px;
-  }
-  .loading-state .spinner {
-    width: 36px; height: 36px;
-    border: 2px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 16px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
 
-  /* ── Animations ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+/* Hover glow overlay */
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 20px;
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
 
-  /* ── Responsive ── */
-  @media (max-width: 600px) {
-    .report-grid { grid-template-columns: 1fr; }
-    .rule-grid { grid-template-columns: 1fr 1fr; }
-    .header { padding: 60px 0 48px; }
-  }
+.stat-card:hover::before { opacity: 1; }
+
+.stat-card.purple::before {
+  background: radial-gradient(circle at top left, rgba(191,90,242,0.25), transparent 60%);
+}
+.stat-card.blue::before {
+  background: radial-gradient(circle at top left, rgba(10,132,255,0.25), transparent 60%);
+}
+.stat-card.pink::before {
+  background: radial-gradient(circle at top left, rgba(255,55,95,0.25), transparent 60%);
+}
+.stat-card.orange::before {
+  background: radial-gradient(circle at top left, rgba(255,159,10,0.25), transparent 60%);
+}
+
+.stat-icon {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.stat-num {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-card.purple .stat-num { color: var(--purple); }
+.stat-card.blue   .stat-num { color: var(--blue); }
+.stat-card.pink   .stat-num { color: var(--pink); }
+.stat-card.orange .stat-num { color: var(--orange); }
+
+.stat-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+
+.stat-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── 10. Glass Card ── */
+.glass {
+  position: relative;
+  z-index: 1;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.glass:hover {
+  border-color: var(--border-hi);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+/* ── 11. Report Grid ── */
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.report-card {
+  display: block;
+  text-decoration: none;
+  color: var(--text);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px;
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  animation: fadeUp 0.6s var(--ease) both;
+  overflow: hidden;
+}
+
+.report-card:hover {
+  border-color: var(--border-hi);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+
+.report-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--purple), var(--blue), var(--pink));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.report-card:hover::before { opacity: 1; }
+
+.report-card .card-date {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: var(--purple);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.report-card .card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.report-card .card-summary {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.7;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.report-card .card-stats {
+  display: flex;
+  gap: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.report-card .card-stat {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.report-card .card-stat strong {
+  font-weight: 700;
+  color: var(--cyan);
+}
+
+/* ── 12. Content Grid ── */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 48px;
+}
+
+.col-full { grid-column: 1 / -1; }
+
+@media (max-width: 640px) {
+  .content-grid { grid-template-columns: 1fr; }
+}
+
+/* ── 13. Card Title Icon ── */
+.card-title-icon {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.card-title-icon.purple { background: rgba(191,90,242,0.20); }
+.card-title-icon.blue   { background: rgba(10,132,255,0.20); }
+.card-title-icon.pink   { background: rgba(255,55,95,0.20); }
+.card-title-icon.orange { background: rgba(255,159,10,0.20); }
+.card-title-icon.green  { background: rgba(48,209,88,0.20); }
+.card-title-icon.cyan   { background: rgba(100,210,255,0.20); }
+
+/* ── 14. Skill Tag ── */
+.skill-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(10,132,255,0.12);
+  border: 1px solid rgba(10,132,255,0.25);
+  color: var(--cyan);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 8px;
+  cursor: default;
+  transition: all 0.2s;
+}
+
+.skill-tag.purple { background: rgba(191,90,242,0.12); border-color: rgba(191,90,242,0.25); color: var(--purple); }
+.skill-tag.orange { background: rgba(255,159,10,0.12); border-color: rgba(255,159,10,0.25); color: var(--orange); }
+.skill-tag.pink   { background: rgba(255,55,95,0.12);  border-color: rgba(255,55,95,0.25);  color: var(--pink); }
+.skill-tag.green  { background: rgba(48,209,88,0.12);  border-color: rgba(48,209,88,0.25);  color: var(--green); }
+
+.skill-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* ── 15. Badge ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(var(--blur-sm));
+  -webkit-backdrop-filter: blur(var(--blur-sm));
+  color: var(--text-dim);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 100px;
+  flex-wrap: wrap;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.badge:hover {
+  background: rgba(255,255,255,0.12);
+  color: var(--text);
+}
+
+/* ── 16. Work Item ── */
+.work-item {
+  display: flex;
+  gap: 14px;
+  padding: 16px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  transition: all 0.2s;
+  animation: slideIn 0.4s var(--ease) both;
+}
+
+.work-item:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: var(--border-hi);
+  transform: translateX(4px);
+}
+
+.work-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.work-icon.purple { background: rgba(191,90,242,0.20); }
+.work-icon.blue   { background: rgba(10,132,255,0.20); }
+.work-icon.pink   { background: rgba(255,55,95,0.20); }
+.work-icon.orange { background: rgba(255,159,10,0.20); }
+.work-icon.green  { background: rgba(48,209,88,0.20); }
+.work-icon.cyan   { background: rgba(100,210,255,0.20); }
+
+.work-content { flex: 1; min-width: 0; }
+
+.work-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+
+.work-desc {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── 17. Bug Card ── */
+.bug-card {
+  padding: 16px;
+  background: rgba(255,55,95,0.05);
+  border: 1px solid rgba(255,55,95,0.15);
+  border-radius: 14px;
+  animation: fadeUp 0.4s var(--ease) both;
+}
+
+.bug-label {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--pink);
+  background: rgba(255,55,95,0.15);
+  padding: 3px 8px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-bottom: 10px;
+  text-shadow: 0 0 8px rgba(255,55,95,0.5);
+}
+
+.bug-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.bug-fix {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.7;
+  padding-left: 14px;
+  border-left: 2px solid rgba(255,55,95,0.25);
+}
+
+.bug-fix code {
+  background: rgba(255,255,255,0.08);
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-family: 'Inter', monospace;
+  font-size: 11px;
+  color: var(--cyan);
+}
+
+/* ── 18. Learning Pill ── */
+.learning-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 48px;
+}
+
+@media (max-width: 640px) {
+  .learning-grid { grid-template-columns: 1fr; }
+}
+
+.learning-pill {
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  transition: all 0.2s;
+}
+
+.learning-pill:nth-child(odd)  { animation-delay: 0.05s; }
+.learning-pill:nth-child(even) { animation-delay: 0.10s; }
+
+.learning-pill:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: var(--border-hi);
+  color: var(--text);
+}
+
+.learning-num {
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--purple);
+  margin-right: 6px;
+  letter-spacing: 0.5px;
+}
+
+/* ── 19. Rule Grid ── */
+.rule-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin-bottom: 48px;
+}
+
+.rule-item {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 15px;
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  transition: all 0.2s;
+}
+
+.rule-item:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: var(--border-hi);
+  color: var(--text);
+}
+
+.rule-num {
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--purple);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* ── 20. Breadcrumb ── */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 32px;
+  animation: fadeUp 0.6s var(--ease) both;
+}
+
+.breadcrumb a {
+  color: var(--cyan);
+  text-decoration: none;
+  padding: 4px 10px;
+  border: 1px solid rgba(100,210,255,0.25);
+  border-radius: 6px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.breadcrumb a:hover {
+  background: rgba(100,210,255,0.1);
+  border-color: var(--cyan);
+  text-decoration: none;
+}
+
+/* ── 21. Detail Header ── */
+.detail-header {
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.detail-title {
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  animation: fadeUp 0.7s var(--ease) both;
+}
+
+.detail-meta {
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+  color: var(--text-dim);
+  flex-wrap: wrap;
+  animation: fadeUp 0.7s var(--ease) 0.1s both;
+}
+
+.detail-meta span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ── 22. Section ── */
+.section {
+  margin-bottom: 48px;
+  animation: fadeUp 0.7s var(--ease) both;
+}
+
+/* ── 23. Evo Item ── */
+.evo-item {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 12px;
+  transition: all 0.2s;
+}
+
+.evo-item:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: var(--border-hi);
+  transform: translateX(4px);
+}
+
+.evo-item h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.evo-item p {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+
+/* ── 24. Footer ── */
+.footer {
+  padding: 56px 0 0;
+  text-align: center;
+  position: relative;
+}
+
+.footer::before {
+  content: '';
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(191,90,242,0.4) 25%,
+    rgba(10,132,255,0.4) 50%,
+    rgba(255,55,95,0.4) 75%,
+    transparent 100%
+  );
+  margin-bottom: 32px;
+}
+
+.footer p {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ── 25. Folder Table ── */
+.folder-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 12px;
+}
+
+.folder-table th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid var(--border);
+}
+
+.folder-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-dim);
+}
+
+.folder-table tr:hover td {
+  background: rgba(255,255,255,0.03);
+}
+
+/* ── 26. Report Content (fetched HTML) ── */
+#report-content .card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--blur));
+  -webkit-backdrop-filter: blur(var(--blur));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px;
+  margin-bottom: 16px;
+}
+
+#report-content .card h3 {
+  font-size: 15px;
+  color: var(--text);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+#report-content .card p {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+
+#report-content .tag {
+  font-size: 10px;
+  padding: 2px 9px;
+  border-radius: 10px;
+  letter-spacing: 1px;
+  display: inline-block;
+}
+
+#report-content .tag-new { background: rgba(255,55,95,0.12); color: var(--pink); border: 1px solid rgba(255,55,95,0.25); }
+#report-content .tag-evo { background: rgba(191,90,242,0.12); color: var(--purple); border: 1px solid rgba(191,90,242,0.25); }
+#report-content .tag-fix { background: rgba(168,85,247,0.12); color: var(--purple); border: 1px solid rgba(168,85,247,0.25); }
+#report-content .tag-proc { background: rgba(10,132,255,0.12); color: var(--blue); border: 1px solid rgba(10,132,255,0.25); }
+
+#report-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 13px;
+}
+
+#report-content th, #report-content td {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+#report-content th {
+  background: rgba(255,255,255,0.03);
+  color: var(--cyan);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+#report-content td { color: var(--text-dim); }
+
+#report-content ul { margin: 10px 0; padding-left: 18px; }
+
+#report-content li {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+  line-height: 1.8;
+}
+
+#report-content code {
+  background: rgba(255,255,255,0.08);
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-family: 'Inter', monospace;
+  font-size: 11px;
+  color: var(--cyan);
+}
+
+/* ── 27. Loading State ── */
+.loading-state {
+  text-align: center;
+  padding: 80px 40px;
+  color: var(--text-dim);
+  font-size: 14px;
+}
+
+.loading-state .spinner {
+  width: 36px; height: 36px;
+  border: 2px solid var(--border);
+  border-top-color: var(--purple);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── 28. Keyframes ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── 29. Skill Row (for skill badges with dots) ── */
+.skill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  padding: 6px 14px;
+  font-size: 12px;
+  color: var(--text-dim);
+  transition: all 0.2s;
+}
+
+.skill-badge:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: var(--border-hi);
+}
+
+.skill-badge .dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+}
+
+.skill-badge .dot.inactive { background: var(--text-muted); }
+
+/* ── 30. Alert Card ── */
+.alert-card {
+  padding: 22px;
+  border-left: 3px solid var(--orange);
+  background: rgba(255,255,255,0.03);
+  border-radius: 0 12px 12px 0;
+  margin-bottom: 12px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .report-grid { grid-template-columns: 1fr; }
+  .rule-grid { grid-template-columns: 1fr 1fr; }
+  .hero { padding: 60px 0 48px; }
+  .content-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
 
-<!-- Neural network canvas -->
-<canvas id="neuralCanvas"></canvas>
-<!-- Scan line -->
-<div class="scanline"></div>
+<!-- Background Blobs -->
+<div class="blob-canvas">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+</div>
 
-<div class="app" id="app"></div>
+<!-- Neural Particle Canvas -->
+<canvas id="neuralCanvas"></canvas>
+
+<!-- Main Content -->
+<div class="container" id="app"></div>
 
 <script>
-// ── Neural network animation ────────────────────────────────
+/* ═══════════════════════════════════════════
+   NEURAL NETWORK PARTICLE SYSTEM
+   Apple Palette: Purple / Blue / Pink / Orange / Cyan / Green
+   ═══════════════════════════════════════════ */
 (function() {
   const canvas = document.getElementById('neuralCanvas');
   const ctx = canvas.getContext('2d');
-  let w, h, nodes = [];
+  let w, h, particles = [];
+  let animRunning = true;
+
+  const CFG = {
+    count: 40,
+    connectDist: 130,
+    speed: 0.35,
+    drift: 0.12,
+    attractCX: 0.5,
+    nodeR: 2,
+    lineAlpha: 0.05
+  };
+
+  const colors = ['#BF5AF2','#0A84FF','#FF375F','#64D2FF','#30D158','#FF9F0A'];
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * w;
+      this.y = Math.random() * h;
+      this.vx = (Math.random() - 0.5) * CFG.speed;
+      this.vy = (Math.random() - 0.5) * CFG.speed;
+      this.color = colors[Math.floor(Math.random() * colors.length)];
+      this.alpha = 0.3 + Math.random() * 0.5;
+      this.phase = Math.random() * Math.PI * 2;
+      this.flicker = 0.9 + Math.random() * 0.1;
+    }
+    update(t) {
+      const cx = w * CFG.attractCX;
+      const cy = h * 0.35;
+      const dx = cx - this.x;
+      const dy = cy - this.y;
+      const distC = Math.sqrt(dx * dx + dy * dy) + 1;
+      this.ax = (dx / distC) * 0.012 + (Math.random() - 0.5) * CFG.drift * 0.1;
+      this.ay = (dy / distC) * 0.012 + (Math.random() - 0.5) * CFG.drift * 0.1;
+      this.vx = (this.vx + this.ax) * 0.96;
+      this.vy = (this.vy + this.ay) * 0.96;
+      const spd = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+      if (spd > CFG.speed) {
+        this.vx = (this.vx / spd) * CFG.speed;
+        this.vy = (this.vy / spd) * CFG.speed;
+      }
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < 0) this.x = w;
+      if (this.x > w) this.x = 0;
+      if (this.y < 0) this.y = h;
+      if (this.y > h) this.y = 0;
+      this.flicker = 0.88 + Math.sin(t * 0.001 + this.phase) * 0.12;
+    }
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = this.alpha * this.flicker;
+      ctx.fillStyle = this.color;
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = this.color;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, CFG.nodeR, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  function drawConn() {
+    ctx.save();
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < CFG.connectDist) {
+          const t = 1 - d / CFG.connectDist;
+          ctx.globalAlpha = CFG.lineAlpha * t * 2.5 * particles[i].flicker;
+          ctx.strokeStyle = particles[i].color;
+          ctx.lineWidth = t * 1.2;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    ctx.restore();
+  }
 
   function resize() {
     w = canvas.width = window.innerWidth;
     h = canvas.height = window.innerHeight;
   }
-  resize();
+
+  function init() {
+    resize();
+    particles = [];
+    for (let i = 0; i < CFG.count; i++) particles.push(new Particle());
+  }
+
+  function loop(t) {
+    if (!animRunning) return;
+    ctx.clearRect(0, 0, w, h);
+    drawConn();
+    for (const p of particles) { p.update(t); p.draw(); }
+    requestAnimationFrame(loop);
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    animRunning = !document.hidden;
+    if (animRunning) requestAnimationFrame(loop);
+  });
+
   window.addEventListener('resize', resize);
 
-  const NODE_COUNT = Math.floor(window.innerWidth / 18);
-  for (let i = 0; i < NODE_COUNT; i++) {
-    nodes.push({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      vx: (Math.random() - 0.5) * 0.35,
-      vy: (Math.random() - 0.5) * 0.35,
-      r: Math.random() * 1.5 + 0.5,
-      pulse: Math.random() * Math.PI * 2,
-      pulseSpeed: 0.015 + Math.random() * 0.01
-    });
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, w, h);
-
-    nodes.forEach(n => {
-      n.x += n.vx;
-      n.y += n.vy;
-      n.pulse += n.pulseSpeed;
-      if (n.x < 0 || n.x > w) n.vx *= -1;
-      if (n.y < 0 || n.y > h) n.vy *= -1;
-    });
-
-    // Draw connections
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i + 1; j < nodes.length; j++) {
-        const dx = nodes[i].x - nodes[j].x;
-        const dy = nodes[i].y - nodes[j].y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const maxDist = 160;
-        if (dist < maxDist) {
-          const alpha = (1 - dist / maxDist) * 0.2;
-          ctx.beginPath();
-          ctx.strokeStyle = `rgba(0, 229, 204, ${alpha})`;
-          ctx.lineWidth = 0.5;
-          ctx.moveTo(nodes[i].x, nodes[i].y);
-          ctx.lineTo(nodes[j].x, nodes[j].y);
-          ctx.stroke();
-        }
-      }
-    }
-
-    // Draw nodes
-    nodes.forEach(n => {
-      const brightness = 0.4 + 0.6 * Math.sin(n.pulse);
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.r + brightness * 1.5, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(0, 229, 204, ${0.2 + 0.8 * brightness})`;
-      ctx.fill();
-      // Glow
-      const gradient = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r * 4);
-      gradient.addColorStop(0, `rgba(0, 229, 204, ${0.3 * brightness})`);
-      gradient.addColorStop(1, 'transparent');
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.r * 4, 0, Math.PI * 2);
-      ctx.fillStyle = gradient;
-      ctx.fill();
-    });
-
-    requestAnimationFrame(draw);
-  }
-  draw();
+  init();
+  requestAnimationFrame(loop);
 })();
 
-// ── Card hover glow tracking ──────────────────────────────
-document.addEventListener('mousemove', (e) => {
-  document.querySelectorAll('.report-card').forEach(card => {
-    const rect = card.getBoundingClientRect();
-    const mx = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
-    const my = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
-    card.style.setProperty('--mx', mx + '%');
-    card.style.setProperty('--my', my + '%');
-  });
-});
-
-// ── Report data ──────────────────────────────────────────
+/* ═══════════════════════════════════════════
+   REPORT DATA
+   ═══════════════════════════════════════════ */
 const REPORTS = [
   {
     id: '2026-03-31',
     date: '2026-03-31',
     title: '四大Wiki体系 + A↔B深挖 + 进化日报系统上线',
     summary: '通过A↔B对话发现「用户状态感知」和「闭嘴能力」两个盲点；建立四大Wiki文档体系；整理云盘归档6+份文档；上线完整嵌套式进化日报网站并打通GitHub→Vercel自动部署。',
-    stats: { rules: 10, compression: '-82%', discoveries: 7, skills: 2 },
-    delay: 0
+    stats: { rules: 10, compression: '-82%', discoveries: 7, skills: 2 }
   },
   {
     id: '2026-04-01',
     date: '2026-04-01',
     title: '每日进化日报第二期（明天2:15自动生成）',
     summary: '明天的日报将在 2:15 自动生成，请期待…',
-    stats: { rules: 10, compression: '-82%', discoveries: 0, skills: 0 },
-    delay: 1
+    stats: { rules: 10, compression: '-82%', discoveries: 0, skills: 0 }
   }
 ];
 
-// ── Home ────────────────────────────────────────────────
+/* ═══════════════════════════════════════════
+   HOME PAGE
+   ═══════════════════════════════════════════ */
 function renderHome() {
+  const today = new Date('2026-03-31');
+  const weekdays = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const weekday = weekdays[today.getDay()];
+
   document.title = '🦞 大麦龙虾进化日报';
   document.getElementById('app').innerHTML = `
-    <header class="header">
-      <div class="header-emoji">🦞</div>
-      <h1 class="header-title">大麦龙虾 <span>进化</span> 日报</h1>
-      <div class="header-sub">每天凌晨 2:15 自动生成 · 记录成长的每一步</div>
-    </header>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-eyebrow">
+        <span class="hero-date">2026.03.31</span>
+        <span class="hero-sep">·</span>
+        <span class="hero-weekday">${weekday}</span>
+      </div>
+      <h1 class="hero-title">
+        大麦龙虾 <span class="accent">进化</span> 日报
+      </h1>
+      <p class="hero-sub">每天凌晨 2:15 自动生成 · 记录成长的每一步</p>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Stats -->
+    <div class="section-label">今日数据总览</div>
+    <div class="stats-grid">
+      <div class="stat-card purple">
+        <div class="stat-icon">⚡</div>
+        <div class="stat-num">${REPORTS[0].stats.discoveries}</div>
+        <div class="stat-label">新发现问题</div>
+        <div class="stat-sub">A↔B深挖 + PUA审计</div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-icon">📋</div>
+        <div class="stat-num">${REPORTS[0].stats.rules}</div>
+        <div class="stat-label">行为准则</div>
+        <div class="stat-sub">核心决策规则</div>
+      </div>
+      <div class="stat-card pink">
+        <div class="stat-icon">📦</div>
+        <div class="stat-num">${REPORTS[0].stats.skills}</div>
+        <div class="stat-label">新技能</div>
+        <div class="stat-sub">frontend + PUA</div>
+      </div>
+      <div class="stat-card orange">
+        <div class="stat-icon">🗜️</div>
+        <div class="stat-num">${REPORTS[0].stats.compression}</div>
+        <div class="stat-label">记忆压缩</div>
+        <div class="stat-sub">31KB → 5.5KB</div>
+      </div>
+    </div>
+
+    <!-- Report List -->
+    <div class="section-label">进化日志</div>
     <div class="report-grid">
       ${REPORTS.map((r, i) => `
         <a href="?id=${r.id}" class="report-card" style="animation-delay: ${i * 0.12}s">
-          <div class="card-date">${r.date}</div>
+          <span class="card-date">${r.date}</span>
           <div class="card-title">${r.title}</div>
           <div class="card-summary">${r.summary}</div>
           <div class="card-stats">
-            <div class="card-stat">准则 <strong>${r.stats.rules}</strong> 条</div>
-            <div class="card-stat">新发现 <strong>${r.stats.discoveries}</strong> 个</div>
-            <div class="card-stat">新技能 <strong>${r.stats.skills}</strong> 个</div>
+            <span class="card-stat">准则 <strong>${r.stats.rules}</strong> 条</span>
+            <span class="card-stat">新发现 <strong>${r.stats.discoveries}</strong> 个</span>
+            <span class="card-stat">新技能 <strong>${r.stats.skills}</strong> 个</span>
           </div>
         </a>
       `).join('')}
     </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>🦞 大麦龙虾 · OpenClaw · 进化永不停止</p>
+    </footer>
   `;
 }
 
-// ── Detail ──────────────────────────────────────────────
+/* ═══════════════════════════════════════════
+   DETAIL PAGE
+   ═══════════════════════════════════════════ */
 function renderDetail(id) {
   const r = REPORTS.find(x => x.id === id);
   if (!r) { renderHome(); return; }
@@ -625,14 +1307,21 @@ function renderDetail(id) {
     .catch(() => {
       document.getElementById('report-content').innerHTML = `
         <div class="loading-state">
-          <p>📄 飞书备份：<a href="https://www.feishu.cn/docx/HcMrdjNf7oBphcxYN4Vcy0Opn5c" target="_blank" style="color:var(--accent);">查看历史日报</a></p>
+          <p>📄 飞书备份：
+            <a href="https://www.feishu.cn/docx/HcMrdjNf7oBphcxYN4Vcy0Opn5c"
+               target="_blank" style="color:var(--cyan);">
+               查看历史日报
+            </a>
+          </p>
           <p style="margin-top:12px;">日报内容将在 2:15 自动同步至此页面</p>
         </div>
       `;
     });
 }
 
-// ── Router ───────────────────────────────────────────────
+/* ═══════════════════════════════════════════
+   ROUTER
+   ═══════════════════════════════════════════ */
 const params = new URLSearchParams(window.location.search);
 const id = params.get('id');
 if (id) {
