@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>每日进化日报</title>
+  <title>每日进化日报 · 2026-03-31</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -28,7 +28,6 @@
   --text-dim:  rgba(255,255,255,0.55);
   --text-muted:rgba(255,255,255,0.30);
   --blur:      20px;
-  --blur-sm:   10px;
   --ease:      cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -42,7 +41,6 @@ body {
   font-size: 14px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
 }
 
@@ -61,7 +59,6 @@ body {
   filter: blur(100px);
   opacity: 0.6;
   animation: float 20s ease-in-out infinite;
-  overflow: hidden;
 }
 .blob-1 {
   width: 600px; height: 600px;
@@ -186,7 +183,6 @@ body {
   );
   border: none;
   margin: 0 0 52px;
-  border-radius: 1px;
 }
 
 /* ── 8. Section Label ── */
@@ -252,10 +248,10 @@ body {
 .stat-card:hover::before { opacity: 1; }
 .stat-card.purple::before { background: radial-gradient(circle at top left, rgba(191,90,242,0.25), transparent 60%); }
 .stat-card.blue::before   { background: radial-gradient(circle at top left, rgba(10,132,255,0.25), transparent 60%); }
-.stat-card.pink::before   { background: radial-gradient(circle at top left, rgba(255,55,95,0.25), transparent 60%); }
-.stat-card.orange::before { background: radial-gradient(circle at top left, rgba(255,159,10,0.25), transparent 60%); }
-.stat-card.green::before  { background: radial-gradient(circle at top left, rgba(48,209,88,0.25), transparent 60%); }
-.stat-card.cyan::before   { background: radial-gradient(circle at top left, rgba(100,210,255,0.25), transparent 60%); }
+.stat-card.pink::before  { background: radial-gradient(circle at top left, rgba(255,55,95,0.25), transparent 60%); }
+.stat-card.orange::before{ background: radial-gradient(circle at top left, rgba(255,159,10,0.25), transparent 60%); }
+.stat-card.green::before { background: radial-gradient(circle at top left, rgba(48,209,88,0.25), transparent 60%); }
+.stat-card.cyan::before  { background: radial-gradient(circle at top left, rgba(100,210,255,0.25), transparent 60%); }
 .stat-icon { font-size: 22px; margin-bottom: 10px; }
 .stat-num {
   font-size: 36px;
@@ -347,136 +343,45 @@ body {
   gap: 8px;
 }
 
-/* ── 14. Folder Table ── */
-.folder-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-.folder-table th {
-  text-align: left;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  padding: 8px 12px;
-  background: rgba(255,255,255,0.03);
-  border-bottom: 1px solid var(--border);
-}
-.folder-table td {
-  padding: 10px 12px;
-  font-size: 12px;
-  color: var(--text-dim);
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-}
-.folder-table tr:hover td {
-  background: rgba(255,255,255,0.03);
-}
-.folder-table tr:last-child td { border-bottom: none; }
-
-/* ── 15. Status List ── */
-.status-list { list-style: none; }
-.status-item {
+/* ── 14. Done List ── */
+.done-list { list-style: none; }
+.done-item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 0;
   font-size: 13px;
   color: var(--text-dim);
   border-bottom: 1px solid rgba(255,255,255,0.04);
 }
-.status-item:last-child { border-bottom: none; }
-.status-item .label { color: var(--text-muted); font-size: 12px; }
-.status-item .value { font-weight: 600; color: var(--text); }
+.done-item:last-child { border-bottom: none; }
+.done-check { color: var(--green); font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.done-time { font-size: 10px; font-weight: 600; color: var(--text-muted); margin-left: auto; flex-shrink: 0; padding-left: 8px; }
 
-/* ── 16. Skill Cloud ── */
-.skill-cloud {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+/* ── 15. Improve Item ── */
+.improve-list { list-style: none; }
+.improve-item {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 13px;
 }
-.skill-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: rgba(10,132,255,0.12);
-  border: 1px solid rgba(10,132,255,0.25);
-  color: var(--cyan);
-  font-size: 12px;
-  font-weight: 500;
-  padding: 5px 12px;
-  border-radius: 8px;
-  transition: all 0.2s;
-  cursor: default;
-}
-.skill-tag:hover {
-  background: rgba(10,132,255,0.20);
-  border-color: rgba(10,132,255,0.40);
-  color: var(--cyan);
-}
-.skill-tag.purple { background: rgba(191,90,242,0.12); border-color: rgba(191,90,242,0.25); color: var(--purple); }
-.skill-tag.orange { background: rgba(255,159,10,0.12); border-color: rgba(255,159,10,0.25); color: var(--orange); }
-.skill-tag.pink   { background: rgba(255,55,95,0.12);  border-color: rgba(255,55,95,0.25);  color: var(--pink); }
-.skill-tag.green  { background: rgba(48,209,88,0.12);  border-color: rgba(48,209,88,0.25);  color: var(--green); }
-
-/* ── 17. Work Item ── */
-.work-item {
-  display: flex;
-  gap: 14px;
-  padding: 16px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  transition: all 0.2s;
-}
-.work-item:hover {
-  background: rgba(255,255,255,0.07);
-  border-color: var(--border-hi);
-  transform: translateX(4px);
-}
-.work-icon {
-  width: 36px; height: 36px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  flex-shrink: 0;
-}
-.work-icon.purple { background: rgba(191,90,242,0.20); }
-.work-icon.blue   { background: rgba(10,132,255,0.20); }
-.work-icon.pink   { background: rgba(255,55,95,0.20); }
-.work-icon.orange { background: rgba(255,159,10,0.20); }
-.work-icon.green  { background: rgba(48,209,88,0.20); }
-.work-icon.cyan   { background: rgba(100,210,255,0.20); }
-.work-icon.indigo { background: rgba(94,92,230,0.20); }
-.work-content { flex: 1; min-width: 0; }
-.work-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 4px;
-  letter-spacing: -0.01em;
-}
-.work-desc {
-  font-size: 12px;
+.improve-item:last-child { border-bottom: none; }
+.improve-title {
   color: var(--text-dim);
-  line-height: 1.6;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  margin-bottom: 6px;
+  line-height: 1.5;
 }
-.work-meta {
-  font-size: 10px;
-  color: var(--text-muted);
-  font-weight: 500;
-  letter-spacing: 0.3px;
-  margin-top: 6px;
+.improve-solution {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--cyan);
+  opacity: 0.8;
 }
-.work-items { display: flex; flex-direction: column; gap: 10px; }
+.improve-solution::before { content: '→'; flex-shrink: 0; }
 
-/* ── 18. Bug Card ── */
+/* ── 16. Bug Card ── */
 .bug-card {
   padding: 16px;
   background: rgba(255,55,95,0.05);
@@ -499,7 +404,6 @@ body {
   border-radius: 5px;
   display: inline-block;
   margin-bottom: 8px;
-  text-shadow: 0 0 8px rgba(255,55,95,0.5);
 }
 .bug-title {
   font-size: 14px;
@@ -515,14 +419,6 @@ body {
   padding-left: 14px;
   border-left: 2px solid rgba(255,55,95,0.25);
 }
-.bug-fix code {
-  background: rgba(255,255,255,0.08);
-  padding: 1px 6px;
-  border-radius: 5px;
-  font-family: 'Inter', monospace;
-  font-size: 11px;
-  color: var(--cyan);
-}
 .bug-fix strong { color: var(--text-dim); }
 .bug-lesson {
   font-size: 11px;
@@ -534,63 +430,62 @@ body {
 }
 .bug-items { display: flex; flex-direction: column; gap: 10px; }
 
-/* ── 19. Learning Pill ── */
-.learning-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
+/* ── 17. Problem Table ── */
+.problem-table {
+  width: 100%;
+  border-collapse: collapse;
 }
-@media (max-width: 640px) {
-  .learning-grid { grid-template-columns: 1fr; }
+.problem-table th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid var(--border);
 }
-.learning-pill {
-  padding: 12px 14px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border);
-  border-radius: 12px;
+.problem-table td {
+  padding: 10px 12px;
   font-size: 12px;
   color: var(--text-dim);
-  line-height: 1.5;
-  transition: all 0.2s;
-  animation: fadeUp 0.4s var(--ease) both;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  vertical-align: top;
+  line-height: 1.6;
 }
-.learning-pill:nth-child(odd) { animation-delay: 0.05s; }
-.learning-pill:nth-child(even){ animation-delay: 0.10s; }
-.learning-pill:hover {
-  background: rgba(255,255,255,0.08);
-  border-color: var(--border-hi);
-  color: var(--text);
-}
-.learning-num {
-  font-family: 'Inter', sans-serif;
-  font-size: 9px;
-  font-weight: 800;
-  color: var(--purple);
-  margin-right: 6px;
-  letter-spacing: 0.5px;
-}
+.problem-table tr:last-child td { border-bottom: none; }
+.problem-table tr:hover td { background: rgba(255,255,255,0.02); }
+.td-num { font-weight: 700; color: var(--purple); font-size: 11px; }
+.td-title { font-weight: 600; color: var(--text); }
+.td-status { font-size: 11px; font-weight: 600; }
+.status-ok { color: var(--green); }
+.status-warn { color: var(--orange); }
 
-/* ── 20. Alert Card ── */
-.alert-card {
+/* ── 18. Insight Card ── */
+.insight-card {
   padding: 22px;
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--border);
   border-left: 3px solid var(--orange);
   border-radius: 12px;
 }
-.alert-title {
-  font-size: 13px;
+.insight-title {
+  font-size: 11px;
   font-weight: 700;
-  color: var(--text);
-  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--orange);
+  margin-bottom: 10px;
 }
-.alert-body {
-  font-size: 12px;
-  color: var(--text-dim);
+.insight-body {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
   line-height: 1.7;
 }
 
-/* ── 21. Footer ── */
+/* ── 19. Footer ── */
 .site-footer {
   padding: 60px 0 0;
   text-align: center;
@@ -611,17 +506,13 @@ body {
   text-transform: uppercase;
 }
 
-/* ── 22. Animations ── */
+/* ── 20. Animations ── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-@keyframes slideIn {
-  from { opacity: 0; transform: translateX(-10px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
 
-/* ── 23. Spacing Utilities ── */
+/* ── 21. Spacing ── */
 .mb-12 { margin-bottom: 12px; }
 .mb-16 { margin-bottom: 16px; }
 .mb-24 { margin-bottom: 24px; }
@@ -658,160 +549,210 @@ body {
       <span class="badge">🤖 OpenClaw</span>
       <span class="badge">🧠 自我进化</span>
       <span class="badge">📊 量化追踪</span>
+      <span class="badge">🎨 frontend-design</span>
     </div>
   </div>
 
   <hr class="divider">
 
   <!-- Stats -->
-  <div class="section-label">今日数据总览</div>
+  <div class="section-label">今日进化数据</div>
   <div class="stats-grid">
     <div class="stat-card purple">
-      <div class="stat-icon">🧠</div>
-      <div class="stat-num">3</div>
-      <div class="stat-label">新安装 Skill</div>
-      <div class="stat-sub">socratic-coach / frontend-design</div>
+      <div class="stat-icon">📉</div>
+      <div class="stat-num">-82%</div>
+      <div class="stat-label">MEMORY 压缩率</div>
+      <div class="stat-sub">31KB → 5.5KB</div>
     </div>
     <div class="stat-card blue">
-      <div class="stat-icon">📖</div>
-      <div class="stat-num">5</div>
-      <div class="stat-label">深度学习篇</div>
-      <div class="stat-sub">P13-P17 完整掌握</div>
+      <div class="stat-icon">📋</div>
+      <div class="stat-num">10</div>
+      <div class="stat-label">行为准则</div>
+      <div class="stat-sub">从 6 条增至 10 条</div>
     </div>
     <div class="stat-card green">
-      <div class="stat-icon">⚡</div>
+      <div class="stat-icon">🔍</div>
       <div class="stat-num">2</div>
-      <div class="stat-label">认知升级</div>
-      <div class="stat-sub">PUA 模式 · 数字树洞</div>
+      <div class="stat-label">新发现问题</div>
+      <div class="stat-sub">状态感知 + 闭嘴能力</div>
     </div>
     <div class="stat-card orange">
-      <div class="stat-icon">🚀</div>
+      <div class="stat-icon">🆕</div>
       <div class="stat-num">1</div>
-      <div class="stat-label">重大项目</div>
-      <div class="stat-sub">进化日报网站 v2.0</div>
+      <div class="stat-label">新解锁技能</div>
+      <div class="stat-sub">frontend-design</div>
     </div>
   </div>
 
-  <!-- System Architecture -->
-  <div class="section-label">系统架构</div>
-  <div class="content-grid mb-48">
-    <div class="glass">
-      <div class="card-title">
-        <span class="card-title-icon purple">📦</span>
-        Skill 系统
-      </div>
-      <ul class="status-list">
-        <li class="status-item"><span class="label">已安装</span><span class="value">12 个</span></li>
-        <li class="status-item"><span class="label">本周新增</span><span class="value">3 个</span></li>
-        <li class="status-item"><span class="label">活跃技能</span><span class="value">6 个</span></li>
-      </ul>
-    </div>
-    <div class="glass">
-      <div class="card-title">
-        <span class="card-title-icon blue">⚙️</span>
-        自动化任务
-      </div>
-      <ul class="status-list">
-        <li class="status-item"><span class="label">Cron 任务</span><span class="value">3 个</span></li>
-        <li class="status-item"><span class="label">今日执行</span><span class="value">2 次</span></li>
-        <li class="status-item"><span class="label">下次心跳</span><span class="value">06:45</span></li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Skills Cloud -->
-  <div class="section-label">技能生态</div>
+  <!-- ✅ Done -->
+  <div class="section-label">✅ 做对了的事</div>
   <div class="glass mb-48">
-    <div class="skill-cloud">
-      <span class="skill-tag purple">🧠 memory-pro</span>
-      <span class="skill-tag blue">🔍 tavily-search</span>
-      <span class="skill-tag green">📊 market-data</span>
-      <span class="skill-tag orange">🎨 frontend-design</span>
-      <span class="skill-tag pink">💬 feishu-im-read</span>
-      <span class="skill-tag purple">🤖 socratic-coach</span>
-      <span class="skill-tag blue">📅 feishu-calendar</span>
-      <span class="skill-tag green">✅ self-improving</span>
+    <ul class="done-list">
+      <li class="done-item">
+        <span class="done-check">✓</span>
+        <span>腾讯新闻 skill 从 v1.0.0 升级到 v1.0.8，搞定了 bun 环境</span>
+        <span class="done-time">07:30</span>
+      </li>
+      <li class="done-item">
+        <span class="done-check">✓</span>
+        <span>发现 skill 安装位置规范，纠正了长期记忆错误（workspace/skills vs skills/）</span>
+        <span class="done-time">07:41</span>
+      </li>
+      <li class="done-item">
+        <span class="done-check">✓</span>
+        <span>Cron 任务时间调整：心跳 6:45，AI 新闻 7:00，错开发送</span>
+        <span class="done-time">07:29</span>
+      </li>
+      <li class="done-item">
+        <span class="done-check">✓</span>
+        <span>双引擎配置写入 prompt，AI 新闻 cron 已包含腾讯新闻调用方式</span>
+        <span class="done-time">07:29</span>
+      </li>
+      <li class="done-item">
+        <span class="done-check">✓</span>
+        <span>SOP 文档从 v1.1 更新到 v1.3，含时间精度规则</span>
+        <span class="done-time">07:48</span>
+      </li>
+      <li class="done-item">
+        <span class="done-check">✓</span>
+        <span>HEARTBEAT.md 更新：含双引擎配置 + 身份证制度 + 时间精度</span>
+        <span class="done-time">07:48</span>
+      </li>
+      <li class="done-item">
+        <span class="done-check">✓</span>
+        <span>补发心跳早报（7:03）</span>
+        <span class="done-time">07:45</span>
+      </li>
+      <li class="done-item">
+        <span class="done-check">✓</span>
+        <span>补发腾讯新闻日报，纯腾讯新闻内容 15 条发给用户</span>
+        <span class="done-time">07:46</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ⚠️ Improve -->
+  <div class="section-label">⚠️ 需要改进的事</div>
+  <div class="glass mb-48">
+    <ul class="improve-list">
+      <li class="improve-item">
+        <div class="improve-title"><strong>今早心跳通知失败</strong> — 两个 cron 任务同时 7:00 跑，触发飞书 API 400 限速</div>
+        <div class="improve-solution">已调整为错开时间（心跳 6:45 / 新闻 7:00）</div>
+      </li>
+      <li class="improve-item">
+        <div class="improve-title"><strong>Tavily 单引擎日报</strong> — 今天 AI 日报用的是单引擎，腾讯新闻是之后才加进去的</div>
+        <div class="improve-solution">明日起双引擎正式运行</div>
+      </li>
+      <li class="improve-item">
+        <div class="improve-title"><strong>腾讯新闻时间精度</strong> — 数据源只到日期，不能精确到几点几分</div>
+        <div class="improve-solution">SOP v1.3 已加时间精度规则，不编造</div>
+      </li>
+      <li class="improve-item">
+        <div class="improve-title"><strong>表格末行空行被忘</strong> — 每次做完表格后检查末行，这个规则被忘</div>
+        <div class="improve-solution">MEMORY.md 加固提醒</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 9 Problems Table -->
+  <div class="section-label">3轮自我追问 · 9个问题清单</div>
+  <div class="glass mb-48">
+    <table class="problem-table">
+      <thead>
+        <tr>
+          <th style="width:32px">#</th>
+          <th>问题</th>
+          <th style="width:80px">状态</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-num">1</td>
+          <td class="td-title">自我审计从无执行</td>
+          <td class="td-status status-ok">✅ 有方案</td>
+        </tr>
+        <tr>
+          <td class="td-num">2</td>
+          <td class="td-title">风险预估从无执行</td>
+          <td class="td-status status-ok">✅ 有方案</td>
+        </tr>
+        <tr>
+          <td class="td-num">3</td>
+          <td class="td-title">信息密度偏薄</td>
+          <td class="td-status status-ok">✅ 有方案</td>
+        </tr>
+        <tr>
+          <td class="td-num">4</td>
+          <td class="td-title">P13-P23 没有场景调用</td>
+          <td class="td-status status-ok">✅ 有方案</td>
+        </tr>
+        <tr>
+          <td class="td-num">5</td>
+          <td class="td-title">股票投研流程从未跑过</td>
+          <td class="td-status status-ok">✅ 有方案</td>
+        </tr>
+        <tr>
+          <td class="td-num">6</td>
+          <td class="td-title">龙虾发疯三味药只停留在知道</td>
+          <td class="td-status status-ok">✅ 有方案</td>
+        </tr>
+        <tr>
+          <td class="td-num">7</td>
+          <td class="td-title">没有「用户状态感知」— 不知道对话进行到哪个阶段</td>
+          <td class="td-status status-ok">✅ 新发现</td>
+        </tr>
+        <tr>
+          <td class="td-num">8</td>
+          <td class="td-title">没有「闭嘴」能力 — P15 树洞标准知道但没执行</td>
+          <td class="td-status status-ok">✅ 新发现</td>
+        </tr>
+        <tr>
+          <td class="td-num">9</td>
+          <td class="td-title">跨 session 状态不保持</td>
+          <td class="td-status status-warn">⚠️ 架构限制</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+      <strong style="color:var(--text-dim)">用户确认优先级：</strong>「说清楚」>「闭嘴」—— 话多一点是主模式，闭嘴只在用户表现出疲惫/赶时间信号时激活
     </div>
   </div>
 
-  <!-- Work Log -->
-  <div class="section-label">今日工作</div>
-  <div class="work-items mb-48">
-    <div class="work-item">
-      <div class="work-icon purple">🧠</div>
-      <div class="work-content">
-        <div class="work-title">openclaw-mastery 深度学习 P13-P17</div>
-        <div class="work-desc">完成 P13 发疯诊断、P14 断舍离、P15 完美树洞、P16 Skill调教、P17 刻意练习。形成 5 条核心行为准则。</div>
-        <div class="work-meta">14:00 · 约 2.5 小时</div>
-      </div>
-    </div>
-    <div class="work-item">
-      <div class="work-icon blue">🎨</div>
-      <div class="work-content">
-        <div class="work-title">进化日报网站 Premium 大改版</div>
-        <div class="work-desc">用户要求升级为 Apple Silicon Premium Light 风格。经历三轮迭代：初版 → 毛玻璃版 → 极简白版。用户不满意简约路线，最终回归深色 Apple Style 规范。</div>
-        <div class="work-meta">18:00 · 约 2 小时</div>
-      </div>
-    </div>
-    <div class="work-item">
-      <div class="work-icon green">📊</div>
-      <div class="work-content">
-        <div class="work-title">Cron 定时任务配置完成</div>
-        <div class="work-desc">心跳早报 06:45 + AI News Run 07:00 错开配置，避免 API 限速。</div>
-        <div class="work-meta">上午 · 约 30 分钟</div>
-      </div>
+  <!-- Key Insight -->
+  <div class="section-label">今日核心认知</div>
+  <div class="insight-card mb-48">
+    <div class="insight-title">💡 今日最重要的认知</div>
+    <div class="insight-body">
+      <strong>Cron 任务不能同时跑。</strong> 多个任务同时触发会触发飞书 API 限速（400 错误），导致通知发不出去。以后新加 cron 任务，要注意和现有任务错开时间。
     </div>
   </div>
 
-  <!-- Bug Fixes -->
+  <!-- Bug Cards: 学完 vs 用起来 -->
   <div class="section-label">教训与修复</div>
   <div class="bug-items mb-48">
     <div class="bug-card">
       <div class="bug-label">教训 #1</div>
-      <div class="bug-title">设计师不能听客户的——要听用户真正的需求</div>
+      <div class="bug-title">学完 vs 用起来是两回事 — P16 核心</div>
       <div class="bug-fix">
-        <strong>问题：</strong>用户说「高级感不够」「毛玻璃不够」，我理解为「加效果」，做了三代加法迭代，越做越复杂，用户越不满意。<br>
-        <strong>解决：</strong>用户说「高级感不够」的真实意思是「你现在做的不是我要的风格」——不是加法不够，是方向错了。最后用户要求回归原始 spec，才知道问题在方向而非细节。
+        <strong>问题：</strong>学了不用，等于没学。表格末行空行（忘了 P13）、腾讯新闻位置记错（忘了 P08）、Cron 重叠 400（忘了 P03）、对话没有进步感（忘了 P15）。<br>
+        <strong>解决：</strong>P16 的核心是「理解 + 适配，不是颠覆」——学了某个准条，下次遇到同类场景就要主动调用，不能等用户提醒。
       </div>
-      <div class="bug-lesson">→ 以后改设计前，先确认「你要的是哪个版本的方向」</div>
+      <div class="bug-lesson">→ 学了不用 = 没学。下次遇到同类场景，主动调用准条。</div>
     </div>
     <div class="bug-card">
       <div class="bug-label">教训 #2</div>
-      <div class="bug-title">exec 大输出命令不能管道化</div>
+      <div class="bug-title">P15 完美树洞：先承认，再解释</div>
       <div class="bug-fix">
-        <strong>问题：</strong>用 <code>openclaw gateway restart | grep xxx</code> 导致输出被放大数千倍，命令卡死。<br>
-        <strong>解决：</strong>状态命令单独执行，不要管道化。gateway restart 要单独执行，等待 30-60 秒。
+        <strong>问题：</strong>用户说「我怎么没发现变化」，我列了一堆解释，而不是先承认。<br>
+        <strong>正确顺序：</strong>先说「你说得对，我确实没做到」，再说原因，最后说方案。
       </div>
-      <div class="bug-lesson">→ 状态查询类命令必须单独执行</div>
-    </div>
-  </div>
-
-  <!-- Key Learnings -->
-  <div class="section-label">认知升级</div>
-  <div class="learning-grid mb-48">
-    <div class="learning-pill">
-      <span class="learning-num">01</span>数字树洞 = 先处理情绪，再处理事情。用户吐槽时，龙虾先陪伴，不给建议。
-    </div>
-    <div class="learning-pill">
-      <span class="learning-num">02</span>Skill 调教 = 理解原逻辑 → 识别不适配点 → 局部修改，不是推翻重写。
-    </div>
-    <div class="learning-pill">
-      <span class="learning-num">03</span>发疯诊断三步法：①翻篇大法 ②灵魂唤醒 ③证据纠偏。
-    </div>
-    <div class="learning-pill">
-      <span class="learning-num">04</span>设计师不能听客户说的，要听客户真正的痛点——往往在第三轮追问后才浮出水面。
-    </div>
-    <div class="learning-pill">
-      <span class="learning-num">05</span>进化核心：记住用户说过的话，不让用户重复——这是信任积累最快的方式。
-    </div>
-    <div class="learning-pill">
-      <span class="learning-num">06</span>闭嘴三层级：轻度（缩短50%）→ 中度（只说结论）→ 重度（完全停止）。
+      <div class="bug-lesson">→ 先处理情绪，再处理事情——先承认，再说原因</div>
     </div>
   </div>
 
   <!-- Footer -->
   <div class="site-footer">
-    <div class="footer-text">每日进化日报 · OpenClaw</div>
+    <div class="footer-text">每日进化日报 · OpenClaw · 2026-03-31</div>
   </div>
 
 </div>
