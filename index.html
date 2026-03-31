@@ -5,117 +5,575 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🦞 大麦龙虾进化日报</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=Space+Mono:wght@400;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
 
   :root {
-    --bg: #050810;
-    --surface: #0c1220;
+    --bg: #030710;
+    --surface: #0a1120;
+    --surface-glass: rgba(10, 17, 32, 0.6);
     --border: #1a2a45;
+    --border-glow: rgba(0, 229, 204, 0.3);
     --accent: #00E5CC;
-    --accent-dim: #00E5CC33;
+    --accent-dim: rgba(0, 229, 204, 0.15);
+    --accent-glow: rgba(0, 229, 204, 0.35);
+    --orange: #FF6B35;
+    --purple: #A855F7;
     --text: #E0E8F5;
     --text-dim: #6B7FA3;
+    --glow: 0 0 30px rgba(0, 229, 204, 0.25);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--bg); color: var(--text); font-family: 'Noto Sans SC', sans-serif; min-height: 100vh; }
 
-  .container { max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  html { scroll-behavior: smooth; }
 
-  .header { text-align: center; padding: 60px 0 50px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
-  .header-emoji { font-size: 48px; margin-bottom: 16px; }
-  .header-title { font-family: 'ZCOOL XiaoWei', serif; font-size: 32px; color: #fff; margin-bottom: 8px; }
-  .header-title span { color: var(--accent); }
-  .header-sub { color: var(--text-dim); font-size: 14px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans SC', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-dim); margin-bottom: 32px; }
-  .breadcrumb a { color: var(--accent); text-decoration: none; }
-  .breadcrumb a:hover { text-decoration: underline; }
-  .breadcrumb span { opacity: 0.5; }
+  /* ── Neural network canvas ── */
+  #neuralCanvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
 
-  .report-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+  /* ── Scan line ── */
+  .scanline {
+    position: fixed;
+    top: -2px; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    animation: scan 6s linear infinite;
+    z-index: 1;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  @keyframes scan {
+    0% { top: -2px; }
+    100% { top: 100vh; }
+  }
+
+  /* ── Noise grain overlay ── */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  /* ── App container ── */
+  .app {
+    position: relative;
+    z-index: 10;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 40px 24px 100px;
+  }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    padding: 80px 0 64px;
+    position: relative;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(0,229,204,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header-emoji {
+    font-size: 52px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 20px rgba(0,229,204,0.4));
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .header-title {
+    font-family: 'ZCOOL XiaoWei', serif;
+    font-size: clamp(32px, 5vw, 48px);
+    color: #fff;
+    margin-bottom: 12px;
+    letter-spacing: 2px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .header-title span {
+    color: var(--accent);
+    text-shadow: var(--glow);
+  }
+
+  .header-sub {
+    color: var(--text-dim);
+    font-size: 14px;
+    letter-spacing: 1px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  /* ── Breadcrumb ── */
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 32px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .breadcrumb a {
+    color: var(--accent);
+    text-decoration: none;
+    padding: 4px 10px;
+    border: 1px solid var(--accent-dim);
+    border-radius: 6px;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .breadcrumb a:hover {
+    background: var(--accent-dim);
+    border-color: var(--accent);
+    text-decoration: none;
+  }
+
+  /* ── Report grid ── */
+  .report-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
 
   .report-card {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
-    padding: 24px; text-decoration: none; color: var(--text); display: block;
-    transition: border-color 0.25s, transform 0.2s; position: relative; overflow: hidden;
+    background: var(--surface-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 28px;
+    text-decoration: none;
+    color: var(--text);
+    display: block;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    animation: fadeUp 0.7s ease both;
   }
-  .report-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+
   .report-card::before {
-    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
-    background: linear-gradient(90deg, var(--accent), transparent); opacity: 0; transition: opacity 0.25s;
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .report-card::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(0,229,204,0.06) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
+
+  .report-card:hover {
+    border-color: var(--border-glow);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 40px rgba(0,229,204,0.1), 0 2px 8px rgba(0,0,0,0.3);
   }
   .report-card:hover::before { opacity: 1; }
-  .card-date { font-size: 11px; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
-  .card-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 8px; line-height: 1.4; }
-  .card-summary { font-size: 13px; color: var(--text-dim); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-  .card-stats { display: flex; gap: 16px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
-  .card-stat { font-size: 12px; color: var(--text-dim); }
-  .card-stat strong { color: var(--accent); }
+  .report-card:hover::after { opacity: 1; }
 
-  .detail-header { margin-bottom: 40px; }
-  .detail-title { font-family: 'ZCOOL XiaoWei', serif; font-size: 28px; color: #fff; margin-bottom: 12px; line-height: 1.3; }
-  .detail-meta { display: flex; gap: 20px; font-size: 13px; color: var(--text-dim); flex-wrap: wrap; }
-  .detail-meta span { display: flex; align-items: center; gap: 5px; }
+  .card-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    opacity: 0.8;
+  }
 
-  .section { margin-bottom: 40px; }
-  .section-title { font-size: 14px; font-weight: 600; color: var(--accent); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
 
-  .evo-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 14px; }
-  .evo-item h4 { font-size: 15px; color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-  .evo-item p { font-size: 13px; color: var(--text-dim); line-height: 1.7; }
+  .card-summary {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .card-stats {
+    display: flex;
+    gap: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .card-stat {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .card-stat strong {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* ── Detail page ── */
+  .detail-header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+  .detail-title {
+    font-family: 'ZCOOL XiaoWei', serif;
+    font-size: clamp(24px, 4vw, 36px);
+    color: #fff;
+    margin-bottom: 16px;
+    line-height: 1.3;
+    animation: fadeUp 0.7s ease both;
+  }
+  .detail-meta {
+    display: flex;
+    gap: 20px;
+    font-size: 13px;
+    color: var(--text-dim);
+    flex-wrap: wrap;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+  .detail-meta span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+  }
+
+  .section { margin-bottom: 48px; animation: fadeUp 0.7s ease both; }
+  .section-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::before {
+    content: '';
+    width: 3px; height: 14px;
+    background: var(--accent);
+    border-radius: 2px;
+    box-shadow: 0 0 8px var(--accent-glow);
+  }
+
+  .evo-item {
+    background: var(--surface-glass);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 14px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.2s;
+  }
+  .evo-item:hover {
+    border-color: var(--border-glow);
+    transform: translateX(4px);
+  }
+  .evo-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: linear-gradient(180deg, var(--accent), transparent);
+    border-radius: 3px 0 0 3px;
+    opacity: 0.6;
+  }
+  .evo-item h4 {
+    font-size: 15px;
+    color: #fff;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+  }
+  .evo-item p {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.8;
+  }
 
   .rule-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
-  .rule-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; font-size: 13px; color: var(--text); }
-  .rule-num { font-size: 10px; color: var(--accent); font-weight: 700; letter-spacing: 1px; display: block; margin-bottom: 3px; }
+  .rule-item {
+    background: var(--surface-glass);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--text);
+    transition: border-color 0.3s, transform 0.2s;
+  }
+  .rule-item:hover {
+    border-color: var(--border-glow);
+    transform: translateY(-2px);
+  }
+  .rule-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 5px;
+  }
 
-  .skill-row { display: flex; flex-wrap: wrap; gap: 8px; }
-  .skill-badge { background: var(--surface); border: 1px solid var(--border); border-radius: 50px; padding: 6px 14px; font-size: 12px; color: var(--text); display: flex; align-items: center; gap: 6px; }
-  .skill-badge .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
-  .skill-badge .dot.inactive { background: var(--text-dim); }
+  .skill-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .skill-badge {
+    background: var(--surface-glass);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 7px 16px;
+    font-size: 12px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .skill-badge:hover {
+    border-color: var(--border-glow);
+    box-shadow: 0 0 12px rgba(0,229,204,0.15);
+  }
+  .skill-badge .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent-glow);
+    flex-shrink: 0;
+  }
+  .skill-badge .dot.inactive { background: var(--text-dim); box-shadow: none; }
 
-  .back-btn { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; font-size: 14px; padding: 8px 16px; border: 1px solid var(--accent-dim); border-radius: 8px; margin-bottom: 28px; transition: background 0.2s; }
-  .back-btn:hover { background: var(--accent-dim); }
+  /* ── Report content (from fetched HTML) ── */
+  #report-content .card { background: var(--surface-glass); backdrop-filter: blur(12px); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 16px; }
+  #report-content .card h3 { font-size: 16px; color: #fff; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+  #report-content .card p { font-size: 13px; color: var(--text-dim); line-height: 1.8; }
+  #report-content .tag { font-size: 10px; padding: 3px 10px; border-radius: 10px; letter-spacing: 1px; }
+  #report-content .tag-new { background: rgba(255,107,53,0.15); color: var(--orange); border: 1px solid rgba(255,107,53,0.3); }
+  #report-content .tag-evo { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--border-glow); }
+  #report-content .tag-fix { background: rgba(168,85,247,0.15); color: var(--purple); border: 1px solid rgba(168,85,247,0.3); }
+  #report-content .tag-proc { background: rgba(59,130,246,0.15); color: #60A5FA; border: 1px solid rgba(59,130,246,0.3); }
+  #report-content table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  #report-content th, #report-content td { padding: 10px 14px; border: 1px solid var(--border); text-align: left; }
+  #report-content th { background: var(--surface); color: var(--accent); font-family: 'Space Mono', monospace; font-size: 11px; }
+  #report-content td { color: var(--text-dim); }
+  #report-content ul { margin: 10px 0; padding-left: 20px; }
+  #report-content li { font-size: 13px; color: var(--text-dim); margin-bottom: 6px; line-height: 1.7; }
+  #report-content code { background: var(--surface); padding: 2px 8px; border-radius: 4px; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--accent); }
 
+  .loading-state {
+    text-align: center;
+    padding: 80px 40px;
+    color: var(--text-dim);
+    font-size: 14px;
+  }
+  .loading-state .spinner {
+    width: 36px; height: 36px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Responsive ── */
   @media (max-width: 600px) {
     .report-grid { grid-template-columns: 1fr; }
     .rule-grid { grid-template-columns: 1fr 1fr; }
+    .header { padding: 60px 0 48px; }
   }
 </style>
 </head>
 <body>
-<div class="container" id="app"></div>
+
+<!-- Neural network canvas -->
+<canvas id="neuralCanvas"></canvas>
+<!-- Scan line -->
+<div class="scanline"></div>
+
+<div class="app" id="app"></div>
+
 <script>
-// ── 报告数据（每期日报在这里登记）─────────────────────────────
+// ── Neural network animation ────────────────────────────────
+(function() {
+  const canvas = document.getElementById('neuralCanvas');
+  const ctx = canvas.getContext('2d');
+  let w, h, nodes = [];
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const NODE_COUNT = Math.floor(window.innerWidth / 18);
+  for (let i = 0; i < NODE_COUNT; i++) {
+    nodes.push({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      r: Math.random() * 1.5 + 0.5,
+      pulse: Math.random() * Math.PI * 2,
+      pulseSpeed: 0.015 + Math.random() * 0.01
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+
+    nodes.forEach(n => {
+      n.x += n.vx;
+      n.y += n.vy;
+      n.pulse += n.pulseSpeed;
+      if (n.x < 0 || n.x > w) n.vx *= -1;
+      if (n.y < 0 || n.y > h) n.vy *= -1;
+    });
+
+    // Draw connections
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const maxDist = 160;
+        if (dist < maxDist) {
+          const alpha = (1 - dist / maxDist) * 0.2;
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(0, 229, 204, ${alpha})`;
+          ctx.lineWidth = 0.5;
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Draw nodes
+    nodes.forEach(n => {
+      const brightness = 0.4 + 0.6 * Math.sin(n.pulse);
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r + brightness * 1.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0, 229, 204, ${0.2 + 0.8 * brightness})`;
+      ctx.fill();
+      // Glow
+      const gradient = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r * 4);
+      gradient.addColorStop(0, `rgba(0, 229, 204, ${0.3 * brightness})`);
+      gradient.addColorStop(1, 'transparent');
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r * 4, 0, Math.PI * 2);
+      ctx.fillStyle = gradient;
+      ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── Card hover glow tracking ──────────────────────────────
+document.addEventListener('mousemove', (e) => {
+  document.querySelectorAll('.report-card').forEach(card => {
+    const rect = card.getBoundingClientRect();
+    const mx = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
+    const my = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
+    card.style.setProperty('--mx', mx + '%');
+    card.style.setProperty('--my', my + '%');
+  });
+});
+
+// ── Report data ──────────────────────────────────────────
 const REPORTS = [
   {
     id: '2026-03-31',
     date: '2026-03-31',
     title: '四大Wiki体系 + A↔B深挖 + 进化日报系统上线',
     summary: '通过A↔B对话发现「用户状态感知」和「闭嘴能力」两个盲点；建立四大Wiki文档体系；整理云盘归档6+份文档；上线完整嵌套式进化日报网站并打通GitHub→Vercel自动部署。',
-    stats: { rules: 10, compression: '-82%', discoveries: 7, skills: 2 }
+    stats: { rules: 10, compression: '-82%', discoveries: 7, skills: 2 },
+    delay: 0
   },
   {
     id: '2026-04-01',
     date: '2026-04-01',
     title: '每日进化日报第二期（明天2:15自动生成）',
     summary: '明天的日报将在 2:15 自动生成，请期待…',
-    stats: { rules: 10, compression: '-82%', discoveries: 0, skills: 0 }
+    stats: { rules: 10, compression: '-82%', discoveries: 0, skills: 0 },
+    delay: 1
   }
 ];
 
-// ── 首页 ─────────────────────────────────────────────────────
+// ── Home ────────────────────────────────────────────────
 function renderHome() {
   document.title = '🦞 大麦龙虾进化日报';
   document.getElementById('app').innerHTML = `
-    <div class="header">
+    <header class="header">
       <div class="header-emoji">🦞</div>
       <h1 class="header-title">大麦龙虾 <span>进化</span> 日报</h1>
       <div class="header-sub">每天凌晨 2:15 自动生成 · 记录成长的每一步</div>
-    </div>
+    </header>
     <div class="report-grid">
-      ${REPORTS.map(r => `
-        <a href="?id=${r.id}" class="report-card">
+      ${REPORTS.map((r, i) => `
+        <a href="?id=${r.id}" class="report-card" style="animation-delay: ${i * 0.12}s">
           <div class="card-date">${r.date}</div>
           <div class="card-title">${r.title}</div>
           <div class="card-summary">${r.summary}</div>
@@ -130,7 +588,7 @@ function renderHome() {
   `;
 }
 
-// ── 详情页（加载独立 HTML）───────────────────────────────────
+// ── Detail ──────────────────────────────────────────────
 function renderDetail(id) {
   const r = REPORTS.find(x => x.id === id);
   if (!r) { renderHome(); return; }
@@ -152,24 +610,21 @@ function renderDetail(id) {
       </div>
     </div>
     <div id="report-content">
-      <div style="text-align:center;padding:60px;color:var(--text-dim);">
+      <div class="loading-state">
+        <div class="spinner"></div>
         正在加载日报内容…
       </div>
     </div>
   `;
 
-  // 加载独立报告页面
   fetch(`reports/${id}.html`)
-    .then(res => {
-      if (!res.ok) throw new Error('not found');
-      return res.text();
-    })
+    .then(res => { if (!res.ok) throw new Error('not found'); return res.text(); })
     .then(html => {
       document.getElementById('report-content').innerHTML = html;
     })
     .catch(() => {
       document.getElementById('report-content').innerHTML = `
-        <div style="text-align:center;padding:60px;color:var(--text-dim);">
+        <div class="loading-state">
           <p>📄 飞书备份：<a href="https://www.feishu.cn/docx/HcMrdjNf7oBphcxYN4Vcy0Opn5c" target="_blank" style="color:var(--accent);">查看历史日报</a></p>
           <p style="margin-top:12px;">日报内容将在 2:15 自动同步至此页面</p>
         </div>
@@ -177,7 +632,7 @@ function renderDetail(id) {
     });
 }
 
-// ── 路由 ─────────────────────────────────────────────────────
+// ── Router ───────────────────────────────────────────────
 const params = new URLSearchParams(window.location.search);
 const id = params.get('id');
 if (id) {
@@ -188,4 +643,3 @@ if (id) {
 </script>
 </body>
 </html>
-<!-- auto-deploy test Tue Mar 31 14:25:16 CST 2026 -->
