@@ -9,22 +9,60 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
 :root, [data-theme="dark"] {
-  --bg: #000000; --purple: #BF5AF2; --blue: #0A84FF;
-  --pink: #FF375F; --orange: #FF9F0A; --cyan: #64D2FF;
-  --green: #30D158; --glass-bg: rgba(255,255,255,0.07);
-  --border: rgba(255,255,255,0.12); --border-hi: rgba(255,255,255,0.22);
-  --text: #ffffff; --text-dim: rgba(255,255,255,0.55);
-  --text-muted: rgba(255,255,255,0.30); --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --bg:        #000000;
+  --purple:    #BF5AF2;
+  --blue:      #0A84FF;
+  --pink:      #FF375F;
+  --orange:    #FF9F0A;
+  --cyan:      #64D2FF;
+  --green:     #30D158;
+  --indigo:    #5E5CE6;
+  --yellow:    #FFD60A;
+  --surface:   rgba(255,255,255,0.08);
+  --surface-2: rgba(255,255,255,0.05);
+  --glass-bg:  rgba(255,255,255,0.07);
+  --border:    rgba(255,255,255,0.12);
+  --border-hi: rgba(255,255,255,0.22);
+  --text:      #ffffff;
+  --text-dim:  rgba(255,255,255,0.55);
+  --text-muted:rgba(255,255,255,0.30);
+  --blur:      20px;
+  --ease:     cubic-bezier(0.22, 1, 0.36, 1);
 }
 [data-theme="light"] {
-  --bg: #ffffff; --glass-bg: rgba(0,0,0,0.020);
-  --border: rgba(0,0,0,0.06); --border-hi: rgba(0,0,0,0.12);
-  --text: #1d1d1f; --text-dim: rgba(0,0,0,0.45);
-  --text-muted: rgba(0,0,0,0.22);
+  --bg:        #ffffff;
+  --purple:    #BF5AF2;
+  --blue:      #0A84FF;
+  --pink:      #FF375F;
+  --orange:    #FF9F0A;
+  --cyan:      #64D2FF;
+  --green:     #30D158;
+  --indigo:    #5E5CE6;
+  --yellow:    #FFD60A;
+  --surface:   rgba(0,0,0,0.012);
+  --surface-2: rgba(0,0,0,0.008);
+  --glass-bg:  rgba(0,0,0,0.020);
+  --border:    rgba(0,0,0,0.06);
+  --border-hi: rgba(0,0,0,0.12);
+  --text:      #1d1d1f;
+  --text-dim:  rgba(0,0,0,0.45);
+  --text-muted:rgba(0,0,0,0.22);
+  --blur:      20px;
+  --ease:     cubic-bezier(0.22, 1, 0.36, 1);
 }
 [data-theme="light"] .blob { opacity: 0.08; }
+[data-theme="light"] #neuralCanvas { opacity: 0.15; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: 'Inter','Noto Sans SC', sans-serif; font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh; padding: 40px 20px 80px; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter','Noto Sans SC', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
 .blob-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; pointer-events: none; }
 .blob { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.6; animation: float 20s ease-in-out infinite; }
 .blob-1 { width: 600px; height: 600px; top: -200px; left: -150px; background: radial-gradient(circle, #5E5CE6 0%, transparent 70%); animation-delay: 0s; }
@@ -32,53 +70,94 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter','Noto San
 .blob-3 { width: 450px; height: 450px; bottom: -100px; left: 20%; background: radial-gradient(circle, #0A84FF 0%, transparent 70%); animation-delay: -10s; }
 .blob-4 { width: 350px; height: 350px; bottom: 20%; right: 10%; background: radial-gradient(circle, #BF5AF2 0%, transparent 70%); animation-delay: -15s; }
 @keyframes float { 0%,100%{transform:translate(0,0) scale(1)} 25%{transform:translate(40px,-30px) scale(1.05)} 50%{transform:translate(-20px,20px) scale(0.95)} 75%{transform:translate(30px,40px) scale(1.02)} }
-.container { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
-.header { text-align: center; margin-bottom: 48px; }
-.badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 20px; background: rgba(191,90,242,0.18); border: 1px solid rgba(191,90,242,0.40); border-radius: 100px; font-size: 13px; font-weight: 600; color: var(--purple); margin-bottom: 20px; }
-.badge span { background: var(--purple); color: #fff; font-size: 11px; padding: 2px 8px; border-radius: 100px; }
-h1 { font-size: 32px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px; background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.6) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.subtitle { color: var(--text-dim); font-size: 15px; }
-.theme-toggle { position: fixed; top: 20px; right: 20px; z-index: 100; background: var(--glass-bg); border: 1px solid var(--border); backdrop-filter: blur(20px); border-radius: 100px; padding: 8px 16px; cursor: pointer; color: var(--text); font-size: 13px; transition: all 0.2s; }
-.theme-toggle:hover { background: var(--border); }
-.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-dim); text-decoration: none; font-size: 13px; margin-bottom: 32px; transition: color 0.2s; }
-.back-link:hover { color: var(--text); }
-.section { background: var(--glass-bg); border: 1px solid var(--border); border-radius: 20px; padding: 28px 32px; margin-bottom: 20px; backdrop-filter: blur(20px); }
-.section-title { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--text); }
-.section-title .icon { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
-.tag { display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; }
+#neuralCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; opacity: 0.4; }
+.container { position: relative; z-index: 10; max-width: 880px; margin: 0 auto; padding: 0 24px 80px; }
+.top-nav { position: relative; z-index: 10; max-width: 900px; margin: 0 auto; padding: 28px 0 0; display: flex; align-items: center; gap: 0; animation: fadeUp 0.5s var(--ease) both; }
+.top-nav a { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+.top-nav a:hover { color: var(--text-dim); }
+.top-nav .nav-sep { display: inline-flex; align-items: center; margin: 0 6px; color: var(--text-muted); opacity: 0.5; }
+.top-nav .nav-current { font-size: 12px; font-weight: 500; color: var(--text-dim); pointer-events: none; }
+.hero { padding: 48px 0 60px; animation: fadeUp 0.7s var(--ease) both; }
+.hero-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.hero-date { font-size: 13px; font-weight: 500; letter-spacing: 0.5px; color: var(--text-dim); }
+.hero-weekday { font-size: 13px; color: var(--text-muted); }
+.hero-title { font-size: clamp(28px, 5vw, 48px); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; color: var(--text); margin-bottom: 0; }
+.hero-title .accent { background: linear-gradient(135deg, #FF9F0A, #FF375F); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero-badge { display: inline-flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.read-time { font-size: 12px; color: var(--text-muted); margin-left: 12px; }
+.divider { height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(191,90,242,0.5) 25%, rgba(10,132,255,0.5) 50%, rgba(255,55,95,0.5) 75%, transparent 100%); border: none; margin: 0 0 52px; }
+.section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.glass-card { background: var(--glass-bg); backdrop-filter: blur(var(--blur)); -webkit-backdrop-filter: blur(var(--blur)); border: 1px solid var(--border); border-radius: 16px; padding: 20px 22px; margin-bottom: 12px; transition: border-color 0.2s, transform 0.2s; }
+.glass-card:hover { border-color: var(--border-hi); transform: translateY(-1px); }
+.card-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 10px; display: flex; align-items: flex-start; gap: 8px; }
+.card-title .emoji { flex-shrink: 0; }
+.card-meta { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; }
+.card-content { font-size: 13.5px; color: var(--text-dim); line-height: 1.7; }
+.card-content p { margin-bottom: 8px; }
+.card-content p:last-child { margin-bottom: 0; }
+.card-content strong { color: var(--text); font-weight: 600; }
+.card-content a { color: var(--blue); text-decoration: none; }
+.card-content a:hover { text-decoration: underline; }
+.tag { display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; margin-right: 6px; }
 .tag-purple { background: rgba(191,90,242,0.2); color: var(--purple); }
 .tag-blue { background: rgba(10,132,255,0.2); color: var(--blue); }
 .tag-green { background: rgba(48,209,88,0.2); color: var(--green); }
 .tag-orange { background: rgba(255,159,10,0.2); color: var(--orange); }
 .tag-cyan { background: rgba(100,210,255,0.2); color: var(--cyan); }
+.highlight-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; margin: 12px 0; }
+.highlight-box strong { color: var(--text); }
+.code-block { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; font-family: 'SF Mono','Fira Code',monospace; font-size: 12px; color: var(--cyan); overflow-x: auto; margin: 10px 0; }
 table { width: 100%; border-collapse: collapse; }
-td { padding: 10px 0; border-bottom: 1px solid var(--border); vertical-align: top; }
-td:first-child { color: var(--text-dim); width: 40%; padding-right: 16px; }
+td { padding: 10px 0; border-bottom: 1px solid var(--border); vertical-align: top; font-size: 13.5px; }
+td:first-child { color: var(--text-dim); width: 38%; padding-right: 16px; }
 tr:last-child td { border-bottom: none; }
 ul { list-style: none; }
-ul li { padding: 6px 0; padding-left: 20px; position: relative; }
+ul li { padding: 6px 0; padding-left: 20px; position: relative; font-size: 13.5px; color: var(--text-dim); }
 ul li::before { content: '→'; position: absolute; left: 0; color: var(--purple); }
-.highlight-box { background: rgba(191,90,242,0.1); border: 1px solid rgba(191,90,242,0.25); border-radius: 12px; padding: 16px 20px; margin: 12px 0; }
-.code-block { background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; color: var(--cyan); overflow-x: auto; margin: 10px 0; }
-.footer { text-align: center; color: var(--text-muted); font-size: 12px; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); }
+ul li strong { color: var(--text); font-weight: 600; }
+.footer { text-align: center; color: var(--text-muted); font-size: 11px; padding: 48px 0 0; border-top: 1px solid var(--border); margin-top: 60px; letter-spacing: 1px; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
-<button class="theme-toggle" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='light'?'dark':'light'">☀️ / 🌙</button>
 <div class="blob-canvas">
-  <div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div><div class="blob blob-4"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
 </div>
+<canvas id="neuralCanvas"></canvas>
+
 <div class="container">
-  <a class="back-link" href="./">← 回到目录</a>
-  <div class="header">
-    <div class="badge"><span>002</span> 2026-04-01<span></span></div>
-    <h1>🦞 进化日报</h1>
-    <p class="subtitle">大麦 × AI 协同进化 · 第二期</p>
+  <!-- 导航 -->
+  <div class="top-nav">
+    <a href="../">← 目录</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-current">2026-04-01</span>
   </div>
 
+  <!-- 标题区 -->
+  <div class="hero">
+    <div class="hero-eyebrow">
+      <span class="hero-date">2026.04.01</span>
+      <span class="hero-weekday">Wednesday</span>
+    </div>
+    <h1 class="hero-title">🦞 进化日报 <span class="accent">v2.1</span></h1>
+    <div class="hero-badge">
+      <span class="tag tag-purple">002期</span>
+      <span class="tag tag-green">系统升级</span>
+      <span class="tag tag-blue">设计修正</span>
+      <span class="read-time">阅读约 5 分钟</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
   <!-- 第一板块：今日完成 -->
-  <div class="section">
-    <div class="section-title">✅ 今日完成</div>
+  <div class="section-label">✅ 今日完成</div>
+  <div class="glass-card">
+    <div class="card-title"><span class="emoji">📊</span> 完成事项一览</div>
     <table>
       <tr><td>进化日报网站更新</td><td>日间模式切换按钮（☀️/🌙）+ 极浅灰配色</td></tr>
       <tr><td>飞书文档去重</td><td>3份→2份，HcMrdjNf已删除，教训合并</td></tr>
@@ -88,21 +167,22 @@ ul li::before { content: '→'; position: absolute; left: 0; color: var(--purple
     </table>
   </div>
 
-  <!-- 第二板块：修复项 -->
-  <div class="section">
-    <div class="section-title">🔧 系统修复</div>
+  <!-- 第二板块：系统修复 -->
+  <div class="section-label">🔧 系统修复</div>
+  <div class="glass-card">
+    <div class="card-title"><span class="emoji">🔧</span> Cron 进化日报脚本修复</div>
     <div class="highlight-box">
-      <strong>Cron 进化日报脚本修复</strong><br>
-      <span class="tag tag-orange" style="margin-top:8px;display:inline-block">根因</span> Cron步骤5直接新建文档，没有「当天已有则跳过」逻辑<br><br>
-      <span class="tag tag-green" style="margin-right:6px">修复</span> 搜索词改为「🦞 进化日报 · YYYY-MM-DD」<br>
-      <span class="tag tag-green" style="margin-right:6px">变量</span> {feishu_link} 从搜索结果提取URL，跳过创建时同样提取
+      <strong>根因：</strong> Cron步骤5直接新建文档，没有「当天已有则跳过」逻辑<br><br>
+      <strong>修复：</strong> 搜索词改为「🦞 进化日报 · YYYY-MM-DD」<br>
+      <span class="tag tag-orange">变量</span> <code style="font-size:12px;color:var(--cyan);">{feishu_link}</code> 从搜索结果提取URL，跳过创建时同样提取
     </div>
     <div class="code-block">~/.openclaw/cron/jobs.json → 步骤5a/5b/5c + 步骤7 {feishu_link}</div>
   </div>
 
   <!-- 第三板块：新建项 -->
-  <div class="section">
-    <div class="section-title">🎯 新建项</div>
+  <div class="section-label">🎯 新建项</div>
+  <div class="glass-card">
+    <div class="card-title"><span class="emoji">✨</span> 新增内容</div>
     <ul>
       <li><strong>evolution-report-creator Skill</strong> — 触发词：生成日报/写日报/进化日报/日报/每日复盘</li>
       <li><strong>MEMORY.md 精简</strong> — 删除Skill安装记录(16行)、每日进化记录、AI Daily Run SOP链接</li>
@@ -111,8 +191,9 @@ ul li::before { content: '→'; position: absolute; left: 0; color: var(--purple
   </div>
 
   <!-- 第四板块：学习与认知 -->
-  <div class="section">
-    <div class="section-title">🧠 学习与认知</div>
+  <div class="section-label">🧠 学习与认知</div>
+  <div class="glass-card">
+    <div class="card-title"><span class="emoji">💡</span> 今日认知更新</div>
     <ul>
       <li><strong>Session模式限制</strong> — subagent不支持session模式（需要thread=true，channel plugin未注册hooks）</li>
       <li><strong>Skill自动触发机制</strong> — 系统层面匹配description关键词，不依赖MEMORY.md记忆</li>
@@ -122,20 +203,21 @@ ul li::before { content: '→'; position: absolute; left: 0; color: var(--purple
   </div>
 
   <!-- 第五板块：PUA讨论记录 -->
-  <div class="section">
-    <div class="section-title">🔥 PUA 讨论记录</div>
+  <div class="section-label">🔥 PUA 讨论记录</div>
+  <div class="glass-card">
+    <div class="card-title"><span class="emoji">🟠</span> MEMORY.md 长期膨胀问题</div>
     <div class="highlight-box">
-      <strong>主题：MEMORY.md 长期膨胀问题（两个串行agent）</strong><br><br>
-      <span class="tag tag-purple" style="margin-right:6px">A分析</span> 三区分类（活跃/静态/时效）、建议删Skill记录、每日进化记录移出<br>
-      <span class="tag tag-blue" style="margin-right:6px">B审查</span> 纠正A：AI进化学习应进活跃区（非静态）、Skill记录应保留anthropics对照表<br>
-      <span class="tag tag-cyan" style="margin-right:6px">主agent判断</span> B的纠正是对的，但「memory/日报27KB是问题」这一条B瞎说了<br><br>
-      <strong>结论：</strong>保守+方案（15.4KB → 11.1KB），主agent先给判断再说哪里一致/不一致
+      <span class="tag tag-purple">A分析</span> 三区分类（活跃/静态/时效）、建议删Skill记录、每日进化记录移出<br>
+      <span class="tag tag-blue">B审查</span> 纠正A：AI进化学习应进活跃区（非静态）、Skill记录应保留anthropics对照表<br>
+      <span class="tag tag-cyan">主agent判断</span> B的纠正是对的，但「memory/日报27KB是问题」这一条B瞎说了<br><br>
+      <strong>结论：</strong> 保守+方案（15.4KB → 11.1KB），主agent先给判断再说哪里一致/不一致
     </div>
   </div>
 
   <!-- 第六板块：经验沉淀 -->
-  <div class="section">
-    <div class="section-title">💡 经验沉淀</div>
+  <div class="section-label">💡 经验沉淀</div>
+  <div class="glass-card">
+    <div class="card-title"><span class="emoji">📝</span> 可复用经验</div>
     <ul>
       <li><strong>主agent处理A+B结论的正确姿势</strong> — 先给独立判断，再说和A/B哪里一致/不一致</li>
       <li><strong>Skill安装记录的价值</strong> — 系统自动管理，只需保留重复版本对照表</li>
@@ -145,8 +227,9 @@ ul li::before { content: '→'; position: absolute; left: 0; color: var(--purple
   </div>
 
   <!-- 第七板块：待处理 -->
-  <div class="section">
-    <div class="section-title">📋 待处理</div>
+  <div class="section-label">📋 待处理</div>
+  <div class="glass-card">
+    <div class="card-title"><span class="emoji">⏳</span> 待追踪事项</div>
     <table>
       <tr><td>飞书文档归档</td><td>6个历史文档待整理归档</td></tr>
       <tr><td>HEARTBEAT.md</td><td>每日心跳任务清单，待检查执行情况</td></tr>
@@ -155,9 +238,97 @@ ul li::before { content: '→'; position: absolute; left: 0; color: var(--purple
   </div>
 
   <div class="footer">
-    🦞 进化日报 · 002期 · 2026-04-01<br>
-    大麦 × AI 协同进化系统
+    🦞 进化日报 · 002期 · 2026-04-01 · 大麦 × AI 协同进化系统
   </div>
 </div>
+
+<script>
+(function() {
+  var canvas = document.getElementById('neuralCanvas');
+  var ctx = canvas.getContext('2d');
+  var particles = [];
+  var W, H;
+  var CFG = { count: 40, connectDist: 130, speed: 0.35, drift: 0.12, attractCX: 0.5, attractCY: 0.3, nodeR: 2, lineAlpha: 0.05 };
+  var colors = ['#BF5AF2','#0A84FF','#FF375F','#64D2FF','#30D158','#FF9F0A'];
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  var Pt = function() {
+    this.reset();
+  };
+  Pt.prototype.reset = function() {
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    this.vx = (Math.random() - 0.5) * CFG.speed;
+    this.vy = (Math.random() - 0.5) * CFG.speed;
+    this.color = colors[Math.floor(Math.random() * colors.length)];
+    this.alpha = 0.3 + Math.random() * 0.5;
+    this.phase = Math.random() * Math.PI * 2;
+    this.flicker = 0.9 + Math.random() * 0.1;
+  };
+  Pt.prototype.update = function(t) {
+    var cx = W * CFG.attractCX, cy = H * CFG.attractCY;
+    var dx = cx - this.x, dy = cy - this.y;
+    var d = Math.sqrt(dx * dx + dy * dy) + 1;
+    this.ax = (dx / d) * 0.012 + (Math.random() - 0.5) * CFG.drift * 0.1;
+    this.ay = (dy / d) * 0.012 + (Math.random() - 0.5) * CFG.drift * 0.1;
+    this.vx = (this.vx + this.ax) * 0.96;
+    this.vy = (this.vy + this.ay) * 0.96;
+    var spd = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+    if (spd > CFG.speed) { this.vx = (this.vx / spd) * CFG.speed; this.vy = (this.vy / spd) * CFG.speed; }
+    this.x += this.vx;
+    this.y += this.vy;
+    if (this.x < 0) this.x = W;
+    if (this.x > W) this.x = 0;
+    if (this.y < 0) this.y = H;
+    if (this.y > H) this.y = 0;
+    this.flicker = 0.88 + Math.sin(t * 0.001 + this.phase) * 0.12;
+  };
+  Pt.prototype.draw = function() {
+    ctx.save();
+    ctx.globalAlpha = this.alpha * this.flicker;
+    ctx.fillStyle = this.color;
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = this.color;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, CFG.nodeR, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  };
+
+  for (var i = 0; i < CFG.count; i++) particles.push(new Pt());
+
+  function lineBetween(a, b) {
+    var dx = a.x - b.x, dy = a.y - b.y;
+    var d = Math.sqrt(dx * dx + dy * dy);
+    if (d < CFG.connectDist) {
+      ctx.save();
+      ctx.globalAlpha = (1 - d / CFG.connectDist) * CFG.lineAlpha * a.flicker * b.flicker;
+      ctx.strokeStyle = a.color;
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+
+  (function loop(t) {
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < particles.length; i++) {
+      particles[i].update(t);
+      particles[i].draw();
+      for (var j = i + 1; j < particles.length; j++) lineBetween(particles[i], particles[j]);
+    }
+    requestAnimationFrame(loop);
+  })(0);
+})();
+</script>
 </body>
 </html>
