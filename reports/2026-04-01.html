@@ -131,11 +131,14 @@ ul li strong { color: var(--text); font-weight: 600; }
 
 <div class="container">
   <!-- 导航 -->
-  <div class="top-nav">
-    <a href="../">← 目录</a>
-    <span class="nav-sep">/</span>
-    <span class="nav-current">2026-04-01</span>
-  </div>
+  <nav class="top-nav" style="justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:0;">
+      <a href="../">← 目录</a>
+      <span class="nav-sep">/</span>
+      <span class="nav-current">2026-04-01 · Wednesday</span>
+    </div>
+    <button id="theme-toggle" onclick="toggleTheme()" title="切换日间/暗色模式" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;padding:2px 6px;border-radius:6px;transition:color 0.2s;">☀️</button>
+  </nav>
 
   <!-- 标题区 -->
   <div class="hero">
@@ -238,7 +241,12 @@ ul li strong { color: var(--text); font-weight: 600; }
   </div>
 
   <div class="footer">
-    🦞 进化日报 · 002期 · 2026-04-01 · 大麦 × AI 协同进化系统
+    <a href="../" style="display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);text-decoration:none;font-size:12px;margin-bottom:12px;">← 返回目录</a><br>
+    🦞 进化日报 · 002期 · 2026-04-01 · 大麦 × AI 协同进化系统<br>
+    <span style="font-size:11px;margin-top:8px;display:inline-block;">
+      <a href="https://evolution-report.vercel.app" style="color:var(--text-muted);">网页版</a> ·
+      <a href="https://www.feishu.cn/docx/JphydwQqsoxMXCxxhclcPx4nn5D" style="color:var(--text-muted);">飞书备份</a>
+    </span>
   </div>
 </div>
 
@@ -327,7 +335,27 @@ ul li strong { color: var(--text); font-weight: 600; }
       for (var j = i + 1; j < particles.length; j++) lineBetween(particles[i], particles[j]);
     }
     requestAnimationFrame(loop);
-  })(0);
+  function toggleTheme() {
+  const html = document.documentElement;
+  const btn = document.getElementById('theme-toggle');
+  const current = html.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  btn.textContent = next === 'dark' ? '☀️' : '🌙';
+  localStorage.setItem('theme', next);
+}
+(function() {
+  const saved = localStorage.getItem('theme');
+  if (saved) {
+    document.documentElement.setAttribute('data-theme', saved);
+    const btn = document.getElementById('theme-toggle');
+    if (btn) btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+})();
+
+})(0);
 })();
 </script>
 </body>
