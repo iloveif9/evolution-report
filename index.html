@@ -277,6 +277,22 @@ body {
   margin-bottom: 32px;
 }
 .footer-text { font-size: 11px; font-weight: 500; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; }
+.section {
+  background: var(--glass-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px 28px;
+  backdrop-filter: blur(20px);
+}
+.section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 </style>
 </head>
 <body>
@@ -351,6 +367,16 @@ body {
       <a class="today-cta" href="./reports/2026-04-01.html">
         阅读完整日报
         <span class="today-cta-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 往期日报 -->
+  <div class="section" style="margin-top:32px;">
+    <div class="section-title">📁 往期日报</div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
+      <a href="./reports/2026-03-31.html" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:rgba(191,90,242,0.12);border:1px solid rgba(191,90,242,0.30);border-radius:100px;font-size:13px;font-weight:600;color:var(--purple);text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='rgba(191,90,242,0.22)';this.style.borderColor='rgba(191,90,242,0.50)'" onmouseout="this.style.background='rgba(191,90,242,0.12)';this.style.borderColor='rgba(191,90,242,0.30)'">
+        001 · 2026-03-31
       </a>
     </div>
   </div>
