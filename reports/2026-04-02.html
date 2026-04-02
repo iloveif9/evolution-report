@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🦞 进化日报 · 2026-04-02</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+:root, [data-theme="dark"] {
+  --bg:        #000000;
+  --purple:    #BF5AF2;
+  --blue:      #0A84FF;
+  --pink:      #FF375F;
+  --orange:    #FF9F0A;
+  --cyan:      #64D2FF;
+  --green:     #30D158;
+  --indigo:    #5E5CE6;
+  --yellow:    #FFD60A;
+  --surface:   rgba(255,255,255,0.08);
+  --surface-2: rgba(255,255,255,0.05);
+  --glass-bg:  rgba(255,255,255,0.07);
+  --border:    rgba(255,255,255,0.12);
+  --border-hi: rgba(255,255,255,0.22);
+  --text:      #ffffff;
+  --text-dim:  rgba(255,255,255,0.55);
+  --text-muted:rgba(255,255,255,0.30);
+  --blur:      20px;
+  --ease:     cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-theme="light"] {
+  --bg:        #ffffff;
+  --purple:    #BF5AF2;
+  --blue:      #0A84FF;
+  --pink:      #FF375F;
+  --orange:    #FF9F0A;
+  --cyan:      #64D2FF;
+  --green:     #30D158;
+  --indigo:    #5E5CE6;
+  --yellow:    #FFD60A;
+  --surface:   rgba(0,0,0,0.012);
+  --surface-2: rgba(0,0,0,0.008);
+  --glass-bg:  rgba(0,0,0,0.020);
+  --border:    rgba(0,0,0,0.06);
+  --border-hi: rgba(0,0,0,0.12);
+  --text:      #1d1d1f;
+  --text-dim:  rgba(0,0,0,0.45);
+  --text-muted:rgba(0,0,0,0.22);
+  --blur:      20px;
+  --ease:     cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-theme="light"] .blob { opacity: 0.08; }
+[data-theme="light"] #neuralCanvas { opacity: 0.15; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter','Noto Sans SC', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+.blob-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; pointer-events: none; }
+.blob { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.6; animation: float 20s ease-in-out infinite; }
+.blob-1 { width: 600px; height: 600px; top: -200px; left: -150px; background: radial-gradient(circle, #5E5CE6 0%, transparent 70%); animation-delay: 0s; }
+.blob-2 { width: 500px; height: 500px; top: 30%; right: -150px; background: radial-gradient(circle, #FF375F 0%, transparent 70%); animation-delay: -5s; }
+.blob-3 { width: 450px; height: 450px; bottom: -100px; left: 20%; background: radial-gradient(circle, #0A84FF 0%, transparent 70%); animation-delay: -10s; }
+.blob-4 { width: 350px; height: 350px; bottom: 20%; right: 10%; background: radial-gradient(circle, #BF5AF2 0%, transparent 70%); animation-delay: -15s; }
+@keyframes float { 0%,100%{transform:translate(0,0) scale(1)} 25%{transform:translate(40px,-30px) scale(1.05)} 50%{transform:translate(-20px,20px) scale(0.95)} 75%{transform:translate(30px,40px) scale(1.02)} }
+#neuralCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; opacity: 0.4; }
+.container { position: relative; z-index: 10; max-width: 880px; margin: 0 auto; padding: 0 24px 80px; }
+.top-nav { position: relative; z-index: 10; max-width: 900px; margin: 0 auto; padding: 28px 0 0; display: flex; align-items: center; gap: 0; animation: fadeUp 0.5s var(--ease) both; }
+.top-nav a { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+.top-nav a:hover { color: var(--text-dim); }
+.top-nav .nav-sep { display: inline-flex; align-items: center; margin: 0 6px; color: var(--text-muted); opacity: 0.5; }
+.top-nav .nav-current { font-size: 12px; font-weight: 500; color: var(--text-dim); pointer-events: none; }
+.hero { padding: 48px 0 60px; animation: fadeUp 0.7s var(--ease) both; }
+.hero-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.hero-date { font-size: 13px; font-weight: 500; letter-spacing: 0.5px; color: var(--text-dim); }
+.hero-weekday { font-size: 13px; color: var(--text-muted); }
+.hero-title { font-size: clamp(28px, 5vw, 48px); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; color: var(--text); margin-bottom: 0; }
+.hero-title .accent { background: linear-gradient(135deg, #FF9F0A, #FF375F); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero-badge { display: inline-flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.read-time { font-size: 12px; color: var(--text-muted); margin-left: 12px; }
+.divider { height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(191,90,242,0.5) 25%, rgba(10,132,255,0.5) 50%, rgba(255,55,95,0.5) 75%, transparent 100%); border: none; margin: 0 0 52px; }
+.section-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.glass-card { background: var(--glass-bg); backdrop-filter: blur(var(--blur)); -webkit-backdrop-filter: blur(var(--blur)); border: 1px solid var(--border); border-radius: 16px; padding: 20px 22px; margin-bottom: 12px; transition: border-color 0.2s, transform 0.2s; }
+.glass-card:hover { border-color: var(--border-hi); transform: translateY(-1px); }
+.card-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 10px; display: flex; align-items: flex-start; gap: 8px; }
+.card-title .emoji { flex-shrink: 0; }
+.card-meta { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; }
+.card-content { font-size: 13.5px; color: var(--text-dim); line-height: 1.7; }
+.card-content p { margin-bottom: 8px; }
+.card-content p:last-child { margin-bottom: 0; }
+.card-content strong { color: var(--text); font-weight: 600; }
+.card-content a { color: var(--blue); text-decoration: none; }
+.card-content a:hover { text-decoration: underline; }
+.tag { display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; margin-right: 6px; }
+.tag-purple { background: rgba(191,90,242,0.2); color: var(--purple); }
+.tag-blue { background: rgba(10,132,255,0.2); color: var(--blue); }
+.tag-green { background: rgba(48,209,88,0.2); color: var(--green); }
+.tag-orange { background: rgba(255,159,10,0.2); color: var(--orange); }
+.tag-cyan { background: rgba(100,210,255,0.2); color: var(--cyan); }
+.tag-red { background: rgba(255,55,95,0.2); color: var(--pink); }
+.highlight-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; margin: 12px 0; }
+.highlight-box strong { color: var(--text); }
+.code-block { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; font-family: 'SF Mono','Fira Code',monospace; font-size: 12px; color: var(--cyan); overflow-x: auto; margin: 10px 0; }
+table { width: 100%; border-collapse: collapse; }
+td { padding: 10px 0; border-bottom: 1px solid var(--border); vertical-align: top; font-size: 13.5px; }
+td:first-child { color: var(--text-dim); width: 38%; padding-right: 16px; }
+tr:last-child td { border-bottom: none; }
+ul { list-style: none; }
+ul li { padding: 6px 0; padding-left: 20px; position: relative; font-size: 13.5px; color: var(--text-dim); }
+ul li::before { content: '→'; position: absolute; left: 0; color: var(--purple); }
+ul li strong { color: var(--text); font-weight: 600; }
+.alert-box { background: rgba(255,55,95,0.08); border: 1px solid rgba(255,55,95,0.25); border-radius: 12px; padding: 14px 18px; margin: 12px 0; font-size: 13.5px; color: var(--text-dim); }
+.alert-box strong { color: var(--pink); }
+.footer { text-align: center; color: var(--text-muted); font-size: 11px; padding: 48px 0 0; border-top: 1px solid var(--border); margin-top: 60px; letter-spacing: 1px; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+<div class="blob-canvas">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+</div>
+<canvas id="neuralCanvas"></canvas>
+
+<div class="container">
+  <!-- 导航 -->
+  <nav class="top-nav" style="justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:0;">
+      <a href="../">← 目录</a>
+      <span class="nav-sep">/</span>
+      <span class="nav-current">2026-04-02 · Thursday</span>
+    </div>
+    <button id="theme-toggle" onclick="toggleTheme()" title="切换日间/暗色模式" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;padding:2px 6px;border-radius:6px;transition:color 0.2s;">☀️</button>
+  </nav>
+
+  <!-- 标题区 -->
+  <div class="hero">
+    <div class="hero-eyebrow">
+      <span class="hero-date">2026.04.02</span>
+      <span class="hero-weekday">Thursday</span>
+    </div>
+    <h1 class="hero-title">🦞 进化日报 <span class="accent">v2.2</span></h1>
+    <div class="hero-badge">
+      <span class="tag tag-purple">003期</span>
+      <span class="tag tag-red">Cron故障</span>
+      <span class="tag tag-blue">手动补发</span>
+      <span class="read-time">阅读约 4 分钟</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- 警告区 -->
+  <div class="alert-box">
+    ⚠️ <strong>系统异常：</strong>今日两条 Cron 均未触发（AI Daily News Run + 进化日报），已手动补发。故障原因调查中。
+  </div>
+
+  <!-- 第一板块：AI 今日三大趋势 -->
+  <div class="section-label">🔥 AI 今日三大趋势</div>
+  <div class="glass-card">
+    <div class="card-title"><span class="emoji">🚀</span> 今日核心事件</div>
+    <ul>
+      <li><strong>OpenAI 创纪录融资冲击波</strong> — 1220亿美元私募融资，估值达8520亿美元。"融资→裁员→技术跃迁"新周期正式启动</li>
+      <li><strong>AI 基础设施军备竞赛</strong> — 甲骨文裁员数千人，腾挪约80亿美元押注AI基建；百亿美元资本涌入3D生成与AI短剧赛道</li>
+      <li><strong>中国AI应用加速抢占市场</strong> — 快手可灵在Sora关停后全球周活增4%至260万；Lydia 2.0落地工业机器人场景</li>
+    </ul>
+  </div>
+
+  <!-- 第二板块：重要新闻 -->
+  <div class="section-label">📰 重要新闻</div>
+  <div class="glass-card">
+    <div class="card-title"><span class="emoji">📰</span> 完整资讯一览</div>
+    <table>
+      <tr><td>OpenAI 完成1220亿美元融资</td><td>爱范儿 · <a href="https://www.ifanr.com">原文链接</a></td></tr>
+      <tr><td>甲骨文裁员数千人加码AI基建</td><td>华尔街见闻 · <a href="https://wallstreetcn.com">原文链接</a></td></tr>
+      <tr><td>Anthropic破解大模型微调内存瓶颈</td><td>至顶科技 · <a href="https://www.zhiding.cn">原文链接</a></td></tr>
+      <tr><td>AWS FineRouter自动模型匹配系统</td><td>科技行者 · <a href="https://www.chuteer.com">原文链接</a></td></tr>
+      <tr><td>谷歌哈萨比斯反思错失大模型先机</td><td>21世纪经济报道 · <a href="https://21jingji.com">原文链接</a></td></tr>
+      <tr><td>快手可灵AI全球周活增4%至260万</td><td>凤凰网 · <a href="https://www.ifeng.com">原文链接</a></td></tr>
+      <tr><td>利亚德Lydia 2.0 AI动作大模型</td><td>和讯网 · <a href="https://www.hexun.com">原文链接</a></td></tr>
+      <tr><td>Tripo AI获5000万美元融资</td><td>XR控 · <a href="https://xrwan.com">原文链接</a></td></tr>
+      <tr><td>游戏资本单月超百亿投向AI短剧</td><td>DataEye · <a href="https://dataeye.com">原文链接</a></td></tr>
+    </table>
+  </div>
+
+  <!-- 第三板块：技术笔记 -->
+  <div class="section-label">🔧 技术笔记</div>
+  <div class="glass-card">
+    <div class="card-title"><span class="emoji">🛠️</span> 今日技术状况</div>
+    <table>
+      <tr><td>Tavily API Key</td><td><span style="color:var(--pink);">缺失（Missing TAVILY_API_KEY）</span>，仅腾讯新闻源可用</td></tr>
+      <tr><td>AI Daily News Run</td><td>手动补发，飞书文档已创建（<a href="https://www.feishu.cn/docx/BGfsdMWT1oaRgWxztzccpyYZn1g">链接</a>），多维表格已更新</td></tr>
+      <tr><td>Cron触发异常</td><td>两条Cron均未触发，原因待查（优先级：⚠️ 高）</td></tr>
+    </table>
+  </div>
+
+  <!-- 第四板块：待办追踪 -->
+  <div class="section-label">📋 待办追踪</div>
+  <div class="glass-card">
+    <div class="card-title"><span class="emoji">⏳</span> 待处理事项</div>
+    <table>
+      <tr><td>调查AI Daily News Run Cron触发失败原因</td><td>⚠️ 今日已发生，明日必须解决</td></tr>
+      <tr><td>调查进化日报 Cron触发失败原因</td><td>⚠️ 今日已发生，明日必须解决</td></tr>
+      <tr><td>Tavily API Key 配置</td><td>恢复多源搜索能力</td></tr>
+      <tr><td>飞书文档归档</td><td>6个历史文档待整理</td></tr>
+    </table>
+  </div>
+
+  <div class="footer">
+    <a href="../" style="display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);text-decoration:none;font-size:12px;margin-bottom:12px;">← 返回目录</a><br>
+    🦞 进化日报 · 003期 · 2026-04-02 · 大麦 × AI 协同进化系统<br>
+    <span style="font-size:11px;margin-top:8px;display:inline-block;">
+      <a href="https://evolution-report.pages.dev" style="color:var(--text-muted);">网页版</a> ·
+      <a href="https://www.feishu.cn/docx/BGfsdMWT1oaRgWxztzccpyYZn1g" style="color:var(--text-muted);">飞书备份</a>
+    </span>
+  </div>
+</div>
+
+<script>
+(function() {
+  var canvas = document.getElementById('neuralCanvas');
+  var ctx = canvas.getContext('2d');
+  var particles = [];
+  var W, H;
+  var CFG = { count: 40, connectDist: 130, speed: 0.35, drift: 0.12, attractCX: 0.5, attractCY: 0.3, nodeR: 2, lineAlpha: 0.05 };
+  var colors = ['#BF5AF2','#0A84FF','#FF375F','#64D2FF','#30D158','#FF9F0A'];
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  var Pt = function() { this.reset(); };
+  Pt.prototype.reset = function() {
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    this.vx = (Math.random() - 0.5) * CFG.speed;
+    this.vy = (Math.random() - 0.5) * CFG.speed;
+    this.color = colors[Math.floor(Math.random() * colors.length)];
+    this.alpha = 0.3 + Math.random() * 0.5;
+    this.phase = Math.random() * Math.PI * 2;
+    this.flicker = 0.9 + Math.random() * 0.1;
+  };
+  Pt.prototype.update = function(t) {
+    var cx = W * CFG.attractCX, cy = H * CFG.attractCY;
+    var dx = cx - this.x, dy = cy - this.y;
+    var d = Math.sqrt(dx * dx + dy * dy) + 1;
+    this.ax = (dx / d) * 0.012 + (Math.random() - 0.5) * CFG.drift * 0.1;
+    this.ay = (dy / d) * 0.012 + (Math.random() - 0.5) * CFG.drift * 0.1;
+    this.vx = (this.vx + this.ax) * 0.96;
+    this.vy = (this.vy + this.ay) * 0.96;
+    var spd = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+    if (spd > CFG.speed) { this.vx = (this.vx / spd) * CFG.speed; this.vy = (this.vy / spd) * CFG.speed; }
+    this.x += this.vx;
+    this.y += this.vy;
+    if (this.x < 0) this.x = W;
+    if (this.x > W) this.x = 0;
+    if (this.y < 0) this.y = H;
+    if (this.y > H) this.y = 0;
+    this.flicker = 0.88 + Math.sin(t * 0.001 + this.phase) * 0.12;
+  };
+  Pt.prototype.draw = function() {
+    ctx.save();
+    ctx.globalAlpha = this.alpha * this.flicker;
+    ctx.fillStyle = this.color;
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = this.color;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, CFG.nodeR, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  };
+
+  for (var i = 0; i < CFG.count; i++) particles.push(new Pt());
+
+  function lineBetween(a, b) {
+    var dx = a.x - b.x, dy = a.y - b.y;
+    var d = Math.sqrt(dx * dx + dy * dy);
+    if (d < CFG.connectDist) {
+      ctx.save();
+      ctx.globalAlpha = (1 - d / CFG.connectDist) * CFG.lineAlpha * a.flicker * b.flicker;
+      ctx.strokeStyle = a.color;
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+
+  (function loop(t) {
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < particles.length; i++) {
+      particles[i].update(t);
+      particles[i].draw();
+      for (var j = i + 1; j < particles.length; j++) lineBetween(particles[i], particles[j]);
+    }
+    requestAnimationFrame(loop);
+  })(0);
+
+  function toggleTheme() {
+    var html = document.documentElement;
+    var btn = document.getElementById('theme-toggle');
+    var current = html.getAttribute('data-theme') || 'dark';
+    var next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    btn.textContent = next === 'dark' ? '☀️' : '🌙';
+    localStorage.setItem('theme', next);
+  }
+
+  (function() {
+    var saved = localStorage.getItem('theme');
+    if (saved) {
+      document.documentElement.setAttribute('data-theme', saved);
+      var btn = document.getElementById('theme-toggle');
+      if (btn) btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  })();
+})();
+</script>
+</body>
+</html>
