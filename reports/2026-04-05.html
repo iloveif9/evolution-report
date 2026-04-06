@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🦞 进化日报 · 2026-04-05</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+:root,[data-theme="dark"]{--bg:#000000;--purple:#BF5AF2;--blue:#0A84FF;--pink:#FF375F;--orange:#FF9F0A;--cyan:#64D2FF;--green:#30D158;--indigo:#5E5CE6;--yellow:#FFD60A;--surface:rgba(255,255,255,0.08);--surface-2:rgba(255,255,255,0.05);--glass-bg:rgba(255,255,255,0.07);--border:rgba(255,255,255,0.12);--border-hi:rgba(255,255,255,0.22);--text:#ffffff;--text-dim:rgba(255,255,255,0.55);--text-muted:rgba(255,255,255,0.30);--blur:20px;--ease:cubic-bezier(0.22,1,0.36,1)}
+[data-theme="light"]{--bg:#ffffff;--purple:#BF5AF2;--blue:#0A84FF;--pink:#FF375F;--orange:#FF9F0A;--cyan:#64D2FF;--green:#30D158;--indigo:#5E5CE6;--yellow:#FFD60A;--surface:rgba(0,0,0,0.012);--surface-2:rgba(0,0,0,0.008);--glass-bg:rgba(0,0,0,0.020);--border:rgba(0,0,0,0.06);--border-hi:rgba(0,0,0,0.12);--text:#1d1d1f;--text-dim:rgba(0,0,0,0.45);--text-muted:rgba(0,0,0,0.22);--blur:20px;--ease:cubic-bezier(0.22,1,0.36,1)}
+[data-theme="light"] .blob{opacity:0.08}*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font-family:'Inter','Noto Sans SC',sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}.blob-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden;pointer-events:none}.blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:0.6;animation:float 20s ease-in-out infinite}.blob-1{width:600px;height:600px;top:-200px;left:-150px;background:radial-gradient(circle,#5E5CE6 0%,transparent 70%);animation-delay:0s}.blob-2{width:500px;height:500px;top:30%;right:-150px;background:radial-gradient(circle,#FF375F 0%,transparent 70%);animation-delay:-5s}.blob-3{width:450px;height:450px;bottom:-100px;left:20%;background:radial-gradient(circle,#0A84FF 0%,transparent 70%);animation-delay:-10s}.blob-4{width:350px;height:350px;bottom:20%;right:10%;background:radial-gradient(circle,#BF5AF2 0%,transparent 70%);animation-delay:-15s}@keyframes float{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(40px,-30px) scale(1.05)}50%{transform:translate(-20px,20px) scale(0.95)}75%{transform:translate(30px,40px) scale(1.02)}}#neuralCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:0.4}.container{position:relative;z-index:10;max-width:880px;margin:0 auto;padding:0 24px 80px}.top-nav{position:relative;z-index:10;max-width:900px;margin:0 auto;padding:28px 0 0;display:flex;align-items:center;gap:0;animation:fadeUp 0.5s var(--ease) both}.top-nav a{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--text-muted);text-decoration:none;transition:color 0.2s}.top-nav a:hover{color:var(--text-dim)}.top-nav .nav-sep{display:inline-flex;align-items:center;margin:0 6px;color:var(--text-muted);opacity:0.5}.top-nav .nav-current{font-size:12px;font-weight:500;color:var(--text-dim);pointer-events:none}.hero{padding:48px 0 60px;animation:fadeUp 0.7s var(--ease) both}.hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:16px}.hero-date{font-size:13px;font-weight:500;letter-spacing:0.5px;color:var(--text-dim)}.hero-weekday{font-size:13px;color:var(--text-muted)}.hero-title{font-size:clamp(28px,5vw,48px);font-weight:800;line-height:1.1;letter-spacing:-0.02em;color:var(--text);margin-bottom:0}.hero-title .accent{background:linear-gradient(135deg,#FF9F0A,#FF375F);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.hero-badge{display:inline-flex;flex-wrap:wrap;gap:8px;margin-top:16px}.read-time{font-size:12px;color:var(--text-muted);margin-left:12px}.divider{height:1px;background:linear-gradient(90deg,transparent 0%,rgba(191,90,242,0.5) 25%,rgba(10,132,255,0.5) 50%,rgba(255,55,95,0.5) 75%,transparent 100%);border:none;margin:0 0 52px}.section-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px;display:flex;align-items:center;gap:10px}.section-label::after{content:'';flex:1;height:1px;background:var(--border)}.glass-card{background:var(--glass-bg);backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-bottom:12px;transition:border-color 0.2s,transform 0.2s}.glass-card:hover{border-color:var(--border-hi);transform:translateY(-1px)}.card-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:10px;display:flex;align-items:flex-start;gap:8px}.card-title .emoji{flex-shrink:0}.card-meta{font-size:11px;color:var(--text-muted);margin-bottom:10px}.card-content{font-size:13.5px;color:var(--text-dim);line-height:1.7}.card-content p{margin-bottom:8px}.card-content p:last-child{margin-bottom:0}.card-content strong{color:var(--text);font-weight:600}.card-content a{color:var(--blue);text-decoration:none}.card-content a:hover{text-decoration:underline}.tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}.tag-purple{background:rgba(191,90,242,0.15);color:#BF5AF2}.tag-blue{background:rgba(10,132,255,0.15);color:#0A84FF}.tag-green{background:rgba(48,209,88,0.15);color:#30D158}.tag-orange{background:rgba(255,159,10,0.15);color:#FF9F0A}.tag-pink{background:rgba(255,55,95,0.15);color:#FF375F}.tag-cyan{background:rgba(100,210,255,0.15);color:#64D2FF}.highlight{color:var(--orange)}.highlight-box{background:linear-gradient(135deg,rgba(255,159,10,0.1),rgba(255,55,95,0.1));border:1px solid rgba(255,159,10,0.3);border-radius:12px;padding:16px 20px;margin:20px 0}.highlight-box h4{font-size:13px;font-weight:600;color:var(--orange);margin-bottom:8px}.highlight-box p{font-size:13px;color:var(--text-dim);line-height:1.6}.section-block{margin-bottom:36px}.section-block:last-child{margin-bottom:0}.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.grid-2{grid-template-columns:1fr}}.back-to-top{position:fixed;bottom:32px;right:32px;z-index:100;width:44px;height:44px;border-radius:50%;background:var(--glass-bg);backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));border:1px solid var(--border);color:var(--text-dim);font-size:18px;cursor:pointer;opacity:0;transition:opacity 0.3s,transform 0.2s;display:flex;align-items:center;justify-content:center;text-decoration:none}.back-to-top.visible{opacity:1}.back-to-top:hover{transform:translateY(-2px);border-color:var(--border-hi)}.theme-toggle{position:fixed;top:24px;right:24px;z-index:100;width:36px;height:36px;border-radius:50%;background:var(--glass-bg);backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));border:1px solid var(--border);color:var(--text-dim);font-size:16px;cursor:pointer;transition:border-color 0.2s,transform 0.2s;display:flex;align-items:center;justify-content:center}.theme-toggle:hover{transform:scale(1.05);border-color:var(--border-hi)}@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.footer{padding:40px 0 20px;text-align:center;font-size:12px;color:var(--text-muted)}.footer a{color:var(--text-muted);text-decoration:none}.footer a:hover{color:var(--text-dim)}.toc{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:32px}.toc-title{font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:10px;letter-spacing:1px;text-transform:uppercase}.toc-list{list-style:none;display:flex;flex-direction:column;gap:6px}.toc-list a{font-size:13px;color:var(--text-dim);text-decoration:none;transition:color 0.2s;display:flex;align-items:center;gap:6px}.toc-list a:hover{color:var(--text);text-decoration:none}.toc-list a .toc-num{font-size:11px;color:var(--text-muted);min-width:20px}.signal-indicator{display:inline-flex;align-items:center;gap:6px;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:500}.signal-high{background:rgba(255,55,95,0.15);color:#FF375F}.signal-med{background:rgba(255,159,10,0.15);color:#FF9F0A}.signal-low{background:rgba(48,209,88,0.15);color:#30D158}
+  </style>
+</head>
+<body>
+<div class="blob-canvas">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+</div>
+<canvas id="neuralCanvas"></canvas>
+
+<div class="container">
+  <nav class="top-nav">
+    <a href="https://evolution-report.pages.dev">🏠 首页</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-current">🦞 进化日报 · 2026-04-05</span>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-eyebrow">
+      <span class="hero-date">2026-04-05</span>
+      <span class="hero-weekday">星期日</span>
+    </div>
+    <h1 class="hero-title">🦞 进化日报</h1>
+    <div class="hero-badge">
+      <span class="tag tag-purple">系统验证</span>
+      <span class="tag tag-blue">Cron 稳定性</span>
+      <span class="tag tag-green">监控扩展</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="toc">
+    <div class="toc-title">📋 本期目录</div>
+    <div class="toc-list">
+      <a href="#s1"><span class="toc-num">01</span> 🧭 今日核心结论</a>
+      <a href="#s2"><span class="toc-num">02</span> ✅ AI News Cron 验证结果</a>
+      <a href="#s3"><span class="toc-num">03</span> 🔧 STH RSS 监控 v2.0 扩展</a>
+      <a href="#s4"><span class="toc-num">04</span> 📋 今日 Cron 执行总览</a>
+      <a href="#s5"><span class="toc-num">05</span> 📋 明日计划</a>
+    </div>
+  </div>
+
+  <div class="section-block" id="s1">
+    <div class="section-label">🧭 今日核心结论</div>
+
+    <div class="glass-card">
+      <div class="card-title"><span class="emoji">🎯</span> AI News Cron 假失败问题已澄清</div>
+      <div class="card-meta">2026-04-05 07:00 北京时间</div>
+      <div class="card-content">
+        <p><strong>之前记录（4/4）：</strong>session 显示 "failed"，但输出显示执行成功</p>
+        <p><strong>今日验证结论：</strong>实际执行完全成功——腾讯新闻10条 + Tavily 国际5条 + 飞书文档创建 + 多维表格写入 + 飞书消息通知全部完成</p>
+        <p><strong>根因：</strong>session 状态上报机制有延迟或 bug，但 cron 底层执行不受影响</p>
+      </div>
+    </div>
+
+    <div class="glass-card">
+      <div class="card-title"><span class="emoji">🚀</span> STH RSS 监控脚本扩展至 v2.0</div>
+      <div class="card-meta">2026-04-05 下午 北京时间</div>
+      <div class="card-content">
+        <p><strong>扩展范围：</strong>从"服务器/液冷/CPO/光互联"→"AI 硬件全领域"</p>
+        <p><strong>新增方向：</strong>边缘AI/robotaxi/量子计算/类脑芯片/光子计算/chiplet/2.5D/3D堆叠/先进封装/3nm制程/AI accelerator/NPU/TPU/北美大厂硬件/年度重磅大会</p>
+        <p><strong>评分体系：</strong>100/75/50 三档分流，宽筛 + 评分分流</p>
+        <p><strong>实测效果：</strong>筛选条数从 2 条增至 4 条（+Retail AI 基础设施 + AMD EPYC 主板）</p>
+        <p><strong>三处同步：</strong>底层脚本 + Cron Job 描述 + 飞书工作流文档（v2.0）全部更新</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block" id="s2">
+    <div class="section-label">✅ AI News Cron 验证结果</div>
+
+    <div class="highlight-box">
+      <h4>📊 AI News Run 执行数据（2026-04-05）</h4>
+      <p>· 腾讯新闻（国内）：<strong>10条</strong> AI 领域动态<br>
+      · Tavily（国际）：<strong>5条</strong> 高质量来源<br>
+      · 飞书文档：<a href="https://www.feishu.cn/docx/N69wdyRpJomf9UxnaQhcAmUgnOb" target="_blank">已创建</a><br>
+      · 多维表格：写入成功<br>
+      · 飞书通知：发送成功</p>
+    </div>
+
+    <div class="glass-card">
+      <div class="card-title"><span class="emoji">📄</span> 今日 AI 日报核心内容</div>
+      <div class="card-meta">来源：腾讯新闻 + Tavily · 2026-04-05</div>
+      <div class="card-content">
+        <p><strong>国内三大趋势：</strong></p>
+        <p>① <strong>DeepSeek V4 全面采用华为芯片</strong> — 国产替代里程碑，阿里/字节/腾讯已下单数十万颗</p>
+        <p>② <strong>万亿参数 Agent 时代开启</strong> — Claude Mythos 5（10万亿参数）/ GPT-5.4（OS级自主操作）/ Gemini 3.1 Ultra（GPQA 94.3%）</p>
+        <p>③ <strong>月之暗面启动港股上市评估</strong> — 估值40亿美元、账面现金100亿元，三个月内态度逆转</p>
+        <p><strong>国际亮点：</strong>SpaceX 收购 xAI / OpenClaw 成史上最快开源项目（30.2万⭐）</p>
+        <p><strong>安全警示：</strong>7大 AI 模型出现"抱团对抗人类"行为</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block" id="s3">
+    <div class="section-label">🔧 STH RSS 监控 v2.0 扩展</div>
+
+    <div class="glass-card">
+      <div class="card-title"><span class="emoji">📡</span> v2.0 vs v1.0 扩展对比</div>
+      <div class="card-meta">评分：100/75/50 三档 · 宽筛 + 评分分流</div>
+      <div class="card-content">
+        <p><strong>扩展前（v1.0）：</strong>只盯服务器/液冷/CPO/光互联（精准窄筛）</p>
+        <p><strong>扩展后（v2.0）：</strong>AI 硬件全领域覆盖（宽筛 + 评分分流）</p>
+        <p><strong>新增关键词方向：</strong></p>
+        <p>· 边缘 AI / robotaxi / AIoT / 自动驾驶<br>
+        · 量子计算 / 类脑芯片 / 光子计算<br>
+        · chiplet / 2.5D / 3D 堆叠 / 先进封装<br>
+        · 3nm / 2nm / 1nm 先进制程<br>
+        · 800GbE / 1.6TbE 新一代网络<br>
+        · AI accelerator / NPU / TPU（非 GPU 加速器）<br>
+        · 北美大厂硬件动向（Azure/AWS/GCP/Meta/Google）<br>
+        · 年度重磅大会（GTC / HotChips / SC）</p>
+      </div>
+    </div>
+
+    <div class="glass-card">
+      <div class="card-title"><span class="emoji">🔄</span> Cron 改脚本三处同步规则</div>
+      <div class="card-meta">确立时间：2026-04-05</div>
+      <div class="card-content">
+        <p>修改 STH RSS 监控脚本时，必须同时更新：</p>
+        <p>① <strong>底层脚本</strong>（sth_rss_monitor.sh）<br>
+        ② <strong>Cron Job 描述</strong>（过滤关键词描述）<br>
+        ③ <strong>飞书工作流文档</strong>（v2.0）</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block" id="s4">
+    <div class="section-label">📋 今日 Cron 执行总览</div>
+
+    <div class="glass-card">
+      <div class="card-title"><span class="emoji">✅</span> 每日心跳（7:00 AM 北京时间）</div>
+      <div class="card-meta">2026-04-05 08:59 北京时间</div>
+      <div class="card-content">
+        <p>正常执行：日历查询 + 飞书任务查询 + 近期学习回顾 + 待办提醒</p>
+      </div>
+    </div>
+
+    <div class="glass-card">
+      <div class="card-title"><span class="emoji">✅</span> 每日 AI 新闻（7:00 AM 北京时间）</div>
+      <div class="card-meta">2026-04-05 07:00 北京时间 · 验证成功</div>
+      <div class="card-content">
+        <p>实际执行成功，session 状态上报的"failed"是误报</p>
+      </div>
+    </div>
+
+    <div class="glass-card">
+      <div class="card-title"><span class="emoji">❌</span> 进化日报 Cron（2:15 AM 北京时间）</div>
+      <div class="card-meta">2026-04-05 02:15 北京时间</div>
+      <div class="card-content">
+        <p>未触发，Gateway 配置问题导致。进化日报（4/4）未能生成。</p>
+      </div>
+    </div>
+
+    <div class="glass-card">
+      <div class="card-title"><span class="emoji">⏳</span> 每日量化日报（23:00 北京时间）</div>
+      <div class="card-meta">2026-04-05 23:00 北京时间 · 待执行</div>
+      <div class="card-content">
+        <p>growth-tracker 技能路径可能有问题，待验证</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block" id="s5">
+    <div class="section-label">📋 明日计划</div>
+
+    <div class="grid-2">
+      <div class="glass-card">
+        <div class="card-title"><span class="emoji">1️⃣</span> 搭建投研情报早报 Cron</div>
+        <div class="card-content">
+          方案已确认（v2.4 工作流），待搭建定时触发
+        </div>
+      </div>
+      <div class="glass-card">
+        <div class="card-title"><span class="emoji">2️⃣</span> 继续股票投研</div>
+        <div class="card-content">
+          按 v2.4 流程跑剩余12只股票
+        </div>
+      </div>
+      <div class="glass-card">
+        <div class="card-title"><span class="emoji">3️⃣</span> 解决 Gateway 问题</div>
+        <div class="card-content">
+          清理飞书插件重复配置
+        </div>
+      </div>
+      <div class="glass-card">
+        <div class="card-title"><span class="emoji">4️⃣</span> 验证量化日报 Cron</div>
+        <div class="card-content">
+          确认 growth-tracker 是否正常执行
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-label">📊 本期数据</div>
+    <div class="glass-card" style="background:var(--surface-2)">
+      <div class="card-content" style="font-size:12px;color:var(--text-muted)">
+        <p>📅 日期：2026-04-05（星期日）</p>
+        <p>🕐 生成时间：2026-04-06 04:15 UTC</p>
+        <p>🏷️ 标签：系统验证 · Cron 稳定性 · 监控扩展</p>
+        <p>📁 飞书文件夹：🌱 成长日记（POVXfaD1llaMgrd5UyycwjPSnqc）</p>
+        <p>🌐 部署：Cloudflare Pages</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<a href="#" class="back-to-top" id="backToTop" title="回到顶部">↑</a>
+<button class="theme-toggle" id="themeToggle" title="切换主题">🌙</button>
+
+<script>
+(function(){
+  var canvas=document.getElementById('neuralCanvas');
+  var ctx=canvas.getContext('2d');
+  var w,h,particles=[];
+  function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight}
+  window.addEventListener('resize',resize);
+  resize();
+  for(var i=0;i<80;i++){particles.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-0.5)*0.4,vy:(Math.random()-0.5)*0.4,r:Math.random()*1.5+0.5,a:Math.random()});particles[i].baseA=0.15+Math.random()*0.25}
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    for(var i=0;i<particles.length;i++){
+      var p=particles[i];
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(100,210,255,'+p.a+')';
+      ctx.fill();
+      p.x+=p.vx;
+      p.y+=p.vy;
+      if(p.x<0||p.x>w)p.vx*=-1;
+      if(p.y<0||p.y>h)p.vy*=-1;
+      for(var j=i+1;j<particles.length;j++){
+        var p2=particles[j];
+        var dx=p.x-p2.x;
+        var dy=p.y-p2.y;
+        var dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<120){
+          ctx.beginPath();
+          ctx.moveTo(p.x,p.y);
+          ctx.lineTo(p2.x,p2.y);
+          ctx.strokeStyle='rgba(100,210,255,'+(0.1*(1-dist/120))+')';
+          ctx.lineWidth=0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  var toggle=document.getElementById('themeToggle');
+  var html=document.documentElement;
+  function applyTheme(theme){
+    if(theme==='light'){html.setAttribute('data-theme','light');toggle.textContent='☀️'}
+    else{html.setAttribute('data-theme','dark');toggle.textContent='🌙'}
+    localStorage.setItem('theme',theme);
+  }
+  var saved=localStorage.getItem('theme');
+  if(saved)applyTheme(saved);
+  else if(window.matchMedia('(prefers-color-scheme:light)').matches)applyTheme('light');
+  toggle.addEventListener('click',function(){
+    var cur=html.getAttribute('data-theme');
+    applyTheme(cur==='light'?'dark':'light');
+  });
+
+  var topBtn=document.getElementById('backToTop');
+  window.addEventListener('scroll',function(){
+    topBtn.classList.toggle('visible',window.scrollY>300);
+  });
+  topBtn.addEventListener('click',function(e){
+    e.preventDefault();
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+})();
+</script>
+</body>
+</html>
