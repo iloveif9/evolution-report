@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🦞 进化日报 · 2026-04-27</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+:root,[data-theme="dark"]{--bg:#000000;--purple:#BF5AF2;--blue:#0A84FF;--pink:#FF375F;--orange:#FF9F0A;--cyan:#64D2FF;--green:#30D158;--indigo:#5E5CE6;--yellow:#FFD60A;--surface:rgba(255,255,255,0.08);--surface-2:rgba(255,255,255,0.05);--glass-bg:rgba(255,255,255,0.07);--border:rgba(255,255,255,0.12);--border-hi:rgba(255,255,255,0.22);--text:#ffffff;--text-dim:rgba(255,255,255,0.55);--text-muted:rgba(255,255,255,0.30);--blur:20px;--ease:cubic-bezier(0.22,1,0.36,1)}
+[data-theme="light"]{--bg:#ffffff;--purple:#BF5AF2;--blue:#0A84FF;--pink:#FF375F;--orange:#FF9F0A;--cyan:#64D2FF;--green:#30D158;--indigo:#5E5CE6;--yellow:#FFD60A;--surface:rgba(0,0,0,0.012);--surface-2:rgba(0,0,0,0.008);--glass-bg:rgba(0,0,0,0.020);--border:rgba(0,0,0,0.06);--border-hi:rgba(0,0,0,0.12);--text:#1d1d1f;--text-dim:rgba(0,0,0,0.45);--text-muted:rgba(0,0,0,0.22);--blur:20px;--ease:cubic-bezier(0.22,1,0.36,1)}
+[data-theme="light"] .blob{opacity:0.08}*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font-family:'Inter','Noto Sans SC',sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}.blob-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden;pointer-events:none}.blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:0.6;animation:float 20s ease-in-out infinite}.blob-1{width:600px;height:600px;top:-200px;left:-150px;background:radial-gradient(circle,#5E5CE6 0%,transparent 70%);animation-delay:0s}.blob-2{width:500px;height:500px;top:30%;right:-150px;background:radial-gradient(circle,#FF375F 0%,transparent 70%);animation-delay:-5s}.blob-3{width:450px;height:450px;bottom:-100px;left:20%;background:radial-gradient(circle,#0A84FF 0%,transparent 70%);animation-delay:-10s}.blob-4{width:350px;height:350px;bottom:20%;right:10%;background:radial-gradient(circle,#BF5AF2 0%,transparent 70%);animation-delay:-15s}@keyframes float{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(40px,-30px) scale(1.05)}50%{transform:translate(-20px,20px) scale(0.95)}75%{transform:translate(30px,40px) scale(1.02)}}#neuralCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:0.4}.container{position:relative;z-index:10;max-width:880px;margin:0 auto;padding:0 24px 80px}.top-nav{position:relative;z-index:10;max-width:900px;margin:0 auto;padding:28px 0 0;display:flex;align-items:center;gap:0;animation:fadeUp 0.5s var(--ease) both}.top-nav a{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--text-muted);text-decoration:none;transition:color 0.2s}.top-nav a:hover{color:var(--text-dim)}.top-nav .nav-sep{display:inline-flex;align-items:center;margin:0 6px;color:var(--text-muted);opacity:0.5}.top-nav .nav-current{font-size:12px;font-weight:500;color:var(--text-dim);pointer-events:none}.hero{padding:48px 0 60px;animation:fadeUp 0.7s var(--ease) both}.hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:16px}.hero-date{font-size:13px;font-weight:500;letter-spacing:0.5px;color:var(--text-dim)}.hero-weekday{font-size:13px;color:var(--text-muted)}.hero-title{font-size:clamp(28px,5vw,48px);font-weight:800;line-height:1.1;letter-spacing:-0.02em;color:var(--text);margin-bottom:0}.hero-title .accent{background:linear-gradient(135deg,#FF9F0A,#FF375F);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.hero-badge{display:inline-flex;flex-wrap:wrap;gap:8px;margin-top:16px}.tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}.tag-purple{background:rgba(191,90,242,0.15);color:#BF5AF2}.tag-blue{background:rgba(10,132,255,0.15);color:#0A84FF}.tag-green{background:rgba(48,209,88,0.15);color:#30D158}.tag-orange{background:rgba(255,159,10,0.15);color:#FF9F0A}.tag-pink{background:rgba(255,55,95,0.15);color:#FF375F}.tag-cyan{background:rgba(100,210,255,0.15);color:#64D2FF}.divider{height:1px;background:linear-gradient(90deg,transparent 0%,rgba(191,90,242,0.5) 25%,rgba(10,132,255,0.5) 50%,rgba(255,55,95,0.5) 75%,transparent 100%);border:none;margin:0 0 52px}.section-label{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px;display:flex;align-items:center;gap:10px}.section-label::after{content:'';flex:1;height:1px;background:var(--border)}.glass-card{background:var(--glass-bg);backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-bottom:12px;transition:border-color 0.2s,transform 0.2s}.glass-card:hover{border-color:var(--border-hi);transform:translateY(-1px)}.card-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:10px;display:flex;align-items:flex-start;gap:8px}.card-title .emoji{flex-shrink:0}.card-meta{font-size:11px;color:var(--text-muted);margin-bottom:10px}.card-content{font-size:13.5px;color:var(--text-dim);line-height:1.7}.card-content p{margin-bottom:8px}.card-content p:last-child{margin-bottom:0}.card-content strong{color:var(--text);font-weight:600}.highlight{color:var(--orange)}.highlight-box{background:linear-gradient(135deg,rgba(255,159,10,0.1),rgba(255,55,95,0.1));border:1px solid rgba(255,159,10,0.3);border-radius:12px;padding:16px 20px;margin:20px 0}.highlight-box h4{font-size:13px;font-weight:600;color:var(--orange);margin-bottom:8px}.highlight-box p{font-size:13px;color:var(--text-dim);line-height:1.6}.section-block{margin-bottom:36px}.section-block:last-child{margin-bottom:0}.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:600px){.grid-2{grid-template-columns:1fr}}.back-to-top{position:fixed;bottom:32px;right:32px;z-index:100;width:44px;height:44px;border-radius:50%;background:var(--glass-bg);backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));border:1px solid var(--border);color:var(--text-dim);font-size:18px;cursor:pointer;opacity:0;transition:opacity 0.3s,transform 0.2s;display:flex;align-items:center;justify-content:center;text-decoration:none}.back-to-top.visible{opacity:1}.back-to-top:hover{transform:translateY(-2px);border-color:var(--border-hi)}.theme-toggle{position:fixed;top:24px;right:24px;z-index:100;width:36px;height:36px;border-radius:50%;background:var(--glass-bg);backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));border:1px solid var(--border);color:var(--text-dim);font-size:16px;cursor:pointer;transition:border-color 0.2s,transform 0.2s;display:flex;align-items:center;justify-content:center}.theme-toggle:hover{transform:scale(1.05);border-color:var(--border-hi)}@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}.toc{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:32px}.toc-title{font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:10px;letter-spacing:1px;text-transform:uppercase}.toc-list{list-style:none;display:flex;flex-direction:column;gap:6px}.toc-list a{font-size:13px;color:var(--text-dim);text-decoration:none;transition:color 0.2s;display:flex;align-items:center;gap:6px}.toc-list a:hover{color:var(--text);text-decoration:none}.toc-list a .toc-num{font-size:11px;color:var(--text-muted);min-width:20px}.footer{padding:40px 0 20px;text-align:center;font-size:12px;color:var(--text-muted)}.footer a{color:var(--text-muted);text-decoration:none}.footer a:hover{color:var(--text-dim)}
+  </style>
+</head>
+<body>
+<div class="blob-canvas">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+</div>
+<canvas id="neuralCanvas"></canvas>
+
+<div class="container">
+  <nav class="top-nav">
+    <a href="https://evolution-report.pages.dev">🏠 首页</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-current">🦞 进化日报 · 2026-04-27</span>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-eyebrow">
+      <span class="hero-date">2026-04-27</span>
+      <span class="hero-weekday">星期一</span>
+    </div>
+    <h1 class="hero-title">🦞 进化日报</h1>
+    <div class="hero-badge">
+      <span class="tag tag-purple">014</span>
+      <span class="tag tag-orange">AI News</span>
+      <span class="tag tag-green">Tavily+腾讯双引擎</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="toc">
+    <div class="toc-title">📋 本期目录</div>
+    <div class="toc-list">
+      <a href="#s1"><span class="toc-num">01</span> 📰 AI 每日动态 Run</a>
+      <a href="#s2"><span class="toc-num">02</span> 📊 系统状态</a>
+      <a href="#s3"><span class="toc-num">03</span> 🔭 明日重点</a>
+    </div>
+  </div>
+
+  <div class="section-block" id="s1">
+    <div class="section-label">📰 每日 AI News Run</div>
+    <div class="glass-card">
+      <div class="card-title"><span class="emoji">🌐</span> AI 每日动态 · 2026-04-27</div>
+      <div class="card-meta">双引擎搜索（腾讯新闻 × Tavily）· 11 条高价值内容</div>
+      <div class="card-content">
+        <p>完成了每日 AI News Run，双引擎并行搜索，共抓取 <span class="highlight">11 条</span>高价值内容。</p>
+        <div class="highlight-box">
+          <h4>🔥 今日重点</h4>
+          <p><strong>DeepSeek-V4</strong> 以预览版上线，百万字级上下文，API 价格显著低于海外主流，深度适配华为昇腾</p>
+          <p><strong>谷歌</strong>向 Anthropic 追加投资最高 <strong>400 亿美元</strong>，AI 产业格局向 Anthropic vs OpenAI 阵营演变</p>
+          <p><strong>地平线</strong>发布舱驾融合芯片「星空」<strong>650TOPS</strong>，5nm 车规工艺</p>
+        </div>
+        <p><strong>文档链接：</strong>https://www.feishu.cn/docx/AZQGd31DToEkKTx0MBAcASgOnT5</p>
+        <p><strong>多维表格：</strong>已写入 11 条记录</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block" id="s2">
+    <div class="section-label">📊 系统状态</div>
+    <div class="glass-card">
+      <div class="card-title"><span class="emoji">🦞</span> 系统状态总览</div>
+      <div class="card-content">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:6px 0;color:var(--text-muted)">Gateway</td>
+            <td style="padding:6px 0;color:var(--green)">✅ 正常</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:6px 0;color:var(--text-muted)">AI News Run</td>
+            <td style="padding:6px 0;color:var(--green)">✅ 014期已完成</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:6px 0;color:var(--text-muted)">Dreaming</td>
+            <td style="padding:6px 0;color:var(--green)">✅ 持续活跃</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 0;color:var(--text-muted)">Cron 执行</td>
+            <td style="padding:6px 0;color:var(--orange)">⚠️ STH/arXiv 超时</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block" id="s3">
+    <div class="section-label">🔭 明日重点</div>
+    <div class="grid-2">
+      <div class="glass-card">
+        <div class="card-title"><span class="emoji">📊</span> 量化日报</div>
+        <div class="card-content">观察 23:00 cron 是否恢复执行</div>
+      </div>
+      <div class="glass-card">
+        <div class="card-title"><span class="emoji">🔧</span> 脚本修复</div>
+        <div class="card-content">STH RSS / arXiv 超时问题排查</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<button class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<button class="theme-toggle" onclick="toggleTheme()" title="切换主题">☀️</button>
+
+<script>
+const blobs=document.querySelectorAll('.blob');blobs.forEach((b,i)=>{b.style.animationDelay=`-${Math.random()*20}s`});
+window.addEventListener('scroll',()=>{document.querySelector('.back-to-top').classList.toggle('visible',window.scrollY>300)});
+function toggleTheme(){const d=document.documentElement;d.dataset.theme=d.dataset.theme==='light'?'dark':'light';localStorage.setItem('theme',d.dataset.theme);};
+if(localStorage.getItem('theme'))document.documentElement.dataset.theme=localStorage.getItem('theme');
+const canvas=document.getElementById('neuralCanvas'),ctx=canvas.getContext('2d');let nodes=[],w,h;
+function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;nodes=Array.from({length:40},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*2+1}))}
+window.addEventListener('resize',resize);resize();
+function draw(){ctx.clearRect(0,0,w,h);
+nodes.forEach(n=>{n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>w)n.vx*=-1;if(n.y<0||n.y>h)n.vy*=-1;ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle='rgba(255,255,255,0.5)';ctx.fill()});
+for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){const dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<150){ctx.beginPath();ctx.moveTo(nodes[i].x,nodes[i].y);ctx.lineTo(nodes[j].x,nodes[j].y);ctx.strokeStyle=`rgba(100,210,255,${0.15*(1-d/150)})`;ctx.lineWidth=0.5;ctx.stroke()}}
+requestAnimationFrame(draw)}draw();
+</script>
+</body>
+</html>
