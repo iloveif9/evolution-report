@@ -43,7 +43,6 @@
 [data-theme="light"] .blob { opacity: 0.08; }
 [data-theme="light"] #neuralCanvas { opacity: 0.15; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; }
 body {
   background: var(--bg);
   color: var(--text);
@@ -59,7 +58,7 @@ body {
 /* Blob Background */
 .blob-canvas {
   position: fixed; top: 0; left: 0;
-  width: 100%; height: 100%;
+  width: 100vw; height: 100vh;
   z-index: 0; overflow: hidden; pointer-events: none;
 }
 .blob {
@@ -80,7 +79,7 @@ body {
 
 #neuralCanvas {
   position: fixed; top: 0; left: 0;
-  width: 100%; height: 100%;
+  width: 100vw; height: 100vh;
   z-index: 1; pointer-events: none; opacity: 0.4;
 }
 
